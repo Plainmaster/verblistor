@@ -51,7 +51,7 @@ export function conjugate(inf: string, group: RegularGroup): Forms {
 /** Turn an active paradigm into its s-form (deponent) paradigm: hoppa → hoppas. */
 export function sForm(f: Forms): Forms {
   const pres = f.pres.endsWith('ar') ? f.pres.slice(0, -1) + 's' : f.pres.endsWith('er') ? f.pres.slice(0, -2) + 's' : f.pres + 's'
-  return { inf: f.inf + 's', pres, pret: f.pret + 's', sup: f.sup + 's', imp: null }
+  return { inf: f.inf + 's', pres: pres.replace(/mms$/, 'ms'), pret: f.pret + 's', sup: f.sup + 's', imp: null }
 }
 
 const REGULAR: RegularGroup[] = ['1', '3', '2a', '2b']

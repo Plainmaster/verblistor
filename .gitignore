@@ -25,3 +25,4 @@ dist-ssr
 
 # Raw data sources (large, re-downloadable)
 data-raw/
+.impeccable/

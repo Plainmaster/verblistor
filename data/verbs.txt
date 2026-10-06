@@ -1,0 +1,695 @@
+# Verblistor curated verb list
+# inf | level (CEFR, editorial) | English gloss | sentence complement ("-" = no sentence drill) | fixed subject (optional)
+# Forms come from SALDO; frequency rank from the Kelly-list. Levels are editorial, informed by Kelly.
+# Particle (ge upp) and reflexive (bry sig) verbs: the complement excludes the particle/pronoun — they are inserted automatically.
+
+vara | A1 | to be | snäll
+ha | A1 | to have | en bra dag
+kunna | A1 | can, to be able to | -
+skola | A1 | shall, will (ska) | -
+få | A1 | to get; may, be allowed to | ett brev
+bli | A1 | to become | trött
+komma | A1 | to come | hem sent
+vilja | A1 | to want | -
+göra | A1 | to do, to make | läxorna
+finna | B2 | to find (formal) | en lösning
+ta | A1 | to take | bussen
+se | A1 | to see | en film
+måste | A1 | must, have to | -
+gå | A1 | to go, to walk | till skolan
+säga | A1 | to say | hej
+äga | A2 | to own | ett hus
+betyda | A2 | to mean | mycket | det
+böra | B1 | ought to, should | -
+ge | A1 | to give | barnen en present
+skriva | A1 | to write | ett brev
+börja | A1 | to begin, to start | jobba klockan åtta
+tro | A1 | to believe, to think | på henne
+tycka | A1 | to think (have an opinion) | att det är roligt
+veta | A1 | to know (a fact) | svaret
+försöka | A2 | to try | igen
+behöva | A1 | to need | hjälp
+känna | A1 | to feel; to know (a person) | henne
+läsa | A1 | to read | en bok
+låta | A2 | to let; to sound | barnen leka
+stå | A1 | to stand | vid fönstret
+visa | A2 | to show | vägen
+använda | A2 | to use | datorn
+vända | B1 | to turn | bilen
+hålla | A2 | to hold | i handen
+tänka | A1 | to think | på framtiden
+söka | A2 | to search, to apply | jobb
+ligga | A1 | to lie (be lying) | i sängen
+lägga | A2 | to lay, to put (lying) | boken på bordet
+anse | B2 | to consider, to be of the opinion | att det är fel
+öva | A2 | to practise | svenska
+handla | A1 | to shop | mat
+öka | B1 | to increase | farten
+skapa | B1 | to create | något nytt
+gälla | B1 | to apply, to concern | alla | det
+verka | B1 | to seem | glad
+tala | A1 | to speak | svenska
+bära | A2 | to carry | väskan
+höra | A1 | to hear | musik
+innebära | B2 | to mean, to imply | en förändring | det
+välja | A2 | to choose | en ny bil
+förstå | A1 | to understand | frågan
+spela | A1 | to play | fotboll
+hitta | A1 | to find | nycklarna
+dra | A2 | to pull, to drag | i dörren
+leda | B1 | to lead | gruppen
+lyckas | B1 | to succeed | med provet
+lära | A2 | to teach | barnen simma
+sätta | A2 | to put, to set | koppen på bordet
+lämna | A2 | to leave | huset
+bygga | A2 | to build | ett hus
+kalla | B1 | to call (name) | honom Pelle
+leva | A2 | to live (be alive) | ett lugnt liv
+ställa | A2 | to put (standing) | flaskan i kylen
+följa | A2 | to follow | med
+ske | B2 | to happen (formal) | mycket | det
+kräva | B1 | to demand, to require | svar
+svara | A1 | to answer | på frågan
+fortsätta | A2 | to continue | arbeta
+bruka | A2 | to usually (do) | cykla till jobbet
+mena | A2 | to mean | allvar
+slå | A2 | to hit, to beat | bollen
+hända | A2 | to happen | något | det
+arbeta | A1 | to work | hemma
+fungera | A2 | to work, to function | bra | datorn
+köpa | A1 | to buy | mjölk
+sitta | A1 | to sit | på stolen
+åta sig | C1 | to undertake | uppdraget
+berätta | A1 | to tell | en historia
+rätta | B1 | to correct | proven
+sluta | A1 | to stop, to quit | röka
+åka | A1 | to go (by vehicle), to travel | buss
+betala | A1 | to pay | hyran
+utveckla | B1 | to develop | en ny app
+föra | B2 | to carry, to conduct | anteckningar
+hjälpa | A1 | to help | mamma
+vinna | A2 | to win | matchen
+vänta | A1 | to wait | på bussen
+jobba | A1 | to work | hemma
+klara | A2 | to manage, to pass | provet
+prata | A1 | to talk | med grannen
+fråga | A1 | to ask | läraren
+anmäla | B1 | to report, to register | stölden
+nå | B1 | to reach | målet
+bo | A1 | to live (reside) | i Göteborg
+stämma | B1 | to be correct; to agree | | det
+dela | A2 | to share, to divide | pizzan
+köra | A1 | to drive | bil
+hoppas | A2 | to hope | på sol
+förklara | A2 | to explain | regeln
+tvinga | B1 | to force | honom
+påverka | B1 | to affect, to influence | resultatet
+titta | A1 | to look, to watch | på tv
+minska | B1 | to decrease | farten
+bestämma | A2 | to decide | tid
+skicka | A2 | to send | ett sms
+ändra | A2 | to change | planen
+träffa | A1 | to meet | vänner
+diskutera | A2 | to discuss | politik
+driva | B2 | to run (a business), to drive | ett företag
+sälja | A2 | to sell | bilen
+sakna | A2 | to miss | familjen
+tyda | B2 | to indicate | på det | allt
+genomföra | B2 | to carry out | projektet
+räkna | A2 | to count | pengarna
+beskriva | B1 | to describe | huset
+möta | A2 | to meet | honom på stationen
+heta | A1 | to be called | Anna
+äta | A1 | to eat | frukost
+flytta | A2 | to move (house) | till Malmö
+utgöra | C1 | to constitute | en risk | det
+röra | B1 | to touch, to move | vid tavlan
+dö | A2 | to die | | blommorna
+växa | A2 | to grow | snabbt | barnen
+våga | B1 | to dare | hoppa
+fatta | B1 | to grasp, to understand | ingenting
+nämna | B1 | to mention | problemet
+be | A2 | to ask (for), to pray | om hjälp
+anta | B2 | to assume; to adopt | att det stämmer
+föreslå | B1 | to suggest | en lösning
+undra | A2 | to wonder | varför
+lyssna | A1 | to listen | på musik
+delta | B1 | to take part | i mötet
+falla | B1 | to fall | i snön
+starta | A2 | to start | bilen
+inse | B2 | to realize | misstaget
+bidra | B2 | to contribute | med pengar
+luta | B1 | to lean | mot väggen
+bero | B1 | to depend | på vädret | det
+minnas | B1 | to remember | sommaren
+rösta | B1 | to vote | i valet
+kommentera | B1 | to comment | inlägget
+gilla | A1 | to like | glass
+bryta | B1 | to break | benet
+innehålla | B1 | to contain | socker | soppan
+bjuda | A2 | to invite; to treat | på kaffe
+hävda | B2 | to claim | motsatsen
+hamna | B1 | to end up | i fel buss
+hinna | A2 | to have time (to) | med tåget
+må | A2 | to feel (well/bad) | bra
+släppa | B1 | to let go, to release | taget
+passa | A2 | to fit, to suit | bra | jackan
+öppna | A1 | to open | fönstret
+erbjuda | B1 | to offer | hjälp
+ingå | B2 | to be included | i priset | frukosten
+bestå | B2 | to consist; to last | av tre delar | huset
+konstatera | C1 | to state, to establish | att det är fel
+styra | B1 | to steer, to control | båten
+förlora | A2 | to lose | matchen
+påstå | B1 | to claim | att det är sant
+besluta | B2 | to decide (formally) | om saken
+stödja | B1 | to support | förslaget
+glömma | A1 | to forget | nycklarna
+förändra | B1 | to change | världen
+ange | B2 | to state, to indicate | namnet
+älska | A1 | to love | kaffe
+presentera | B1 | to present | idén
+stanna | A1 | to stay; to stop | hemma
+byta | A2 | to change, to swap | jobb
+uppleva | B1 | to experience | mycket
+samla | A2 | to collect | frimärken
+lösa | B1 | to solve | problemet
+kolla | A2 | to check (colloquial) | mejlen
+fylla | A2 | to fill; to have a birthday | glaset med vatten
+drabba | B2 | to affect, to hit (adversely) | många | stormen
+fara | B1 | to go, to travel | till stan
+tjäna | A2 | to earn | pengar
+behandla | B1 | to treat | patienten
+utföra | B2 | to perform, to carry out | arbetet
+räcka | B1 | to be enough; to hand | | maten
+fundera | A2 | to think about, to ponder | på saken
+uppstå | B2 | to arise | ett problem | det
+acceptera | B1 | to accept | beslutet
+bilda | B1 | to form | en grupp
+försvinna | B1 | to disappear | | katten
+sprida | B1 | to spread | nyheten
+önska | A2 | to wish | en god jul
+publicera | B1 | to publish | en artikel
+tillhöra | B2 | to belong to | gruppen
+omfatta | C1 | to comprise, to include | tre delar | kursen
+skilja | B1 | to separate, to distinguish | på dem
+döda | B1 | to kill | flugan
+peka | A2 | to point | på kartan
+ringa | A1 | to call (phone) | mamma
+betrakta | B2 | to regard, to observe | tavlan
+hänga | A2 | to hang | jackan på kroken
+tillåta | B1 | to allow | det
+förekomma | C1 | to occur | ofta | det
+stoppa | A2 | to stop; to put (into) | bilen
+rycka | B2 | to jerk, to snatch | i repet
+trycka | B1 | to press; to print | på knappen
+kosta | A1 | to cost | hundra kronor | boken
+uttrycka | B1 | to express | en åsikt
+resa | A2 | to travel | till Spanien
+förbättra | B1 | to improve | svenskan
+rädda | B1 | to save, to rescue | katten
+agera | B2 | to act | snabbt
+uppnå | B2 | to achieve | målet
+jämföra | B1 | to compare | priserna
+hantera | B2 | to handle | situationen
+förvänta sig | B1 | to expect | mycket
+vika | B1 | to fold; to give way | handduken
+döma | B2 | to judge, to sentence | matchen
+besöka | A2 | to visit | museet
+täcka | B1 | to cover | bordet
+inleda | B2 | to begin, to introduce | mötet
+undvika | B1 | to avoid | socker
+höja | B1 | to raise | lönen
+råka | B1 | to happen to | tappa glaset
+upptäcka | B1 | to discover | felet
+erkänna | B1 | to admit; to recognize | felet
+kasta | A2 | to throw | bollen
+bedöma | B2 | to assess | uppgiften
+skydda | B1 | to protect | barnen
+utnyttja | B2 | to make use of, to exploit | tiden
+pågå | B2 | to be going on | i två timmar | mötet
+försvara | B1 | to defend | laget
+lyfta | A2 | to lift | lådan
+märka | B1 | to notice | skillnaden
+ersätta | B2 | to replace | den gamla
+ägna | B2 | to devote | tid åt barnen
+satsa | B1 | to invest, to go for | på musik
+rida | B1 | to ride (a horse) | på en häst
+avsluta | B1 | to end, to finish | mötet
+sova | A1 | to sleep | länge
+föda | B1 | to give birth | ett barn
+skjuta | B1 | to shoot; to push | bollen
+hämta | A2 | to fetch, to pick up | barnen
+påpeka | B2 | to point out | felet
+skaffa | B1 | to get, to acquire | en hund
+utgå | C1 | to start from, to assume | från fakta
+stärka | B2 | to strengthen | laget
+utsätta | B2 | to expose | barnen för risker
+kämpa | B1 | to fight, to struggle | för frihet
+hoppa | A2 | to jump | i vattnet
+avgöra | B2 | to decide, to determine | matchen
+sända | B2 | to send; to broadcast | programmet
+missa | A2 | to miss | bussen
+hindra | B1 | to prevent | olyckan
+meddela | B1 | to inform, to notify | chefen
+tillämpa | C1 | to apply | regeln
+kritisera | B1 | to criticize | regeringen
+springa | A1 | to run | i parken
+uppfatta | B2 | to perceive, to catch | frågan
+stänga | A1 | to close | dörren
+råda | B2 | to advise; to prevail | honom att vänta
+dyka | B1 | to dive | i sjön
+orka | A2 | to have the energy | springa
+kontrollera | B1 | to check | biljetterna
+planera | A2 | to plan | resan
+lova | A2 | to promise | att komma
+citera | B2 | to quote | författaren
+sköta | B1 | to take care of, to manage | trädgården
+vägra | B1 | to refuse | svara
+studera | A1 | to study | svenska
+tolka | B1 | to interpret | texten
+behålla | B1 | to keep | pengarna
+dricka | A1 | to drink | kaffe
+bry sig | B1 | to care | om miljön
+medföra | C1 | to entail, to bring | problem | det
+ifrågasätta | B2 | to question | beslutet
+stiga | B1 | to rise, to step | upp tidigt
+tiga | B2 | to be silent |
+väcka | A2 | to wake (someone) | barnen
+leta | A2 | to look for | efter nycklarna
+riskera | B1 | to risk | livet
+tappa | A2 | to drop, to lose | telefonen
+spara | A2 | to save | pengar
+klicka | A2 | to click | på länken
+synas | B1 | to be seen, to show | på bilden
+fastställa | C1 | to establish, to determine | datumet
+tacka | A1 | to thank | för maten
+hota | B1 | to threaten | grannen
+existera | B2 | to exist | | spöken
+rikta | B2 | to aim, to direct | kameran mot scenen
+locka | B1 | to attract, to tempt | turister | staden
+redovisa | B2 | to report, to present | resultatet
+störa | A2 | to disturb | grannarna
+rapportera | B1 | to report | olyckan
+begära | B2 | to request, to demand | mer pengar
+producera | B2 | to produce | el
+begå | C1 | to commit (a crime) | ett brott
+förstöra | B1 | to destroy, to ruin | festen
+grunda | B2 | to found | ett företag
+skada | B1 | to hurt, to damage | foten
+uppfylla | B2 | to fulfil | kraven
+orsaka | B1 | to cause | problem | stormen
+plocka | A2 | to pick | svamp
+sjunga | A1 | to sing | en sång
+vakna | A1 | to wake up | tidigt
+träna | A1 | to exercise, to train | på gymmet
+vidta | C1 | to take (measures) | åtgärder
+uppmana | B2 | to urge | folk att rösta
+lida | B2 | to suffer | av smärta
+avslöja | B1 | to reveal | hemligheten
+återvända | B1 | to return | hem
+placera | B1 | to place | vasen på bordet
+pröva | B1 | to try | något nytt
+rekommendera | B1 | to recommend | boken
+återkomma | B2 | to come back (to) | med svar
+bevisa | B1 | to prove | det
+förbjuda | B1 | to forbid | rökning
+uttala | B1 | to pronounce | ordet
+fira | A1 | to celebrate | midsommar
+påminna | B1 | to remind | honom om mötet
+beröra | B2 | to affect, to touch on | frågan
+anpassa | B2 | to adapt | texten
+begränsa | B2 | to limit | tiden
+fly | B1 | to flee | från kriget
+ladda | A2 | to charge, to load | telefonen
+passera | B1 | to pass | gränsen
+undersöka | B1 | to examine, to investigate | saken
+testa | A2 | to test, to try | en ny rätt
+upphöra | C1 | to cease | | regnet
+reagera | B1 | to react | snabbt
+hänvisa | B2 | to refer | till lagen
+förhindra | B2 | to prevent | en olycka
+godkänna | B1 | to approve | förslaget
+beräkna | B2 | to calculate | kostnaden
+fixa | A2 | to fix (colloquial) | cykeln
+inträffa | B2 | to occur | en olycka | det
+överleva | B1 | to survive | olyckan
+låna | A1 | to borrow; to lend | en bok
+laga | A1 | to cook; to repair | mat
+likna | B1 | to resemble | en filmstjärna
+lita | B1 | to trust | på henne
+granska | B2 | to scrutinize, to review | rapporten
+bekräfta | B2 | to confirm | bokningen
+förbli | B2 | to remain | lugn
+flyga | A2 | to fly | till London
+gifta sig | A2 | to get married | i kyrkan
+sjunka | B1 | to sink | | båten
+representera | B2 | to represent | Sverige
+motsvara | B2 | to correspond to | kraven | det
+uppskatta | B1 | to appreciate; to estimate | hjälpen
+blanda | A2 | to mix | färgerna
+åstadkomma | C1 | to achieve | mycket
+leverera | B1 | to deliver | paketet
+gripa | B2 | to seize, to arrest | tjuven
+njuta | B1 | to enjoy | av solen
+posta | B1 | to post | en bild
+uppmärksamma | B2 | to notice, to pay attention to | problemet
+skratta | A1 | to laugh | högt
+underlätta | B2 | to make easier | arbetet
+garantera | B2 | to guarantee | kvaliteten
+utse | C1 | to appoint | en ny chef
+framföra | B2 | to present, to perform | en låt
+utöva | C1 | to practise, to exercise | en sport
+fokusera | B1 | to focus | på uppgiften
+ordna | A2 | to arrange | en fest
+närma sig | B2 | to approach | staden
+skrika | A2 | to scream, to shout | högt
+avskaffa | C1 | to abolish | lagen
+uppge | B2 | to state | namnet
+definiera | B2 | to define | begreppet
+beställa | A2 | to order | en pizza
+bevara | B2 | to preserve | naturen
+väga | A2 | to weigh | sjuttio kilo
+misslyckas | B1 | to fail | med provet
+finansiera | B2 | to finance | projektet
+klaga | B1 | to complain | på maten
+leka | A1 | to play (children) | i parken | barnen
+upprepa | B1 | to repeat | meningen
+förutsätta | C1 | to presuppose | att det fungerar
+ropa | A2 | to call out, to shout | på hjälp
+bekämpa | B2 | to fight, to combat | brott
+förstärka | B2 | to reinforce | muren
+betona | B2 | to emphasize | vikten
+förbereda | B1 | to prepare | middagen
+koppla | B1 | to connect | sladden
+forma | B2 | to shape | leran
+samarbeta | B1 | to cooperate | med andra
+slänga | A2 | to throw (away) | soporna
+neka | B2 | to deny, to refuse | honom hjälp
+återstå | C1 | to remain | | mycket
+vila | A2 | to rest | en stund
+misstänka | B1 | to suspect | grannen
+sticka | B1 | to stick; to knit; to leave | en tröja
+mäta | B1 | to measure | rummet
+medverka | C1 | to take part | i filmen
+fånga | B1 | to catch | bollen
+blogga | B1 | to blog | om mat
+prova | A2 | to try (on) | tröjan
+prägla | C1 | to characterize | hela staden | kriget
+måla | A2 | to paint | huset
+identifiera | B2 | to identify | problemet
+resultera | C1 | to result | i ett nytt avtal | mötet
+jaga | B1 | to hunt, to chase | älg
+stöta | B2 | to bump, to push | i bordet
+förneka | B2 | to deny | allt
+upprätthålla | C1 | to maintain | ordningen
+analysera | B2 | to analyse | resultatet
+uppmuntra | B1 | to encourage | barnen
+lyda | B2 | to obey | reglerna
+kontakta | B1 | to contact | kundtjänst
+medge | C1 | to admit | felet
+ansluta | B2 | to connect, to join | till nätet
+föredra | B1 | to prefer | te
+välkomna | B1 | to welcome | gästerna
+tillverka | B1 | to manufacture | bilar
+anklaga | B2 | to accuse | grannen
+förtjäna | B1 | to deserve | en paus
+avstå | C1 | to refrain | från kaffe
+variera | B2 | to vary | mycket | priset
+dominera | B2 | to dominate | marknaden
+utreda | B2 | to investigate | saken
+förvandla | B2 | to transform | huset
+påbörja | B2 | to begin | arbetet
+organisera | B1 | to organize | festen
+teckna | B2 | to draw; to sign | ett avtal
+hälsa | A1 | to greet, to say hello | på grannen
+hata | A2 | to hate | regn
+gissa | A2 | to guess | rätt
+reglera | C1 | to regulate | trafiken
+etablera | C1 | to establish | ett företag
+respektera | B1 | to respect | andra
+rulla | B1 | to roll | bollen
+motivera | B1 | to motivate | eleverna
+snacka | A2 | to chat (colloquial) | med kompisar
+förmedla | C1 | to convey | ett budskap
+informera | B1 | to inform | personalen
+utforma | C1 | to design | ett program
+mörda | B2 | to murder | -
+sträcka | B1 | to stretch | på benen
+säkerställa | C1 | to ensure | kvaliteten
+lysa | A2 | to shine | | solen
+servera | B1 | to serve | middag
+strida | B2 | to fight | för rättvisa
+skylla | B1 | to blame | på bussen
+engagera | B2 | to engage | publiken
+dölja | B2 | to hide, to conceal | sanningen
+sträva | C1 | to strive | efter frihet
+vandra | B1 | to hike, to wander | i fjällen
+registrera | B2 | to register | bilen
+argumentera | B1 | to argue | för förslaget
+gråta | A2 | to cry | | barnet
+bevilja | C1 | to grant | lånet
+formulera | B2 | to formulate | en fråga
+bränna | B1 | to burn | papper
+föreställa sig | B2 | to imagine | framtiden
+landa | B1 | to land | på Arlanda | planet
+låsa | A2 | to lock | dörren
+varna | B1 | to warn | barnen
+anställa | B1 | to employ, to hire | en ny kock
+syssla | B2 | to be busy with | med musik
+drömma | A2 | to dream | om sommaren
+överväga | B2 | to consider | ett nytt jobb
+lura | B1 | to fool, to trick | turisterna
+besvara | B2 | to answer | brevet
+ljuga | A2 | to lie (tell lies) | om åldern
+översätta | B1 | to translate | texten
+inkludera | B2 | to include | alla
+förena | C1 | to unite | folket
+prioritera | B2 | to prioritize | familjen
+tillägga | B2 | to add (in speech) | något
+blåsa | A2 | to blow | | vinden
+överlämna | C1 | to hand over | nycklarna
+fastna | B1 | to get stuck | i trafiken
+komplettera | B2 | to complement, to supplement | ansökan
+bota | B2 | to cure | sjukdomen
+bege sig | C1 | to set off | till stationen
+basera | B2 | to base | filmen på en bok
+skära | A2 | to cut | brödet
+gömma | A2 | to hide | nyckeln
+uppträda | B2 | to perform; to behave | på scenen
+investera | B2 | to invest | i aktier
+somna | A1 | to fall asleep | tidigt
+utesluta | C1 | to exclude | möjligheten
+anlända | B2 | to arrive | till Stockholm | tåget
+stjäla | B1 | to steal | en cykel
+protestera | B1 | to protest | mot beslutet
+bemöta | C1 | to respond to, to treat | kritiken
+tränga | B2 | to push, to squeeze | -
+överföra | B2 | to transfer | pengarna
+brinna | B1 | to burn (be on fire) | | huset
+rinna | B1 | to run, to flow | | vattnet
+rymma | B1 | to escape; to hold (contain) | från fängelset
+sammanfatta | B1 | to summarize | texten
+dröja | B1 | to be delayed, to take long | | bussen
+avbryta | B1 | to interrupt | mötet
+gräva | B1 | to dig | ett hål
+stryka | B1 | to iron; to delete | skjortan
+understryka | C1 | to underline, to stress | vikten
+möjliggöra | C1 | to make possible | förändringen | det
+markera | B2 | to mark | texten
+skaka | A2 | to shake | på huvudet
+skämmas | B1 | to be ashamed | för misstaget
+vittna | B2 | to testify | i rätten
+spendera | B1 | to spend | pengar
+ansvara | B2 | to be responsible | för budgeten
+trivas | A2 | to enjoy oneself, to feel at home | i Sverige
+le | A2 | to smile | mot barnet
+oroa sig | B1 | to worry | för barnen
+knyta | B1 | to tie | skorna
+förhålla sig | C1 | to relate (to) | till frågan
+tipsa | B1 | to tip off, to recommend | om en bra bok
+boka | A2 | to book | ett bord
+överge | B2 | to abandon | hunden
+hylla | B2 | to pay tribute to | hjälten
+resonera | B2 | to reason | logiskt
+tillbringa | B1 | to spend (time) | sommaren i Norge
+längta | A2 | to long | hem
+bete sig | B1 | to behave | konstigt
+dansa | A1 | to dance | tango
+nöja sig | B2 | to be content | med lite
+kliva | B1 | to step, to climb | på bussen
+antyda | C1 | to hint, to imply | något
+kommunicera | B2 | to communicate | tydligt
+genomgå | C1 | to go through | en operation
+besegra | B2 | to defeat | fienden
+utöka | B2 | to expand | verksamheten
+angripa | C1 | to attack | landet
+attackera | B2 | to attack | huset
+slita | B2 | to tear; to toil | hårt
+hyra | A2 | to rent | en lägenhet
+skrämma | B1 | to frighten | barnen
+tävla | B1 | to compete | i skidor
+utbilda | B2 | to educate, to train | lärare
+avvisa | C1 | to reject | förslaget
+umgås | A2 | to spend time together | med vänner
+arrangera | B2 | to arrange | en konsert
+pressa | B2 | to press, to squeeze | apelsiner
+fälla | C1 | to fell; to convict | trädet
+smaka | A1 | to taste | på soppan
+värdera | C1 | to value | huset
+fördela | B2 | to distribute | arbetet
+reducera | C1 | to reduce | kostnaderna
+kopiera | B1 | to copy | texten
+förhandla | B2 | to negotiate | om lönen
+koncentrera sig | B1 | to concentrate | på uppgiften
+strunta | B1 | to not care | i det
+försäkra | B2 | to insure; to assure | huset
+begripa | B2 | to comprehend | ingenting
+krossa | B2 | to crush, to smash | fönstret
+övertyga | B1 | to convince | honom
+sörja | B2 | to mourn | den gamla hunden
+inspirera | B1 | to inspire | andra
+döpa | B2 | to christen, to name | barnet till Ella
+kombinera | B1 | to combine | färgerna
+observera | B2 | to observe | fåglar
+intressera sig | B1 | to be interested | för konst
+klippa | A2 | to cut | håret
+sparka | A2 | to kick | bollen
+undervisa | B1 | to teach | i matematik
+försämra | B2 | to worsen | läget
+odla | B1 | to grow (plants) | tomater
+cykla | A1 | to cycle | till jobbet
+
+# --- Everyday verbs (SFI core) not high in the web-based Kelly ranking ---
+städa | A1 | to clean, to tidy | köket
+tvätta | A1 | to wash | kläderna
+duscha | A1 | to shower | på morgonen
+simma | A1 | to swim | i sjön
+diska | A1 | to do the dishes | efter maten
+baka | A2 | to bake | en tårta
+koka | A2 | to boil | potatis
+steka | A2 | to fry | fisk
+grilla | A2 | to barbecue | korv
+regna | A1 | to rain | | det
+snöa | A1 | to snow | | det
+frysa | A2 | to be cold; to freeze | om fötterna
+rita | A1 | to draw | en bild
+stava | A2 | to spell | namnet
+plugga | A2 | to study (colloquial) | inför provet
+promenera | A2 | to walk, to stroll | i parken
+jogga | A2 | to jog | varje morgon
+parkera | A2 | to park | bilen
+packa | A2 | to pack | väskan
+fiska | A2 | to fish | i sjön
+shoppa | A2 | to shop | kläder
+krama | A2 | to hug | mormor
+kyssa | B1 | to kiss | henne
+pussa | A2 | to kiss (peck) | barnet
+vinka | A2 | to wave | till grannen
+knacka | A2 | to knock | på dörren
+viska | A2 | to whisper | något
+gratulera | A2 | to congratulate | på födelsedagen
+förlåta | A2 | to forgive | honom
+ursäkta | A2 | to excuse | honom
+bråka | A2 | to quarrel | med syster
+hosta | A2 | to cough | hela natten
+fotografera | A2 | to photograph | fåglar
+filma | A2 | to film | konserten
+ramla | A2 | to fall over | på isen
+klättra | B1 | to climb | i trädet
+svänga | A2 | to turn | vänster
+dammsuga | A2 | to vacuum | vardagsrummet
+pendla | B1 | to commute | till jobbet
+ansöka | B1 | to apply | om jobbet
+avsky | B1 | to detest | kyla
+tvivla | B2 | to doubt | på det
+segla | B1 | to sail | på sjön
+operera | B1 | to operate | knät
+vårda | B1 | to care for | patienterna
+repetera | B1 | to revise, to repeat | glosorna
+
+# --- Group 3 (short verbs) ---
+sy | A2 | to sew | en klänning
+klä | B1 | to dress | barnen
+bre | B1 | to spread | smör på brödet
+gro | B2 | to germinate, to grow | | fröna
+
+# --- Strong verbs that fill out the vowel families ---
+bita | A2 | to bite | i äpplet
+glida | B2 | to glide, to slide | på isen
+vrida | B2 | to twist, to turn | på kranen
+krypa | B1 | to crawl | på golvet
+binda | B2 | to tie, to bind | ihop säcken
+spricka | B1 | to crack, to burst | | ballongen
+svälja | B1 | to swallow | tabletten
+flyta | B2 | to float, to flow | på vattnet
+skina | B1 | to shine | | solen
+nysa | B1 | to sneeze | högt
+pipa | C1 | to squeak, to beep | | telefonen
+
+# --- Reflexive verbs ---
+lära sig | A1 | to learn | svenska
+sätta sig | A1 | to sit down | på stolen
+lägga sig | A1 | to lie down, to go to bed | tidigt
+ställa sig | A2 | to stand (up), to place oneself | i kön
+känna sig | A2 | to feel | trött
+skynda sig | A2 | to hurry | till bussen
+klä sig | A2 | to dress | varmt
+tvätta sig | A2 | to wash (oneself) | i ansiktet
+raka sig | A2 | to shave | på morgonen
+vila sig | A2 | to rest | en stund
+roa sig | B1 | to have fun | på festen
+ångra sig | B1 | to regret, to change one's mind | efteråt
+vänja sig | B1 | to get used to | vid kylan
+skilja sig | B1 | to get divorced | efter tio år
+klä på sig | A2 | to get dressed | snabbt
+klä av sig | A2 | to undress | snabbt
+höra av sig | B1 | to get in touch | imorgon
+
+# --- s-verbs (deponents and reciprocals) ---
+finnas | A1 | to exist, there is | på bordet | maten
+kännas | A2 | to feel (it feels) | bra | det
+andas | A2 | to breathe | djupt
+träffas | A2 | to meet (each other) | på kaféet | vi
+ses | A2 | to see each other | ofta | vi
+låtsas | B1 | to pretend | sova
+svettas | B1 | to sweat | mycket
+slåss | B1 | to fight | på skolgården | pojkarna
+åldras | B2 | to age, to grow old | snabbt | befolkningen
+
+# --- Particle verbs (stressed particle) ---
+komma ihåg | A1 | to remember | koden
+tycka om | A1 | to like | glass
+stiga upp | A1 | to get up | tidigt
+gå ut | A2 | to go out | på kvällen
+gå upp | A2 | to get up; to go up | klockan sju
+komma fram | A2 | to arrive | i tid
+komma tillbaka | A2 | to come back | hem
+ta med | A2 | to bring (along) | mat
+ta emot | A2 | to receive | gästerna
+hälsa på | A2 | to visit | mormor
+känna igen | A2 | to recognize | henne
+se ut | A2 | to look (like) | glad
+bjuda in | A2 | to invite | grannarna
+fylla i | A2 | to fill in | blanketten
+stänga av | A2 | to turn off | datorn
+sätta på | A2 | to turn on | radion
+ringa upp | A2 | to call (back) | kunden
+gå sönder | A2 | to break (down) | | bilen
+hålla på | A2 | to be busy doing | med läxorna
+logga in | A2 | to log in | på sidan
+ladda ner | A2 | to download | appen
+gå av | A2 | to get off | vid nästa hållplats
+stiga på | A2 | to get on | bussen
+ge upp | B1 | to give up |
+hitta på | B1 | to make up, to invent | en historia
+hålla med | B1 | to agree | dig
+ta upp | B1 | to bring up, to pick up | frågan
+skriva under | B1 | to sign | kontraktet
+lägga till | B1 | to add | lite salt
+säga upp | B1 | to resign; to give notice | lägenheten
+se fram emot | B1 | to look forward to | sommaren
+ta reda på | B1 | to find out | sanningen
+slappna av | B1 | to relax | på stranden
+tycka till | B2 | to give one's opinion | om förslaget
+gå med på | B2 | to agree to | villkoren

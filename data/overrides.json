@@ -1,0 +1,95 @@
+{
+  "kunna": {
+    "imp": null,
+    "modal": true
+  },
+  "skola": {
+    "pres": "ska",
+    "pret": "skulle",
+    "sup": "skolat",
+    "imp": null,
+    "alt": {
+      "pres": [
+        "skall"
+      ]
+    },
+    "modal": true,
+    "note": "The infinitive skola is rare; learn it as ska – skulle."
+  },
+  "vilja": {
+    "imp": null,
+    "modal": true
+  },
+  "måste": {
+    "imp": null,
+    "modal": true,
+    "note": "Same form in presens and preteritum.",
+    "inf": "måste"
+  },
+  "böra": {
+    "imp": null,
+    "modal": true
+  },
+  "må": {
+    "imp": null
+  },
+  "vara": {
+    "imp": "var"
+  },
+  "säga": {
+    "pret": "sa",
+    "alt": {
+      "pret": [
+        "sade"
+      ]
+    }
+  },
+  "känna": {
+    "lem": "känna..vb.1"
+  },
+  "gälla": {
+    "lem": "gälla..vb.1"
+  },
+  "sluta": {
+    "lem": "sluta..vb.1"
+  },
+  "frysa": {
+    "lem": "frysa..vb.1"
+  },
+  "spela": {
+    "lem": "spela..vb.2"
+  },
+  "simma": {
+    "pret": "simmade",
+    "sup": "simmat",
+    "imp": "simma",
+    "part": null
+  },
+  "påstå": {
+    "sup": "påstått"
+  },
+  "skämmas": {
+    "pret": "skämdes",
+    "sup": "skämts"
+  },
+  "tillbringa": {
+    "pret": "tillbringade",
+    "sup": "tillbringat",
+    "alt": {
+      "pret": [
+        "tillbragte"
+      ],
+      "sup": [
+        "tillbragt"
+      ]
+    }
+  },
+  "säga upp": {
+    "pret": "sa upp",
+    "alt": {
+      "pret": [
+        "sade upp"
+      ]
+    }
+  }
+}
