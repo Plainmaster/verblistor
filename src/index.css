@@ -1,111 +1,176 @@
+@import "tailwindcss";
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --paper: #f3f5f6;
+  --surface: #ffffff;
+  --sunk: #e8ecee;
+  --ink: #17232e;
+  --muted: #56636e;
+  --rule: #d5dce1;
+  --focus: #2f74d0;
+  --ok: #17794a;
+  --bad: #c2341f;
+  --warn: #9a6500;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* Conjugation groups as transit lines. 2a/2b share a hue and differ in lightness.
+     Validated with the dataviz palette checker (all pairs, deutan/protan/tritan) in both modes. */
+  --g1: #2563c9;
+  --g2a: #0f6e43;
+  --g2b: #58b47c;
+  --g3: #c48a00;
+  --g4: #c8327e;
+  --on-g1: #ffffff;
+  --on-g2a: #ffffff;
+  --on-g2b: #0d2a19;
+  --on-g3: #2a1d00;
+  --on-g4: #ffffff;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  :root:not([data-theme="light"]) {
+    --paper: #11181e;
+    --surface: #18222a;
+    --sunk: #0c1216;
+    --ink: #e7ecef;
+    --muted: #9aa7b1;
+    --rule: #2a3640;
+    --focus: #6aa6f2;
+    --ok: #47b980;
+    --bad: #f07563;
+    --warn: #e0b04a;
+    --g1: #3f7fd8;
+    --g2a: #147046;
+    --g2b: #52a776;
+    --g3: #c08a0a;
+    --g4: #cc4fa8;
+    --on-g1: #ffffff;
+    --on-g2a: #ffffff;
+    --on-g2b: #0d2a19;
+    --on-g3: #211600;
+    --on-g4: #ffffff;
+    color-scheme: dark;
   }
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+:root[data-theme="dark"] {
+  --paper: #11181e;
+  --surface: #18222a;
+  --sunk: #0c1216;
+  --ink: #e7ecef;
+  --muted: #9aa7b1;
+  --rule: #2a3640;
+  --focus: #6aa6f2;
+  --ok: #47b980;
+  --bad: #f07563;
+  --warn: #e0b04a;
+  --g1: #3f7fd8;
+  --g2a: #147046;
+  --g2b: #52a776;
+  --g3: #c08a0a;
+  --g4: #cc4fa8;
+  --on-g1: #ffffff;
+  --on-g2a: #ffffff;
+  --on-g2b: #0d2a19;
+  --on-g3: #211600;
+  --on-g4: #ffffff;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-sunk: var(--sunk);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-focus: var(--focus);
+  --color-ok: var(--ok);
+  --color-bad: var(--bad);
+  --color-warn: var(--warn);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Group colour is passed in as --g on any element with data-group. */
+[data-group="1"] { --g: var(--g1); --on-g: var(--on-g1); }
+[data-group="2a"] { --g: var(--g2a); --on-g: var(--on-g2a); }
+[data-group="2b"] { --g: var(--g2b); --on-g: var(--on-g2b); }
+[data-group="3"] { --g: var(--g3); --on-g: var(--on-g3); }
+[data-group="4"] { --g: var(--g4); --on-g: var(--on-g4); }
+
+/* Ending highlight: a marker stroke under the ending, ink stays readable. */
+.end {
+  background: linear-gradient(to top, color-mix(in srgb, var(--g) 32%, transparent) 0 46%, transparent 46%);
+  box-shadow: inset 0 -3px 0 var(--g);
+  border-radius: 1px;
+}
+.change {
+  text-decoration: underline wavy var(--g4);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+  background: color-mix(in srgb, var(--g4) 14%, transparent);
+  border-radius: 2px;
+}
+
+.line-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.1em;
+  height: 2.1em;
+  padding: 0 0.35em;
+  border-radius: 999px;
+  background: var(--g);
+  color: var(--on-g);
+  font-weight: 800;
+  font-size: 0.8em;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.answer-input {
+  width: 100%;
+  background: var(--surface);
+  border: 2px solid var(--rule);
+  border-radius: 12px;
+  padding: 0.55em 0.75em;
+  font: inherit;
+  font-size: 1.5rem;
   font-weight: 500;
-  color: var(--text-h);
+  color: var(--ink);
 }
+.answer-input:focus {
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent);
+}
+.answer-input[data-state="ok"] { border-color: var(--ok); }
+.answer-input[data-state="bad"] { border-color: var(--bad); }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+@media (prefers-reduced-motion: no-preference) {
+  .pop { animation: pop 220ms ease-out; }
+  @keyframes pop {
+    from { transform: translateY(4px); opacity: 0; }
+    to { transform: none; opacity: 1; }
   }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }

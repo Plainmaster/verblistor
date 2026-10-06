@@ -67,9 +67,3 @@ export function filterVerbs(verbs: Verb[], f: Filter): Verb[] {
 export function formsFor(v: Verb, forms: FormKey[]): FormKey[] {
   return forms.filter((f) => (f === 'imp' ? !!v.imp : f === 'part' ? !!v.part : true))
 }
-
-/** Sensible default forms for a level range: beginners start without past tenses. */
-export function defaultForms(levels: Cefr[]): FormKey[] {
-  if (levels.length === 1 && levels[0] === 'A1') return ['pres', 'imp', 'pret']
-  return ['pres', 'pret', 'sup']
-}

@@ -161,6 +161,11 @@ function main() {
     verbs.push(verb)
   }
 
+  // A vowel pattern only counts as a family if at least three distinct single-word verbs share it.
+  const famSize = new Map<string, number>()
+  for (const v of verbs) if (v.family && !v.particle && !v.reflexive) famSize.set(v.family, (famSize.get(v.family) ?? 0) + 1)
+  for (const v of verbs) if (v.family && (famSize.get(v.family) ?? 0) < 3) delete v.family
+
   verbs.sort((a, b) => a.freq - b.freq || a.id.localeCompare(b.id, 'sv'))
   writeFileSync('src/data/verbs.json', JSON.stringify(verbs, null, 0).replace(/\},\{/g, '},\n{') + '\n')
   const byGroup: Record<string, number> = {}
