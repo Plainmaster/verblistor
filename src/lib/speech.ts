@@ -1,4 +1,21 @@
+import { audioKey } from './audioKey'
+
+const AUDIO_BASE = import.meta.env.VITE_AUDIO_BASE ?? 'https://uttala.pages.dev'
+
 let voice: SpeechSynthesisVoice | null | undefined
+let bank: Set<string> | null = null
+let audio: HTMLAudioElement | null = null
+const listeners = new Set<() => void>()
+
+if (typeof window !== 'undefined') {
+  fetch(`${AUDIO_BASE}/sv/manifest.json`)
+    .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+    .then((keys: string[]) => {
+      bank = new Set(keys)
+      listeners.forEach((cb) => cb())
+    })
+    .catch(() => {})
+}
 
 function swedishVoice(): SpeechSynthesisVoice | null {
   if (typeof window === 'undefined' || !('speechSynthesis' in window)) return null
@@ -9,24 +26,39 @@ function swedishVoice(): SpeechSynthesisVoice | null {
 }
 
 export function canSpeak(): boolean {
-  return swedishVoice() !== null
+  return bank !== null || swedishVoice() !== null
 }
 
-/** Voices load asynchronously in some browsers; call back once they are available. */
+/** Voices and the audio bank load asynchronously; call back once they are available. */
 export function onVoicesReady(cb: () => void): () => void {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return () => {}
+  listeners.add(cb)
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return () => listeners.delete(cb)
   const handler = () => { voice = undefined; cb() }
   window.speechSynthesis.addEventListener('voiceschanged', handler)
-  return () => window.speechSynthesis.removeEventListener('voiceschanged', handler)
+  return () => {
+    listeners.delete(cb)
+    window.speechSynthesis.removeEventListener('voiceschanged', handler)
+  }
 }
 
-export function speak(text: string): void {
+function synth(text: string): void {
   const v = swedishVoice()
   if (!v) return
-  window.speechSynthesis.cancel()
   const u = new SpeechSynthesisUtterance(text)
   u.voice = v
   u.lang = v.lang
   u.rate = 0.9
   window.speechSynthesis.speak(u)
+}
+
+export function speak(text: string): void {
+  audio?.pause()
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel()
+  const key = audioKey(text)
+  if (bank?.has(key)) {
+    audio = new Audio(`${AUDIO_BASE}/sv/${encodeURIComponent(key)}.mp3`)
+    audio.play().catch(() => synth(text))
+    return
+  }
+  synth(text)
 }
