@@ -1,19 +1,21 @@
 @import "tailwindcss";
 
+/* Palette after the Sommarpratare site: deep navy, warm paper, a yellow accent. */
 :root {
-  --paper: #f3f5f6;
+  --paper: #f6f4ef;
   --surface: #ffffff;
-  --sunk: #e8ecee;
-  --ink: #17232e;
-  --muted: #56636e;
-  --rule: #d5dce1;
-  --focus: #2f74d0;
+  --sunk: #ece8df;
+  --ink: #14233a;
+  --muted: #5a6474;
+  --rule: #e0dbd0;
+  --accent: #f2c14e;
+  --on-accent: #14233a;
+  --focus: #2f6fd0;
   --ok: #17794a;
   --bad: #c2341f;
   --warn: #9a6500;
 
-  /* Conjugation groups as transit lines. 2a/2b share a hue and differ in lightness.
-     Validated with the dataviz palette checker (all pairs, deutan/protan/tritan) in both modes. */
+  /* Conjugation groups as transit lines. 2a/2b share a hue and differ in lightness. */
   --g1: #2563c9;
   --g2a: #0f6e43;
   --g2b: #58b47c;
@@ -25,67 +27,71 @@
   --on-g3: #2a1d00;
   --on-g4: #ffffff;
 
+  --bg: var(--paper);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #11181e;
-    --surface: #18222a;
-    --sunk: #0c1216;
-    --ink: #e7ecef;
-    --muted: #9aa7b1;
-    --rule: #2a3640;
-    --focus: #6aa6f2;
+    --paper: #0e1c2f;
+    --surface: #152740;
+    --sunk: #0a1626;
+    --ink: #eef1f5;
+    --muted: #a3afbf;
+    --rule: #22385a;
+    --accent: #f5c84b;
+    --on-accent: #14233a;
+    --focus: #7ab0f5;
     --ok: #47b980;
     --bad: #f07563;
     --warn: #e0b04a;
-    --g1: #3f7fd8;
-    --g2a: #147046;
-    --g2b: #52a776;
-    --g3: #c08a0a;
-    --g4: #cc4fa8;
-    --on-g1: #ffffff;
-    --on-g2a: #ffffff;
+    --g1: #4a86dd;
+    --g2a: #1a8352;
+    --g2b: #5cb07f;
+    --g3: #c99212;
+    --g4: #d0559f;
     --on-g2b: #0d2a19;
     --on-g3: #211600;
-    --on-g4: #ffffff;
+    --bg: radial-gradient(120% 80% at 50% -10%, #1d3a5c 0%, #0e1c2f 60%) fixed, #0e1c2f;
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: #11181e;
-  --surface: #18222a;
-  --sunk: #0c1216;
-  --ink: #e7ecef;
-  --muted: #9aa7b1;
-  --rule: #2a3640;
-  --focus: #6aa6f2;
+  --paper: #0e1c2f;
+  --surface: #152740;
+  --sunk: #0a1626;
+  --ink: #eef1f5;
+  --muted: #a3afbf;
+  --rule: #22385a;
+  --accent: #f5c84b;
+  --on-accent: #14233a;
+  --focus: #7ab0f5;
   --ok: #47b980;
   --bad: #f07563;
   --warn: #e0b04a;
-  --g1: #3f7fd8;
-  --g2a: #147046;
-  --g2b: #52a776;
-  --g3: #c08a0a;
-  --g4: #cc4fa8;
-  --on-g1: #ffffff;
-  --on-g2a: #ffffff;
+  --g1: #4a86dd;
+  --g2a: #1a8352;
+  --g2b: #5cb07f;
+  --g3: #c99212;
+  --g4: #d0559f;
   --on-g2b: #0d2a19;
   --on-g3: #211600;
-  --on-g4: #ffffff;
+  --bg: radial-gradient(120% 80% at 50% -10%, #1d3a5c 0%, #0e1c2f 60%) fixed, #0e1c2f;
   color-scheme: dark;
 }
 
 @theme inline {
   --font-sans: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
   --color-paper: var(--paper);
   --color-surface: var(--surface);
   --color-sunk: var(--sunk);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
   --color-focus: var(--focus);
   --color-ok: var(--ok);
   --color-bad: var(--bad);
@@ -98,12 +104,18 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--bg);
+  background-color: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 :focus-visible {
@@ -121,8 +133,8 @@ body {
 
 /* Ending highlight: a marker stroke under the ending, ink stays readable. */
 .end {
-  background: linear-gradient(to top, color-mix(in srgb, var(--g) 32%, transparent) 0 46%, transparent 46%);
-  box-shadow: inset 0 -3px 0 var(--g);
+  background: linear-gradient(to top, color-mix(in srgb, var(--g) 30%, transparent) 0 42%, transparent 42%);
+  box-shadow: inset 0 -2px 0 var(--g);
   border-radius: 1px;
 }
 .change {
@@ -133,6 +145,7 @@ body {
   border-radius: 2px;
 }
 
+@layer components {
 .line-badge {
   display: inline-grid;
   place-items: center;
@@ -167,10 +180,63 @@ body {
 .answer-input[data-state="ok"] { border-color: var(--ok); }
 .answer-input[data-state="bad"] { border-color: var(--bad); }
 
+/* Compact inputs for the practice table. */
+.cell-input {
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid var(--rule);
+  border-radius: 0;
+  padding: 0.3em 0.1em;
+  font: inherit;
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+.cell-input:focus { outline: none; border-color: var(--focus); }
+.cell-input[data-state="ok"] { border-color: var(--ok); color: var(--ok); }
+.cell-input[data-state="bad"] { border-color: var(--bad); color: var(--bad); text-decoration: line-through; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding: 0 1.25rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover { filter: brightness(1.05); }
+.btn-quiet { color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule); background: transparent; }
+.btn-quiet:hover { background: var(--sunk); }
+
+select.field {
+  height: 2.5rem;
+  padding: 0 2rem 0 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='m6 8 4 4 4-4'/%3E%3C/svg%3E") no-repeat right 0.6rem center / 1rem;
+  appearance: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .pop { animation: pop 220ms ease-out; }
   @keyframes pop {
     from { transform: translateY(4px); opacity: 0; }
     to { transform: none; opacity: 1; }
   }
+}
+
+@media print {
+  body { background: #fff; color: #000; font-size: 11pt; }
+  @page { margin: 14mm; }
 }

@@ -18,51 +18,51 @@ export interface GroupInfo {
 
 export const GROUPS: GroupInfo[] = [
   {
-    id: '1', name: 'Group 1', short: '-ar · -ade · -at',
+    id: '1', name: 'Grupp 1', short: '-ar · -ade · -at',
     endings: { inf: '-a', pres: '-ar', pret: '-ade', sup: '-at', imp: '-a' },
     examples: ['tala', 'prata', 'jobba', 'arbeta', 'titta', 'städa'],
-    rule: 'Presens ends in -ar. Keep the whole infinitive and add -r, -de, -t.',
-    spot: 'If presens ends in -ar, it is group 1. It is the biggest group, and new verbs join it: googla, mejla, swisha.',
+    rule: 'Presens slutar på -ar. Behåll hela infinitiven och lägg till -r, -de, -t.',
+    spot: 'Slutar presens på -ar är det grupp 1. Det är den största gruppen, och nya verb hamnar här: googla, mejla, swisha.',
     notes: [],
   },
   {
-    id: '2a', name: 'Group 2a', short: '-er · -de · -t',
+    id: '2a', name: 'Grupp 2a', short: '-er · -de · -t',
     endings: { inf: '-a', pres: '-er', pret: '-de', sup: '-t', imp: '–' },
     examples: ['leva', 'stänga', 'ringa', 'höra', 'glömma', 'använda'],
-    rule: 'Presens ends in -er. The stem ends in a voiced sound, so preteritum takes -de.',
-    spot: 'Remove -a to get the stem (lev-). Stem ends in b, d, g, j, l, m, n, r or v → 2a.',
+    rule: 'Presens slutar på -er. Stammen slutar på ett tonande ljud, så preteritum får -de.',
+    spot: 'Ta bort -a så får du stammen (lev-). Slutar stammen på b, d, g, j, l, m, n, r eller v → 2a.',
     notes: [
-      { text: 'Stem ends in -r: no -er in presens.', verbs: ['köra', 'höra', 'lära'] },
-      { text: 'Double m or n becomes single before -de and -t.', verbs: ['glömma', 'känna', 'bränna'] },
-      { text: 'Consonant + d: the d merges with the ending.', verbs: ['använda', 'vända', 'sända'] },
-      { text: 'Vowel + d: -dde in preteritum, -tt in supinum.', verbs: ['betyda', 'leda', 'föda'] },
+      { text: 'Stammen slutar på -r: inget -er i presens.', verbs: ['köra', 'höra', 'lära'] },
+      { text: 'Dubbelt m eller n blir enkelt före -de och -t.', verbs: ['glömma', 'känna', 'bränna'] },
+      { text: 'Konsonant + d: d smälter ihop med ändelsen.', verbs: ['använda', 'vända', 'sända'] },
+      { text: 'Vokal + d: -dde i preteritum, -tt i supinum.', verbs: ['betyda', 'leda', 'föda'] },
     ],
   },
   {
-    id: '2b', name: 'Group 2b', short: '-er · -te · -t',
+    id: '2b', name: 'Grupp 2b', short: '-er · -te · -t',
     endings: { inf: '-a', pres: '-er', pret: '-te', sup: '-t', imp: '–' },
     examples: ['köpa', 'läsa', 'tänka', 'hjälpa', 'åka', 'resa'],
-    rule: 'Presens ends in -er. The stem ends in a voiceless sound (k, p, s, t, x), so preteritum takes -te.',
-    spot: 'Say the stem out loud: köp-, läs-, tänk-. A hard, voiceless final sound → -te.',
+    rule: 'Presens slutar på -er. Stammen slutar på ett tonlöst ljud (k, p, s, t, x), så preteritum får -te.',
+    spot: 'Säg stammen högt: köp-, läs-, tänk-. Ett hårt, tonlöst slutljud → -te.',
     notes: [
-      { text: 'Vowel + t: -tte in preteritum, -tt in supinum.', verbs: ['möta', 'byta', 'sköta'] },
-      { text: 'Consonant + t: the t merges with the ending.', verbs: ['lyfta', 'smälta'] },
+      { text: 'Vokal + t: -tte i preteritum, -tt i supinum.', verbs: ['möta', 'byta', 'sköta'] },
+      { text: 'Konsonant + t: t smälter ihop med ändelsen.', verbs: ['lyfta', 'smälta'] },
     ],
   },
   {
-    id: '3', name: 'Group 3', short: '-r · -dde · -tt',
-    endings: { inf: '(vowel)', pres: '-r', pret: '-dde', sup: '-tt', imp: '–' },
+    id: '3', name: 'Grupp 3', short: '-r · -dde · -tt',
+    endings: { inf: '(vokal)', pres: '-r', pret: '-dde', sup: '-tt', imp: '–' },
     examples: ['bo', 'tro', 'må', 'sy', 'nå', 'bero'],
-    rule: 'Short verbs whose infinitive does not end in -a. Add -r, -dde, -tt.',
-    spot: 'One syllable, ends in a long vowel: bo, tro, sy. (Short irregular verbs like gå, se, stå are group 4.)',
+    rule: 'Korta verb vars infinitiv inte slutar på -a. Lägg till -r, -dde, -tt.',
+    spot: 'En stavelse som slutar på lång vokal: bo, tro, sy. (Korta oregelbundna verb som gå, se och stå är grupp 4.)',
     notes: [],
   },
   {
-    id: '4', name: 'Group 4', short: 'vowel change · -it',
-    endings: { inf: '-a', pres: '-er', pret: 'vowel change', sup: '-it', imp: '–' },
+    id: '4', name: 'Grupp 4', short: 'vokalbyte · -it',
+    endings: { inf: '-a', pres: '-er', pret: 'vokalbyte', sup: '-it', imp: '–' },
     examples: ['skriva', 'dricka', 'flyga', 'komma', 'gå', 'göra'],
-    rule: 'Strong and irregular verbs. The vowel changes in preteritum and there is no ending; supinum usually ends in -it.',
-    spot: 'There is no rule to spot them, but they are the most common verbs, and most follow a few vowel patterns.',
+    rule: 'Starka och oregelbundna verb. Vokalen byts i preteritum och ändelsen saknas. Supinum slutar oftast på -it.',
+    spot: 'Det finns ingen regel för att känna igen dem, men de är de vanligaste verben, och de flesta följer några få vokalmönster.',
     notes: [],
   },
 ]
@@ -101,15 +101,18 @@ export function route(v: Verb): { q: string; a: string; group?: Group }[] {
   const stem = word.replace(/a$/, '')
   const steps: { q: string; a: string; group?: Group }[] = []
   const irregular = v.group === '4'
-  steps.push({ q: 'Is preteritum irregular?', a: irregular ? `Yes: ${word} → ${pret}` : `No: ${pret}`, group: irregular ? '4' : undefined })
+  steps.push({ q: 'Är preteritum oregelbundet?', a: irregular ? `Ja: ${word} → ${pret}` : `Nej: ${pret}`, group: irregular ? '4' : undefined })
   if (irregular) return steps
   const noA = !word.endsWith('a')
-  steps.push({ q: 'Does the infinitive end in -a?', a: noA ? `No: ${word}` : `Yes: ${word}`, group: noA ? '3' : undefined })
+  steps.push({ q: 'Slutar infinitiven på -a?', a: noA ? `Nej: ${word}` : `Ja: ${word}`, group: noA ? '3' : undefined })
   if (noA) return steps
   const ar = v.group === '1'
-  steps.push({ q: 'Does presens end in -ar?', a: ar ? `Yes: ${pres}` : `No: ${pres}`, group: ar ? '1' : undefined })
+  steps.push({ q: 'Slutar presens på -ar?', a: ar ? `Ja: ${pres}` : `Nej: ${pres}`, group: ar ? '1' : undefined })
   if (ar) return steps
   const voiceless = v.group === '2b'
-  steps.push({ q: 'Does the stem end in k, p, s, t or x?', a: `${voiceless ? 'Yes' : 'No'}: ${stem}-`, group: voiceless ? '2b' : '2a' })
+  steps.push({ q: 'Slutar stammen på k, p, s, t eller x?', a: `${voiceless ? 'Ja' : 'Nej'}: ${stem}-`, group: voiceless ? '2b' : '2a' })
   return steps
 }
+
+export const NAMED_FAMILIES = families().named
+export const FAMILY_IDS = new Set(NAMED_FAMILIES.map((f) => f.id))

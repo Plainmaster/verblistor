@@ -16,10 +16,10 @@ export const FORM_NAMES: Record<FormKey, string> = {
 }
 
 export const ERROR_LABELS: Record<DiagnosisType, string> = {
-  correct: 'Correct', empty: 'No answer', accent: 'Missing å/ä/ö', wrongForm: 'Wrong tense',
-  participle: 'Participle vs supinum', regularized: 'Strong verb made regular', voicing: '2a/2b ending',
-  wrongGroup: 'Wrong group ending', group3: 'Group 3 -dde/-tt', doubling: 'Double consonant',
-  typo: 'Typo', unknown: 'Other',
+  correct: 'Rätt', empty: 'Inget svar', accent: 'Å, ä eller ö saknas', wrongForm: 'Fel tempus',
+  participle: 'Particip i stället för supinum', regularized: 'Starkt verb med regelbunden ändelse', voicing: '2a eller 2b',
+  wrongGroup: 'Fel grupp', group3: 'Grupp 3: -dde/-tt', doubling: 'Dubbelteckning',
+  typo: 'Stavfel', unknown: 'Övrigt',
 }
 
 const fold = (s: string) => s.replace(/[åä]/g, 'a').replace(/ö/g, 'o')
@@ -46,10 +46,10 @@ function regularForm(verb: Verb, g: RegularGroup, form: FormKey): string | null 
 }
 
 const GROUP_RULE: Record<RegularGroup, string> = {
-  '1': 'Group 1: -ar, -ade, -at',
-  '2a': 'Group 2a: -er, -de, -t',
-  '2b': 'Group 2b: -er, -te, -t (stem ends in k, p, s, t or x)',
-  '3': 'Group 3: -r, -dde, -tt',
+  '1': 'Grupp 1: -ar, -ade, -at',
+  '2a': 'Grupp 2a: -er, -de, -t',
+  '2b': 'Grupp 2b: -er, -te, -t (stammen slutar på k, p, s, t eller x)',
+  '3': 'Grupp 3: -r, -dde, -tt',
 }
 
 export function diagnose(answer: string, verb: Verb, form: FormKey): Diagnosis {
@@ -58,24 +58,24 @@ export function diagnose(answer: string, verb: Verb, form: FormKey): Diagnosis {
   const target = targets[0] ?? ''
   const fname = FORM_NAMES[form]
 
-  if (!a) return { type: 'empty', message: `The ${fname} of ${verb.inf} is ${target}.` }
+  if (!a) return { type: 'empty', message: `${fname[0].toUpperCase()}${fname.slice(1)} av ${verb.inf} är ${target}.` }
   if (targets.includes(a)) return { type: 'correct', message: 'Rätt!' }
 
   if (targets.some((t) => fold(t) === fold(a))) {
-    return { type: 'accent', message: `Almost — check the å/ä/ö: ${target}.` }
+    return { type: 'accent', message: `Nästan! Kolla å, ä och ö: ${target}.` }
   }
 
   const other = (['inf', 'imp', 'pres', 'pret', 'sup', 'part'] as FormKey[]).find(
     (k) => k !== form && expected(verb, k).some((e) => normalize(e) === a),
   )
   if (other) {
-    return { type: 'wrongForm', message: `${a} is the ${FORM_NAMES[other]}. The ${fname} is ${target}.` }
+    return { type: 'wrongForm', message: `${a} är ${FORM_NAMES[other]}. ${fname[0].toUpperCase()}${fname.slice(1)} är ${target}.` }
   }
 
   if (form === 'sup' && verb.group === '4' && a === target.replace(/it\b/, 'en')) {
     return {
       type: 'participle',
-      message: `${a} is the participle (en ${a} bok). After har/hade use supinum in -it: har ${target}.`,
+      message: `${a} är particip (en ${a} bok). Efter har och hade används supinum på -it: har ${target}.`,
     }
   }
 
@@ -83,39 +83,39 @@ export function diagnose(answer: string, verb: Verb, form: FormKey): Diagnosis {
   const hit = regular.find(([, f]) => f === a)?.[0]
 
   if (verb.group === '4' && hit) {
-    const fam = verb.family ? ` (vowel pattern ${verb.family})` : ''
+    const fam = verb.family ? ` (vokalmönster ${verb.family})` : ''
     return {
       type: 'regularized',
-      message: `${verb.inf} is a strong/irregular verb${fam} — no regular ending. The ${fname} is ${target}.`,
+      message: `${verb.inf} är ett starkt eller oregelbundet verb${fam} och får ingen regelbunden ändelse. ${fname[0].toUpperCase()}${fname.slice(1)} är ${target}.`,
     }
   }
 
   if ((verb.group === '2a' && hit === '2b') || (verb.group === '2b' && hit === '2a')) {
     const stem = verb.inf.replace(/a$/, '')
     const why = verb.group === '2b'
-      ? `the stem ${stem} ends in a voiceless consonant (k, p, s, t, x), so it takes -te/-t`
-      : `the stem ${stem} ends in a voiced sound, so it takes -de/-t`
-    return { type: 'voicing', message: `Group ${verb.group}: ${why}. → ${target}` }
+      ? `stammen ${stem}- slutar på ett tonlöst ljud (k, p, s, t, x) och får därför -te/-t`
+      : `stammen ${stem}- slutar på ett tonande ljud och får därför -de/-t`
+    return { type: 'voicing', message: `Grupp ${verb.group}: ${why}. → ${target}` }
   }
 
   if (hit && verb.group !== '4' && hit !== verb.group) {
-    return { type: 'wrongGroup', message: `${verb.inf} is group ${verb.group}, not ${hit}. ${GROUP_RULE[verb.group]} → ${target}` }
+    return { type: 'wrongGroup', message: `${verb.inf} är grupp ${verb.group}, inte ${hit}. ${GROUP_RULE[verb.group]} → ${target}` }
   }
 
   if (verb.group === '3' && dedupe(a) === dedupe(target)) {
-    return { type: 'group3', message: `Group 3 verbs double the consonant: -dde in preteritum, -tt in supinum → ${target}` }
+    return { type: 'group3', message: `Verb i grupp 3 dubbeltecknar: -dde i preteritum, -tt i supinum → ${target}` }
   }
   if (verb.group === '3' && (form === 'pret' || form === 'sup') && distance(a, target) <= 2) {
-    return { type: 'group3', message: `Group 3 verbs double the consonant: -dde in preteritum, -tt in supinum → ${target}` }
+    return { type: 'group3', message: `Verb i grupp 3 dubbeltecknar: -dde i preteritum, -tt i supinum → ${target}` }
   }
 
   if (dedupe(a) === dedupe(target)) {
-    return { type: 'doubling', message: `Watch the double consonant: ${target}.` }
+    return { type: 'doubling', message: `Se upp med dubbelteckningen: ${target}.` }
   }
 
   if (target.length >= 4 && distance(a, target) === 1) {
-    return { type: 'typo', message: `Close — one letter off: ${target}.` }
+    return { type: 'typo', message: `Nära! En bokstav fel: ${target}.` }
   }
 
-  return { type: 'unknown', message: `The ${fname} of ${verb.inf} is ${target}.` }
+  return { type: 'unknown', message: `${fname[0].toUpperCase()}${fname.slice(1)} av ${verb.inf} är ${target}.` }
 }

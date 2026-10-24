@@ -14,9 +14,9 @@ export default defineConfig({
       manifest: {
         name: 'Verblistor — svenska verb',
         short_name: 'Verblistor',
-        description: 'Learn Swedish verb conjugation with spaced repetition.',
-        theme_color: '#1d3557',
-        background_color: '#faf7f2',
+        description: 'Svenska verb: böjningar, grupper och övningar.',
+        theme_color: '#0e1c2f',
+        background_color: '#f6f4ef',
         display: 'standalone',
         icons: [{ src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml' }],
       },

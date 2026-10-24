@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { headVerb, makeSentence } from './sentences'
 import type { Verb } from './types'
 
-const base = { en: '', irregular: true, group: '4', cefr: 'A1', freq: 1 } as const
+const base = { en: '', irregular: true, group: '4', freq: 1 } as const
 const skriva: Verb = { ...base, id: 'skriva', inf: 'skriva', pres: 'skriver', pret: 'skrev', sup: 'skrivit', imp: 'skriv', ctx: { rest: 'ett brev' } }
 const geUpp: Verb = { ...base, id: 'ge upp', inf: 'ge upp', pres: 'ger upp', pret: 'gav upp', sup: 'gett upp', imp: 'ge upp', particle: 'upp', ctx: { rest: '' } }
 const laraSig: Verb = {

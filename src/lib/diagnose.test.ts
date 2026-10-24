@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { diagnose } from './diagnose'
 import type { Verb } from './types'
 
-const base = { en: '', cefr: 'A1', freq: 1, irregular: false } as const
+const base = { en: '', freq: 1, irregular: false } as const
 const v = (inf: string, pres: string, pret: string, sup: string, imp: string | null, group: Verb['group']): Verb => ({
   ...base, id: inf, inf, pres, pret, sup, imp, group, irregular: group === '4',
 })

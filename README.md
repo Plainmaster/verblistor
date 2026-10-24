@@ -2,7 +2,7 @@
 
 A Swedish verb conjugation trainer for SFI and SAS learners. 678 verbs with all forms, grouped by conjugation (1, 2a, 2b, 3, 4), with lessons, spaced repetition and sentence practice.
 
-## What it does
+## What it does (UI in Swedish)
 
 - **Öva** – practise with one-tap presets (SFI B/C/D, Top 100, irregular verbs, 2a vs 2b, s-verbs, particle and reflexive verbs) or pick groups, levels and forms yourself. Four modes:
   - *One form*: fast single-form recall (default).

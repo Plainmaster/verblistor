@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { applyShortcuts, expected, isCorrect, normalize } from './check'
 import type { Verb } from './types'
 
-const base = { en: '', irregular: false, cefr: 'A1', freq: 1 } as const
+const base = { en: '', irregular: false, freq: 1 } as const
 
 const saga: Verb = {
   ...base, id: 'säga', inf: 'säga', pres: 'säger', pret: 'sa', sup: 'sagt', imp: 'säg',

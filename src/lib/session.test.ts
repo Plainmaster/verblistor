@@ -5,7 +5,7 @@ import type { Verb } from './types'
 
 const now = Date.UTC(2026, 0, 10)
 const mk = (id: string, freq: number): Verb => ({
-  id, inf: id, pres: id + 'r', pret: id + 'de', sup: id + 't', imp: id, en: '', group: '1', irregular: false, cefr: 'A1', freq,
+  id, inf: id, pres: id + 'r', pret: id + 'de', sup: id + 't', imp: id, en: '', group: '1', irregular: false, freq,
 })
 const pool = [mk('tala', 3), mk('titta', 1), mk('vänta', 2)]
 

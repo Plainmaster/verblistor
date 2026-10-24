@@ -44,7 +44,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const ok = grade === 'good'
       const stats = { ...p.stats }
       bump(stats, `g:${verb.group}`, ok)
-      bump(stats, `l:${verb.cefr}`, ok)
       bump(stats, `f:${form}`, ok)
       if (!ok) bump(stats, `e:${diagnosis.type}`, false)
       const days = { ...p.days }
@@ -53,6 +52,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (!ok) {
         const m = mistakes[id]
         mistakes[id] = { n: (m?.n ?? 0) + 1, last: now, answer, type: diagnosis.type }
+      } else {
+        // like the original: a mistake disappears once the form is answered correctly
+        delete mistakes[id]
       }
       return {
         ...s,

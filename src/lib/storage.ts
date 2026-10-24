@@ -1,21 +1,18 @@
-import { DEFAULT_FILTER, type Filter } from './filters'
 import type { Card } from './srs'
 import type { DiagnosisType } from './diagnose'
 import type { FormKey } from './types'
 
-export type Mode = 'single' | 'paradigm' | 'group' | 'sentence'
-export type Hints = 'inf' | 'random' | 'none'
+export type Mode = 'table' | 'single' | 'sentence'
+export type Hints = 'inf' | 'random' | 'en'
 export type Theme = 'system' | 'light' | 'dark'
 
 export interface Settings {
-  filter: Filter
   forms: FormKey[]
   mode: Mode
   hints: Hints
   showGroup: boolean
   shortcuts: boolean
   speech: boolean
-  dailyGoal: number
   theme: Theme
 }
 
@@ -25,7 +22,7 @@ export interface Mistake { n: number; last: number; answer: string; type: Diagno
 
 export interface Progress {
   cards: Record<string, Card>
-  /** Keys: g:<group>, f:<form>, l:<level>, e:<error type>. */
+  /** Keys: g:<group>, f:<form>, e:<error type>. */
   stats: Record<string, Tally>
   /** Keyed by local date YYYY-MM-DD. */
   days: Record<string, Tally>
@@ -39,14 +36,12 @@ export interface Saved {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  filter: DEFAULT_FILTER,
   forms: ['pres', 'pret', 'sup'],
-  mode: 'single',
+  mode: 'table',
   hints: 'inf',
   showGroup: true,
   shortcuts: true,
   speech: true,
-  dailyGoal: 30,
   theme: 'system',
 }
 
@@ -75,10 +70,13 @@ export function save(s: Saved): void {
 /** Parse saved or imported JSON, filling in anything missing from older versions. */
 export function parse(raw: string): Saved {
   const data = JSON.parse(raw) as Partial<Saved>
-  if (!data || typeof data !== 'object' || !data.progress) throw new Error('This file is not a Verblistor backup.')
+  if (!data || typeof data !== 'object' || !data.progress) throw new Error('Filen är ingen säkerhetskopia från Verblistor.')
+  const settings = { ...DEFAULT_SETTINGS, ...data.settings }
+  if (!['table', 'single', 'sentence'].includes(settings.mode)) settings.mode = DEFAULT_SETTINGS.mode
+  if (!['inf', 'random', 'en'].includes(settings.hints)) settings.hints = DEFAULT_SETTINGS.hints
   return {
     version: 1,
-    settings: { ...DEFAULT_SETTINGS, ...data.settings, filter: { ...DEFAULT_FILTER, ...data.settings?.filter } },
+    settings,
     progress: { ...EMPTY_PROGRESS, ...data.progress },
   }
 }

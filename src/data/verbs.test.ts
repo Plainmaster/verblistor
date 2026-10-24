@@ -14,7 +14,6 @@ describe('verbs.json', () => {
 
   it.each(verbs.map((v) => [v.id, v] as const))('%s is complete and consistent', (_, v) => {
     expect(v.inf && v.pres && v.pret && v.sup && v.en).toBeTruthy()
-    expect(['A1', 'A2', 'B1', 'B2', 'C1']).toContain(v.cefr)
     const base = { inf: first(v.inf), pres: first(v.pres), pret: first(v.pret), sup: first(v.sup), imp: v.imp ? first(v.imp) : null }
     expect(classify(base).group).toBe(v.group)
     expect(v.irregular).toBe(v.group === '4')
@@ -27,9 +26,8 @@ describe('verbs.json', () => {
     if (v.modal) expect(v.imp).toBeNull()
   })
 
-  it('covers every group and level', () => {
+  it('covers every group', () => {
     for (const g of ['1', '2a', '2b', '3', '4']) expect(verbs.some((v) => v.group === g)).toBe(true)
-    for (const l of ['A1', 'A2', 'B1', 'B2', 'C1']) expect(verbs.some((v) => v.cefr === l)).toBe(true)
   })
 
   it('spot-checks well-known paradigms', () => {

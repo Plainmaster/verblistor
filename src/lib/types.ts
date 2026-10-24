@@ -1,7 +1,6 @@
 export type Group = '1' | '2a' | '2b' | '3' | '4'
 export type RegularGroup = Exclude<Group, '4'>
 export type FormKey = 'inf' | 'imp' | 'pres' | 'pret' | 'sup' | 'part'
-export type Cefr = 'A1' | 'A2' | 'B1' | 'B2' | 'C1'
 
 export interface Forms {
   inf: string
@@ -19,7 +18,6 @@ export interface Verb extends Forms {
   group: Group
   irregular: boolean
   family?: string
-  cefr: Cefr
   freq: number
   sVerb?: boolean
   particle?: string

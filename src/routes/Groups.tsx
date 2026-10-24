@@ -10,27 +10,27 @@ export default function Groups() {
   return (
     <div className="grid gap-12">
       <header>
-        <h1 className="m-0 text-3xl font-extrabold tracking-tight">Verb groups</h1>
-        <p className="m-0 mt-1 max-w-[62ch] text-muted">
-          Swedish verbs fall into five groups. The group decides the endings in presens, preteritum and supinum.
-          Groups 1–3 follow rules; group 4 changes the vowel and has to be learned, but it follows a few patterns.
+        <h1 className="m-0 text-4xl sm:text-5xl font-extrabold">Verbgrupper</h1>
+        <p className="m-0 mt-2 max-w-[62ch] text-lg text-muted">
+          Svenska verb delas in i fem grupper. Gruppen avgör ändelserna i presens, preteritum och supinum.
+          Grupp 1–3 följer regler. Grupp 4 byter vokal och måste läras in, men de flesta följer några få mönster.
         </p>
       </header>
 
       <RouteFinder />
 
       <section aria-labelledby="compare">
-        <h2 id="compare" className="m-0 mb-4 text-2xl font-extrabold tracking-tight">The groups side by side</h2>
+        <h2 id="compare" className="m-0 mb-4 text-2xl font-extrabold">Grupperna bredvid varandra</h2>
         <div className="overflow-x-auto -mx-4 px-4">
           <table className="w-full min-w-[640px] border-collapse text-left">
             <thead>
               <tr className="text-sm text-muted">
-                <th className="py-2 pr-3 font-bold">Group</th>
+                <th className="py-2 pr-3 font-bold">Grupp</th>
                 <th className="py-2 pr-3 font-bold">infinitiv</th>
                 <th className="py-2 pr-3 font-bold">presens</th>
                 <th className="py-2 pr-3 font-bold">preteritum</th>
                 <th className="py-2 pr-3 font-bold">supinum</th>
-                <th className="py-2 font-bold">share</th>
+                <th className="py-2 font-bold">andel</th>
               </tr>
             </thead>
             <tbody>
@@ -40,7 +40,7 @@ export default function Groups() {
                 return (
                   <tr key={g.id} className="border-t border-rule align-top">
                     <td className="py-3 pr-3">
-                      <Link to={`/learn/${g.id}`} className="inline-flex items-center gap-2 font-bold no-underline text-ink hover:underline">
+                      <Link to={`/grupper/${g.id}`} className="inline-flex items-center gap-2 font-bold no-underline text-ink hover:underline">
                         <LineBadge group={g.id} /> {g.short}
                       </Link>
                     </td>
@@ -57,28 +57,28 @@ export default function Groups() {
           </table>
         </div>
         <p className="mt-3 text-sm text-muted max-w-[62ch]">
-          Share of the {VERBS.length} verbs in Verblistor. Group 4 is smaller but contains most of the everyday verbs: {
+          Andel av de {VERBS.length} verben i Verblistor. Grupp 4 är mindre men har de flesta vardagsverben: {
             VERBS.filter((v) => v.freq <= 20 && !v.particle && !v.reflexive && v.group === '4').length
-          } of the 20 most frequent.
+          } av de 20 vanligaste.
         </p>
       </section>
 
       <section aria-labelledby="families">
-        <h2 id="families" className="m-0 text-2xl font-extrabold tracking-tight">Group 4 by vowel pattern</h2>
+        <h2 id="families" className="m-0 text-2xl font-extrabold">Grupp 4 efter vokalmönster</h2>
         <p className="m-0 mt-1 mb-5 max-w-[62ch] text-muted">
-          Strong verbs change the stem vowel: <em lang="sv">skriva – skrev – skrivit</em> follows i – e – i.
-          Learn them in families, not one by one.
+          Starka verb byter vokal: <em lang="sv">skriva – skrev – skrivit</em> följer i – e – i.
+          Lär dig dem i familjer, inte ett och ett.
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           {named.map((f) => (
             <Link
               key={f.id}
-              to={`/learn/family/${encodeURIComponent(f.id)}`}
-              className="block rounded-2xl bg-surface ring-1 ring-rule p-4 no-underline text-ink hover:ring-[color:var(--g4)]"
+              to={`/grupper/monster/${encodeURIComponent(f.id)}`}
+              className="block rounded-3xl bg-surface ring-1 ring-rule p-5 no-underline text-ink hover:ring-[color:var(--g4)]"
             >
               <div className="flex items-baseline justify-between">
                 <span className="text-xl font-extrabold" data-group="4"><span className="change no-underline">{f.id}</span></span>
-                <span className="text-sm text-muted">{f.verbs.length} verbs</span>
+                <span className="text-sm text-muted">{f.verbs.length} verb</span>
               </div>
               <p className="m-0 mt-2 text-[0.95rem]" lang="sv">
                 {f.verbs.slice(0, 4).map((v, i) => (
@@ -88,12 +88,12 @@ export default function Groups() {
             </Link>
           ))}
           <Link
-            to="/learn/family/other"
-            className="block rounded-2xl bg-surface ring-1 ring-rule p-4 no-underline text-ink hover:ring-[color:var(--g4)]"
+            to="/grupper/monster/other"
+            className="block rounded-3xl bg-surface ring-1 ring-rule p-5 no-underline text-ink hover:ring-[color:var(--g4)]"
           >
             <div className="flex items-baseline justify-between">
-              <span className="text-xl font-extrabold">Irregular</span>
-              <span className="text-sm text-muted">{other.length} verbs</span>
+              <span className="text-xl font-extrabold">Oregelbundna</span>
+              <span className="text-sm text-muted">{other.length} verb</span>
             </div>
             <p className="m-0 mt-2 text-[0.95rem]" lang="sv">
               {other.slice(0, 5).map((v, i) => <span key={v.id}>{i > 0 && ', '}<Word verb={v} form="inf" /> <Word verb={v} form="pret" /></span>)}
@@ -117,10 +117,10 @@ function ShareBar({ n, total, group }: { n: number; total: number; group: Verb['
 }
 
 const STOPS = [
-  { q: 'Is preteritum irregular?', yes: '4' },
-  { q: 'Does the infinitive end in -a?', no: '3' },
-  { q: 'Does presens end in -ar?', yes: '1' },
-  { q: 'Does the stem end in k, p, s, t or x?', yes: '2b', no: '2a' },
+  { q: 'Är preteritum oregelbundet?', yes: '4' },
+  { q: 'Slutar infinitiven på -a?', no: '3' },
+  { q: 'Slutar presens på -ar?', yes: '1' },
+  { q: 'Slutar stammen på k, p, s, t eller x?', yes: '2b', no: '2a' },
 ] as const
 
 /** The decision tree drawn as a transit line; type a verb to light up its route. */
@@ -133,9 +133,9 @@ function RouteFinder() {
   const steps = verb ? route(verb) : []
 
   return (
-    <section aria-labelledby="route" className="rounded-2xl bg-surface ring-1 ring-rule p-5 sm:p-7">
-      <h2 id="route" className="m-0 text-2xl font-extrabold tracking-tight">Find the group</h2>
-      <p className="m-0 mt-1 text-muted">Type a verb and follow its route.</p>
+    <section aria-labelledby="route" className="rounded-3xl bg-surface ring-1 ring-rule p-5 sm:p-7">
+      <h2 id="route" className="m-0 text-2xl font-extrabold">Hitta gruppen</h2>
+      <p className="m-0 mt-1 text-muted">Skriv ett verb och följ vägen.</p>
       <label className="block mt-4 max-w-sm">
         <span className="sr-only">Verb</span>
         <input
@@ -148,7 +148,7 @@ function RouteFinder() {
           spellCheck={false}
         />
       </label>
-      {q && !verb && <p className="m-0 mt-2 text-muted">That verb is not in the list. Try another, e.g. bo, köpa, ringa, tala.</p>}
+      {q && !verb && <p className="m-0 mt-2 text-muted">Verbet finns inte i listan. Prova ett annat, till exempel bo, köpa, ringa eller tala.</p>}
 
       <ol className="relative m-0 mt-6 p-0 list-none">
         {STOPS.map((s, i) => {
@@ -174,7 +174,7 @@ function RouteFinder() {
                     className={`inline-flex items-center gap-2 rounded-full pr-3 text-sm ${ended === g ? 'bg-sunk font-bold' : 'opacity-60'}`}
                   >
                     <LineBadge group={g} />
-                    {j === 0 && 'no' in s && 'yes' in s ? 'yes' : j === 0 ? 'yes' : 'no'}
+                    {j === 0 ? 'ja' : 'nej'}
                   </span>
                 ))}
               </div>
