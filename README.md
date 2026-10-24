@@ -1,21 +1,19 @@
 # Verblistor
 
-A Swedish verb conjugation trainer for SFI and SAS learners. 678 verbs with all forms, grouped by conjugation (1, 2a, 2b, 3, 4), with lessons, spaced repetition and sentence practice.
+Swedish verb lists and conjugation practice for SFI and SAS learners. 678 verbs with all forms, grouped by conjugation (1, 2a, 2b, 3, 4).
 
-## What it does (UI in Swedish)
+## What it does
 
-- **Öva** – practise with one-tap presets (SFI B/C/D, Top 100, irregular verbs, 2a vs 2b, s-verbs, particle and reflexive verbs) or pick groups, levels and forms yourself. Four modes:
-  - *One form*: fast single-form recall (default).
-  - *In a sentence*: the time word (igår, varje dag, har …) tells you which tense to use; particles and reflexive pronouns are placed correctly.
-  - *All forms*: fill in the whole paradigm, with the infinitive, a random form or only English given.
-  - *Which group?*: recognise the conjugation group.
-- **Feedback that explains** – wrong answers are classified (wrong group, 2a/2b voicing, strong verb made regular, participle instead of supinum, missing å/ä/ö, double consonant …) with the rule to fix it.
-- **Grupper** – an interactive decision route to find any verb's group, a side-by-side endings table, and group 4 organised by vowel pattern (i–e–i, i–a–u, y/u–ö–u …). Each group and pattern has a short lesson with a focused drill.
-- **Verb** – searchable list (Swedish or English) with endings highlighted in the group colour, and a detail view with all forms, accepted variants, the reasoning for its group and example sentences.
-- **Repetera** – spaced repetition (SM-2 style) per verb form, mistakes sorted by error type, and verbs that keep slipping.
-- **Framsteg** – accuracy by group, form and level, common mistakes, activity, backup/restore.
+The interface is in Swedish.
 
-Works offline (PWA), keyboard-first (Enter to check and continue, aa/ae/oe → å/ä/ö), mobile-friendly, light and dark themes, optional pronunciation via the browser's Swedish voice. Progress stays in the browser.
+- **Verb** (start page) – the full list with all forms, endings marked in the group colour. Filter by group, frequency (100 / 300 / all) and type (strong verbs by vowel pattern, s-verbs, particle and reflexive verbs); sort by frequency, group or A–Ö. Tick verbs to make a custom list. Print the list or a blank worksheet.
+- **Shareable selections** – the selection lives in the URL (`#/?grupp=4&typ=starka:i–e–i`, `#/ova?ord=skriva,läsa`), so a teacher can send this week's verbs as a link.
+- **Öva** – *Tabell*: a page of ten verbs with one form given, fill in the rest (as in the classic Svenska Verb at taipoint.org). *En i taget*: one form at a time with spaced repetition. *I meningar*: the time word tells you the tense.
+- **Feedback that explains** – wrong answers are classified (wrong group, 2a/2b, strong verb made regular, participle instead of supinum, missing å/ä/ö, double consonant …).
+- **Grupper** – find any verb's group step by step, the endings side by side, group 4 by vowel pattern, a short lesson per group and pattern.
+- **Mina fel** – every form answered wrong, until it is answered right; backup/restore and theme.
+
+Pronunciation uses recorded audio from the voice bank at uttala.pages.dev when available, otherwise the browser's Swedish voice. Works offline (PWA), keyboard-first (Enter, aa/ae/oe → å/ä/ö). Progress stays in the browser.
 
 ## Development
 
