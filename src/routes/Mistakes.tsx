@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LineBadge, Segmented, Word } from '../components/bits'
-import { ERROR_LABELS, FORM_NAMES, type DiagnosisType } from '../lib/diagnose'
+import { ERROR_LABELS, FORM_NAMES, isCareless, type DiagnosisType } from '../lib/diagnose'
 import { VERB_BY_ID } from '../lib/groups'
 import { today, type Theme } from '../lib/storage'
 import type { FormKey } from '../lib/types'
@@ -11,19 +11,18 @@ import { useStore } from '../store'
 export default function Mistakes() {
   const { progress } = useStore()
 
-  const { byType, ids } = useMemo(() => {
+  const { byType, ids, count } = useMemo(() => {
+    const real = Object.entries(progress.mistakes).filter(([, m]) => !isCareless(m.type))
     const map = new Map<DiagnosisType, { id: string; n: number; answer: string }[]>()
-    for (const [id, m] of Object.entries(progress.mistakes)) {
+    for (const [id, m] of real) {
       map.set(m.type, [...(map.get(m.type) ?? []), { id, n: m.n, answer: m.answer }])
     }
     const byType = [...map.entries()]
       .map(([type, list]) => ({ type, list: list.sort((a, b) => b.n - a.n) }))
       .sort((a, b) => b.list.length - a.list.length)
-    const ids = [...new Set(Object.keys(progress.mistakes).map((k) => k.split(':')[0]))].filter((id) => VERB_BY_ID.has(id))
-    return { byType, ids }
+    const ids = [...new Set(real.map(([k]) => k.split(':')[0]))].filter((id) => VERB_BY_ID.has(id))
+    return { byType, ids, count: real.length }
   }, [progress.mistakes])
-
-  const count = Object.keys(progress.mistakes).length
 
   return (
     <div className="grid gap-10">
@@ -33,7 +32,7 @@ export default function Mistakes() {
           <div>
             <p className="m-0 text-4xl font-extrabold display tabular-nums">{count}</p>
             <p className="m-0 text-muted">
-              {count === 1 ? 'form' : 'former'} i {ids.length} verb att öva mer på. Ett fel försvinner när du svarar rätt.
+              {count === 1 ? 'form' : 'former'} i {ids.length} verb att öva mer på. Ett fel försvinner när du svarar rätt. Slarvfel, där ändelsen är rätt, räknas inte.
             </p>
           </div>
           {ids.length > 0 && <Link to={`/ova?ord=${ids.map(encodeURIComponent).join(',')}`} className="btn btn-primary">Öva på mina fel</Link>}

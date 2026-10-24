@@ -20,7 +20,8 @@ export default function About() {
       <h2 className="m-0 mt-4 text-2xl font-extrabold">Varför inga nivåer?</h2>
       <p className="m-0">
         CEFR-nivåerna (A1–C1) beskriver vad man kan göra med språket, inte enskilda ord. Därför delar Verblistor in verben efter
-        hur vanliga de är: de 100 vanligaste, de 300 vanligaste eller alla. Frekvensen kommer från Kelly-listan.
+        hur vanliga de är. Frekvensen kommer från Kelly-listan, som bygger på text från webben. Där hamnar vardagsverb som
+        bo, må, äta och sova för långt ner, så <em>Grundverb</em> är de 100 vanligaste plus de vardagsverb som eleverna möter först.
       </p>
       <h2 className="m-0 mt-4 text-2xl font-extrabold">Källor</h2>
       <ul className="m-0 pl-5 grid gap-2">

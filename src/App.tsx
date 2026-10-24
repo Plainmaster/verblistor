@@ -5,6 +5,7 @@ import Learn from './routes/Learn'
 import Mistakes from './routes/Mistakes'
 import Practice from './routes/Practice'
 import Verbs from './routes/Verbs'
+import { isCareless } from './lib/diagnose'
 import { useStore } from './store'
 
 const NAV = [
@@ -30,7 +31,7 @@ function Wordmark() {
 export default function App() {
   const { progress } = useStore()
   const { pathname, search } = useLocation()
-  const mistakes = Object.keys(progress.mistakes).length
+  const mistakes = Object.values(progress.mistakes).filter((m) => !isCareless(m.type)).length
   // Verb and Öva share the selection in the query string
   const keep = pathname === '/' || pathname === '/ova' ? search.replace(/([?&])verb=[^&]*&?/, '$1').replace(/[?&]$/, '') : ''
 

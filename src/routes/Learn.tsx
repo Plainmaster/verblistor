@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { LineBadge, Paradigm, Speak, Tags, Word } from '../components/bits'
+import { LineBadge, PARADIGM, Paradigm, Speak, Tags, Word } from '../components/bits'
 import Drill from '../components/Drill'
 import { FORM_NAMES } from '../lib/diagnose'
 import { GROUP_BY_ID, VERBS, VERB_BY_ID, families } from '../lib/groups'
@@ -60,7 +60,7 @@ export default function Learn() {
       {!family && (
         <section aria-label="Ändelser" className="rounded-3xl bg-surface ring-1 ring-rule p-5">
           <dl className="m-0 grid grid-cols-2 sm:grid-cols-5 gap-4" data-group={g.id}>
-            {Object.entries(g.endings).map(([k, e]) => (
+            {PARADIGM.map((k) => [k, g.endings[k as keyof typeof g.endings]] as const).map(([k, e]) => (
               <div key={k}>
                 <dt className="text-sm text-muted">{FORM_NAMES[k as FormKey]}</dt>
                 <dd className="m-0 text-2xl font-extrabold"><span className="end">{e}</span></dd>

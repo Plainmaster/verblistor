@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { applyShortcuts, expected } from '../lib/check'
-import { diagnose, FORM_NAMES, type Diagnosis } from '../lib/diagnose'
+import { diagnose, FORM_NAMES, isCareless, type Diagnosis } from '../lib/diagnose'
 import { GROUP_BY_ID } from '../lib/groups'
 import { headVerb, makeSentence, SENTENCE_FORMS, type Sentence } from '../lib/sentences'
 import { pickNext } from '../lib/session'
@@ -16,7 +16,7 @@ interface Item {
   sentence?: Sentence
 }
 
-const gradeOf = (d: Diagnosis): Grade => (d.type === 'correct' ? 'good' : d.type === 'accent' ? 'hard' : 'wrong')
+const gradeOf = (d: Diagnosis): Grade => (d.type === 'correct' ? 'good' : isCareless(d.type) ? 'hard' : 'wrong')
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
 /** One form at a time, either on its own or in a sentence. Picks due reviews first (spaced repetition). */

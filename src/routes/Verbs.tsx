@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import { Link } from 'react-router-dom'
-import { Chip, LineBadge, PARADIGM, Paradigm, Segmented, ShareButton, Speak, Tags, Word } from '../components/bits'
+import { Chip, LineBadge, PARADIGM, Paradigm, Say, Segmented, ShareButton, Speak, Tags } from '../components/bits'
 import Drill from '../components/Drill'
 import { applyShortcuts } from '../lib/check'
 import { FORM_NAMES } from '../lib/diagnose'
@@ -38,7 +38,7 @@ export default function Verbs() {
         <header>
           <h1 className="m-0 text-4xl sm:text-5xl font-extrabold">Verblistor</h1>
           <p className="m-0 mt-2 max-w-[60ch] text-lg text-muted">
-            {VERBS.length} svenska verb med alla former. Ändelserna är markerade i gruppens färg. Klicka på ett verb för att se mer.
+            {VERBS.length} svenska verb med alla former. Ändelserna är markerade i gruppens färg. Klicka på en form för att höra den, eller på infinitiven för att se mer.
           </p>
         </header>
 
@@ -80,7 +80,11 @@ export default function Verbs() {
                   ))}
                 </div>
                 <Segmented<Top> label="Hur vanliga" value={filter.top} onChange={(top) => setFilter({ top })}
-                  options={[{ value: 100, label: '100 vanligaste' }, { value: 300, label: '300' }, { value: 0, label: 'Alla' }]} />
+                  options={[
+                    { value: 100, label: 'Grundverb', title: 'De 100 vanligaste plus vardagsverb som bo, må, äta och sova' },
+                    { value: 300, label: '300 vanligaste' },
+                    { value: 0, label: 'Alla' },
+                  ]} />
                 <label>
                   <span className="sr-only">Typ av verb</span>
                   <select className="field" value={filter.kind} onChange={(e) => setFilter({ kind: e.target.value as Kind })}>
@@ -167,22 +171,23 @@ function VerbTable({ verbs, picked, onPick, onOpen }: {
                   onChange={() => onPick(v.id)} aria-label={`Välj ${v.inf}`} />
               </td>
               <td className="py-2.5 w-10"><LineBadge group={v.group} /></td>
-              <td className="py-2.5 pr-3">
-                <button type="button" onClick={() => onOpen(v.id)} className="text-left font-bold text-lg hover:underline underline-offset-4" lang="sv">
-                  {v.inf}
-                </button>
-                <span className="sm:hidden block text-[1.02rem]" lang="sv">
-                  <Word verb={v} form="pres" /><span className="text-muted">, </span>
-                  <Word verb={v} form="pret" /><span className="text-muted">, </span>
-                  <Word verb={v} form="sup" />
-                </span>
-                <span className="md:hidden block text-sm text-muted">{v.en}</span>
-              </td>
-              {(['pres', 'pret', 'sup', 'imp'] as FormKey[]).map((f) => (
-                <td key={f} className={`py-2.5 pr-3 text-[1.05rem] hidden ${f === 'imp' ? 'lg:table-cell' : 'sm:table-cell'}`}><Word verb={v} form={f} /></td>
+              {PARADIGM.map((f) => f === 'inf' ? (
+                <td key={f} className="py-2.5 pr-3">
+                  <button type="button" onClick={() => onOpen(v.id)} className="text-left font-bold text-lg hover:underline underline-offset-4" lang="sv">
+                    {v.inf}
+                  </button>
+                  <span className="sm:hidden block text-[1.02rem]" lang="sv">
+                    <Say verb={v} form="pres" /><span className="text-muted">, </span>
+                    <Say verb={v} form="pret" /><span className="text-muted">, </span>
+                    <Say verb={v} form="sup" />
+                  </span>
+                  <span className="md:hidden block text-sm text-muted">{v.en}</span>
+                </td>
+              ) : (
+                <td key={f} className={`py-2.5 pr-3 text-[1.05rem] hidden ${f === 'imp' ? 'lg:table-cell' : 'sm:table-cell'}`}><Say verb={v} form={f} /></td>
               ))}
               <td className="py-2.5 pr-3 text-muted text-[0.95rem] hidden md:table-cell">{v.en}</td>
-              <td className="pr-2 w-12"><Speak text={series(v)} label={`Lyssna: ${series(v)}`} /></td>
+              <td className="pr-2 w-12"><Speak text={v.inf} label={`Lyssna: ${v.inf}`} /></td>
             </tr>
           ))}
         </tbody>
@@ -208,10 +213,9 @@ function PrintSheet({ verbs, title, blank }: { verbs: Verb[]; title: string; bla
           {verbs.map((v) => (
             <tr key={v.id} className="break-inside-avoid">
               <td className="border-b border-gray-300 py-1.5 pr-2 font-bold">{v.group}</td>
-              <td className="border-b border-gray-300 py-1.5 pr-2 font-bold">{v.inf}</td>
-              {(['pres', 'pret', 'sup', 'imp'] as FormKey[]).map((f) => (
-                <td key={f} className="border-b border-gray-300 py-1.5 pr-2">{blank ? '' : (v[f as 'pres'] ?? '–')}</td>
-              ))}
+              {PARADIGM.map((f) => f === 'inf'
+                ? <td key={f} className="border-b border-gray-300 py-1.5 pr-2 font-bold">{v.inf}</td>
+                : <td key={f} className="border-b border-gray-300 py-1.5 pr-2">{blank ? '' : (v[f as 'pres'] ?? '–')}</td>)}
               <td className="border-b border-gray-300 py-1.5 pr-2 text-gray-600">{v.en}</td>
             </tr>
           ))}

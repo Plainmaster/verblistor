@@ -18,6 +18,17 @@ export const ALL_GROUPS: Group[] = ['1', '2a', '2b', '3', '4']
 export const DEFAULT_FILTER: Filter = { groups: ALL_GROUPS, top: 100, kind: 'all' }
 
 export const TOP_N = 100
+
+/** Everyday verbs SFI students meet first. The Kelly list is based on web text and ranks them too low
+ *  (äta 149, sova 269, dricka 303), so they are always part of the first band. */
+export const BASIC = new Set([
+  'bo', 'må', 'heta', 'äta', 'dricka', 'sova', 'vakna', 'laga', 'handla', 'städa', 'tvätta', 'duscha', 'cykla', 'simma',
+  'dansa', 'sjunga', 'lyssna', 'titta', 'prata', 'plugga', 'jobba', 'arbeta', 'träffa', 'ringa', 'betala', 'kosta', 'köpa',
+  'hjälpa', 'öppna', 'stänga', 'sitta', 'ligga', 'stå', 'gå', 'åka', 'resa', 'flytta', 'hämta', 'lämna', 'gilla', 'älska',
+  'vänta', 'fråga', 'svara', 'glömma', 'läsa', 'skriva', 'tala', 'spela', 'vila', 'leka', 'hyra', 'promenera', 'bära',
+  'visa', 'använda', 'stava', 'upprepa', 'måla', 'rita', 'lära sig', 'sätta sig', 'lägga sig', 'tvätta sig',
+  'klä på sig', 'klä av sig', 'skynda sig', 'vila sig',
+])
 export const isTop = (v: Verb) => v.freq <= TOP_N && !v.particle && !v.reflexive
 
 const fold = (s: string) => s.toLowerCase().normalize('NFC')
@@ -32,6 +43,7 @@ export function filterVerbs(verbs: Verb[], f: Filter, families: Set<string> = ne
   const q = f.search ? fold(f.search.trim()) : ''
   const byFreq = [...verbs].sort((a, b) => a.freq - b.freq)
   const allowed = f.top ? new Set(byFreq.slice(0, f.top).map((v) => v.id)) : null
+  if (allowed && f.top === TOP_N) for (const id of BASIC) allowed.add(id)
   return verbs.filter((v) => {
     if (q) {
       const hay = [v.inf, v.pres, v.pret, v.sup, v.imp ?? '', v.en].map(fold)

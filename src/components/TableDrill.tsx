@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { applyShortcuts } from '../lib/check'
-import { diagnose, FORM_NAMES, type Diagnosis } from '../lib/diagnose'
+import { diagnose, FORM_NAMES, isCareless, type Diagnosis } from '../lib/diagnose'
 import { formsFor } from '../lib/filters'
 import type { Hints } from '../lib/storage'
 import type { FormKey, Verb } from '../lib/types'
 import { useStore } from '../store'
-import { LineBadge, Speak, SwedishKeys, Word } from './bits'
+import { LineBadge, Say, Speak, SwedishKeys } from './bits'
 
 const PAGE = 10
 
@@ -48,7 +48,7 @@ export default function TableDrill({ pool, columns, hints }: { pool: Verb[]; col
         res[k] = d
         // empty cells show the answer but do not count, so skipping a row does not fill up "Mina fel"
         if (d.type === 'empty') continue
-        record(v, f, d.type === 'correct' ? 'good' : d.type === 'accent' ? 'hard' : 'wrong', d, values[k] ?? '')
+        record(v, f, d.type === 'correct' ? 'good' : isCareless(d.type) ? 'hard' : 'wrong', d, values[k] ?? '')
         n++
         if (d.type === 'correct') ok++
       }
@@ -83,7 +83,7 @@ export default function TableDrill({ pool, columns, hints }: { pool: Verb[]; col
                 <div className="col-span-2 sm:col-span-1 flex items-center gap-2 min-w-0 self-center">
                   {(checked || settings.showGroup) && <LineBadge group={v.group} />}
                   <span className="text-[0.95rem] leading-tight" lang="en">{v.en}</span>
-                  {checked && <Speak text={[v.inf, v.pres, v.pret, v.sup].join(', ')} />}
+                  {checked && <Speak text={v.inf} />}
                 </div>
                 {columns.map((f) => {
                   const k = `${v.id}:${f}`
@@ -99,7 +99,7 @@ export default function TableDrill({ pool, columns, hints }: { pool: Verb[]; col
                         data-state={d && d.type !== 'empty' ? (d.type === 'correct' ? 'ok' : 'bad') : undefined}
                         aria-label={`${FORM_NAMES[f]} av ${v.en}`}
                         onChange={(e) => setValues((s) => ({ ...s, [k]: settings.shortcuts ? applyShortcuts(e.target.value) : e.target.value }))} />
-                      {d && d.type !== 'correct' && <span className={`block pt-0.5 text-[1.05rem] ${d.type === 'empty' ? 'text-muted' : 'font-bold'}`}><Word verb={v} form={f} /></span>}
+                      {d && d.type !== 'correct' && <span className={`block pt-0.5 text-[1.05rem] ${d.type === 'empty' ? 'text-muted' : 'font-bold'}`}><Say verb={v} form={f} /></span>}
                     </label>
                   )
                 })}

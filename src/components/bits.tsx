@@ -27,11 +27,33 @@ export function Word({ verb, form, text }: { verb: Verb; form?: FormKey; text?: 
   )
 }
 
-export function Speak({ text, label, className = '' }: { text: string; label?: string; className?: string }) {
+function useCanSpeak(): boolean {
   const { settings } = useStore()
   const [ok, setOk] = useState(canSpeak)
   useEffect(() => onVoicesReady(() => setOk(canSpeak())), [])
-  if (!ok || !settings.speech) return null
+  return ok && settings.speech
+}
+
+/** A verb form you can click to hear just that form. */
+export function Say({ verb, form }: { verb: Verb; form: FormKey }) {
+  const ok = useCanSpeak()
+  const text = form === 'part' ? verb.part : verb[form]
+  if (!ok || !text) return <Word verb={verb} form={form} />
+  return (
+    <button
+      type="button"
+      onClick={(e) => { e.stopPropagation(); speak(text) }}
+      title={`Lyssna: ${text}`}
+      className="text-left rounded-md -mx-1 px-1 hover:bg-sunk hover:ring-1 hover:ring-rule cursor-pointer"
+    >
+      <Word verb={verb} form={form} />
+    </button>
+  )
+}
+
+export function Speak({ text, label, className = '' }: { text: string; label?: string; className?: string }) {
+  const ok = useCanSpeak()
+  if (!ok) return null
   return (
     <button
       type="button"
@@ -47,7 +69,8 @@ export function Speak({ text, label, className = '' }: { text: string; label?: s
   )
 }
 
-export const PARADIGM: FormKey[] = ['inf', 'pres', 'pret', 'sup', 'imp']
+/** The order used in Swedish SFI grammar tables. */
+export const PARADIGM: FormKey[] = ['imp', 'inf', 'pres', 'pret', 'sup']
 
 /** The five main forms in a row, endings highlighted; `focus` marks the forms that were asked. */
 export function Paradigm({ verb, focus, compact = false }: { verb: Verb; focus?: FormKey[]; compact?: boolean }) {
@@ -58,7 +81,7 @@ export function Paradigm({ verb, focus, compact = false }: { verb: Verb; focus?:
           <dt className={`text-sm ${focus?.includes(k) ? 'text-ink font-bold' : 'text-muted'}`}>{FORM_NAMES[k]}</dt>
           <dd className={`m-0 ${compact ? 'text-lg' : 'text-xl'} font-medium break-words`}>
             {k === 'sup' && verb[k] ? <span className="text-muted font-normal">har </span> : null}
-            <Word verb={verb} form={k} />
+            <Say verb={verb} form={k} />
           </dd>
         </div>
       ))}

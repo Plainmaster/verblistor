@@ -4,7 +4,7 @@ import type { FormKey, RegularGroup, Verb } from './types'
 
 export type DiagnosisType =
   | 'correct' | 'empty' | 'accent' | 'wrongForm' | 'participle' | 'regularized'
-  | 'voicing' | 'wrongGroup' | 'group3' | 'doubling' | 'typo' | 'unknown'
+  | 'voicing' | 'wrongGroup' | 'group3' | 'doubling' | 'vowel' | 'typo' | 'unknown'
 
 export interface Diagnosis {
   type: DiagnosisType
@@ -19,9 +19,13 @@ export const ERROR_LABELS: Record<DiagnosisType, string> = {
   correct: 'Rätt', empty: 'Inget svar', accent: 'Å, ä eller ö saknas', wrongForm: 'Fel tempus',
   participle: 'Particip i stället för supinum', regularized: 'Starkt verb med regelbunden ändelse', voicing: '2a eller 2b',
   wrongGroup: 'Fel grupp', group3: 'Grupp 3: -dde/-tt', doubling: 'Dubbelteckning',
-  typo: 'Stavfel', unknown: 'Övrigt',
+  vowel: 'Fel vokal', typo: 'Slarvfel', unknown: 'Övrigt',
 }
 
+/** Careless slips: the grammar is right, the spelling is not. Shown as feedback but kept out of "Mina fel". */
+export const isCareless = (t: DiagnosisType) => t === 'accent' || t === 'typo'
+
+const VOWELS = 'aeiouyåäö'
 const fold = (s: string) => s.replace(/[åä]/g, 'a').replace(/ö/g, 'o')
 const dedupe = (s: string) => s.replace(/(.)\1+/g, '$1')
 
@@ -113,8 +117,17 @@ export function diagnose(answer: string, verb: Verb, form: FormKey): Diagnosis {
     return { type: 'doubling', message: `Se upp med dubbelteckningen: ${target}.` }
   }
 
-  if (target.length >= 4 && distance(a, target) === 1) {
-    return { type: 'typo', message: `Nära! En bokstav fel: ${target}.` }
+  if (verb.group === '4' && a.length === target.length) {
+    const diff = [...a].map((c, i) => [c, target[i]]).filter(([x, y]) => x !== y)
+    if (diff.length === 1 && VOWELS.includes(diff[0][0]) && VOWELS.includes(diff[0][1])) {
+      const fam = verb.family ? ` Vokalmönstret är ${verb.family}.` : ''
+      return { type: 'vowel', message: `Fel vokal: ${target}.${fam}` }
+    }
+  }
+
+  // the ending is right and only the stem is misspelled
+  if (target.length >= 4 && distance(a, target) <= 2 && a.slice(-2) === target.slice(-2)) {
+    return { type: 'typo', message: `Slarvfel? Ändelsen är rätt, men stavningen inte: ${target}.` }
   }
 
   return { type: 'unknown', message: `${fname[0].toUpperCase()}${fname.slice(1)} av ${verb.inf} är ${target}.` }

@@ -52,8 +52,12 @@ describe('diagnose', () => {
     expect(diagnose('kopte', kopa, 'pret').type).toBe('accent')
     expect(diagnose('gatt', ga, 'sup').type).toBe('accent')
   })
-  it('small typo', () => {
-    expect(diagnose('skrevit', skriva, 'sup').type).toBe('typo')
+  it('wrong stem vowel in a strong verb', () => {
+    expect(diagnose('skrevit', skriva, 'sup').type).toBe('vowel')
+  })
+
+  it('misspelled stem with the right ending is a careless slip', () => {
+    expect(diagnose('skirvit', skriva, 'sup').type).toBe('typo')
   })
   it('unknown', () => {
     expect(diagnose('hund', skriva, 'pret').type).toBe('unknown')

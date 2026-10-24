@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Chip, Segmented, ShareButton } from '../components/bits'
+import { Chip, PARADIGM, Segmented, ShareButton } from '../components/bits'
 import Drill from '../components/Drill'
 import TableDrill from '../components/TableDrill'
 import { FORM_NAMES } from '../lib/diagnose'
@@ -15,7 +15,7 @@ const MODES: { value: Mode; label: string; title: string }[] = [
   { value: 'sentence', label: 'I meningar', title: 'Tidsordet (igår, varje dag, har) visar vilket tempus' },
 ]
 
-const FORMS: FormKey[] = ['pres', 'pret', 'sup', 'imp', 'part']
+const FORMS: FormKey[] = ['imp', 'pres', 'pret', 'sup', 'part']
 
 export default function Practice() {
   const { settings, update } = useStore()
@@ -25,7 +25,7 @@ export default function Practice() {
     const next = settings.forms.includes(f) ? settings.forms.filter((x) => x !== f) : [...settings.forms, f]
     if (next.length) update({ forms: FORMS.filter((x) => next.includes(x)) })
   }
-  const columns = useMemo<FormKey[]>(() => ['inf', ...settings.forms.filter((f) => f !== 'part')], [settings.forms])
+  const columns = useMemo(() => PARADIGM.filter((f) => f === 'inf' || settings.forms.includes(f)), [settings.forms])
 
   return (
     <div className="grid gap-6">

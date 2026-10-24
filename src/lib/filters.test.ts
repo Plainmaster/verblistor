@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { DEFAULT_FILTER, filterVerbs, formsFor, fromParams, isTop, sortVerbs, toParams, type Filter } from './filters'
+import { BASIC, DEFAULT_FILTER, filterVerbs, formsFor, fromParams, isTop, sortVerbs, toParams, type Filter } from './filters'
 import type { Verb } from './types'
 import data from '../data/verbs.json'
 
@@ -7,10 +7,15 @@ const verbs = data as Verb[]
 const all: Filter = { ...DEFAULT_FILTER, top: 0 }
 
 describe('filterVerbs', () => {
-  it('default filter returns the 100 most frequent verbs', () => {
-    const r = filterVerbs(verbs, DEFAULT_FILTER)
-    expect(r.length).toBe(100)
-    expect(r.map((v) => v.id)).toContain('vara')
+  it('default filter returns the 100 most frequent verbs plus the basic everyday verbs', () => {
+    const ids = filterVerbs(verbs, DEFAULT_FILTER).map((v) => v.id)
+    expect(ids.length).toBeGreaterThan(100)
+    for (const id of ['vara', 'bo', 'må', 'äta', 'sova']) expect(ids).toContain(id)
+  })
+
+  it('every basic verb exists in the data', () => {
+    const all = new Set(verbs.map((v) => v.id))
+    expect([...BASIC].filter((id) => !all.has(id))).toEqual([])
   })
 
   it('filters by group', () => {

@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import type { Diagnosis } from './lib/diagnose'
+import { isCareless, type Diagnosis } from './lib/diagnose'
 import { cardId, review, type Grade } from './lib/srs'
 import { load, parse, save, today, EMPTY_PROGRESS, type Progress, type Saved, type Settings } from './lib/storage'
 import type { FormKey, Verb } from './lib/types'
@@ -49,10 +49,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const days = { ...p.days }
       bump(days, today(), ok)
       const mistakes = { ...p.mistakes }
-      if (!ok) {
+      if (!ok && !isCareless(diagnosis.type)) {
         const m = mistakes[id]
         mistakes[id] = { n: (m?.n ?? 0) + 1, last: now, answer, type: diagnosis.type }
-      } else {
+      } else if (ok) {
         // like the original: a mistake disappears once the form is answered correctly
         delete mistakes[id]
       }
