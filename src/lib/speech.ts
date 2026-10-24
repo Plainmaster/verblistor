@@ -56,8 +56,10 @@ export function speak(text: string): void {
   if ('speechSynthesis' in window) window.speechSynthesis.cancel()
   const key = audioKey(text)
   if (bank?.has(key)) {
-    audio = new Audio(`${AUDIO_BASE}/sv/${encodeURIComponent(key)}.mp3`)
-    audio.play().catch(() => synth(text))
+    const a = new Audio(`${AUDIO_BASE}/sv/${encodeURIComponent(key)}.mp3`)
+    audio = a
+    // pausing a clip that has not started yet rejects play(); only fall back if this clip is still current
+    a.play().catch(() => { if (audio === a) synth(text) })
     return
   }
   synth(text)
