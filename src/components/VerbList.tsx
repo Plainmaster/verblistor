@@ -150,14 +150,15 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
   const grid = { '--cols': `2.25rem ${COLS.map(width).join(' ')} 2.25rem` } as React.CSSProperties
   const blocks = sections(list, shuffled ? 'freq' : sort)
 
-  const eye = (c: Col, wide: boolean) => {
+  const SHORT: Partial<Record<Col, string>> = { imp: 'imp.', pres: 'pres.', pret: 'pret.', sup: 'sup.' }
+  const eye = (c: Col, wide: boolean, short = false) => {
     const s = state(c)
     const label = s === 'show' ? 'visas' : s === 'write' ? 'skriv' : 'dold'
     return (
       <button key={c} type="button" onClick={() => cycle(c)} title={`${NAME(c)}: ${label}`} aria-label={`${NAME(c)}, ${label}`}
         className={`h-7 inline-flex items-center gap-1.5 min-w-0 sc text-left ${s === 'show' ? 'text-ink font-bold' : s === 'write' ? 'text-ink' : 'text-muted hover:text-ink'}`}>
         <Eye state={s} />
-        {(s !== 'hide' || wide || held.includes(c)) && <span className="truncate">{c === 'group' && !wide ? '' : NAME(c)}</span>}
+        {(s !== 'hide' || wide || held.includes(c)) && <span className="truncate">{c === 'group' && !wide ? '' : short ? SHORT[c] ?? NAME(c) : NAME(c)}</span>}
       </button>
     )
   }
@@ -169,15 +170,16 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
     </button>
   )
 
-  const covered = (key?: string) => <div key={key} className="hidden sm:block" aria-hidden />
+  // on a phone a hidden form keeps its place in the row of four, so the forms stay under their eyes
+  const covered = (key?: string, keep = false) => <div key={key} className={keep ? 'block' : 'hidden sm:block'} aria-hidden />
 
   const cell = (v: Verb, f: FormKey) => {
     const r = rows.get(v.id)!
     const s: ColState = random && state(f) !== 'hide' ? (r.cue === f ? 'show' : 'write') : state(f)
-    const mobileFirst = f === 'inf' ? 'max-sm:order-[-2] max-sm:col-span-2' : ''
-    if (s === 'hide') return covered(f)
+    const mobileFirst = f === 'inf' ? 'max-sm:order-[-2] max-sm:col-span-4' : ''
+    if (s === 'hide') return covered(f, f !== 'inf')
     const k = `${v.id}:${f}`
-    const label = <span className={`sm:sr-only block sc text-[0.85rem] text-muted ${f === 'inf' && s === 'show' ? 'sr-only' : ''}`}>{FORM_NAMES[f]}</span>
+    const label = <span className="sr-only">{FORM_NAMES[f]}</span>
     if (!r.asked.includes(f)) {
       const strong = mode !== 'read' && s === 'show'
       return (
@@ -188,7 +190,7 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
               {v.sVerb && <span className="ml-2 text-sm italic text-muted">{sKind(v)}</span>}
             </span>
           ) : (
-            <span className={`block text-[1.05rem] ${strong ? 'font-bold' : ''}`}>
+            <span className={`block text-[0.98rem] sm:text-[1.05rem] break-words ${strong ? 'font-bold' : ''}`}>
               {v[f as 'inf'] ? <Say verb={v} form={f} /> : <span className="text-muted">–</span>}
             </span>
           )}
@@ -223,12 +225,12 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
         </span>
       </div>
 
-      <div className="sm:hidden flex flex-wrap gap-x-4 gap-y-1 text-[1rem]" aria-label="Kolumner">
-        {COLS.map((c) => eye(c, true))}
-      </div>
-
       <form ref={formRef} onSubmit={(e) => { e.preventDefault(); check() }} autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false}
         className="panel">
+        <div className="sm:hidden sticky top-16 z-10 bg-surface grid gap-0.5 px-3 py-1.5 text-[0.95rem] border-b-[1.5px] border-ink" aria-label="Kolumner">
+          <div className="flex gap-5">{eye('inf', true)}{eye('en', true)}</div>
+          <div className="grid grid-cols-4 gap-x-3">{(['imp', 'pres', 'pret', 'sup'] as Col[]).map((c) => eye(c, true, true))}</div>
+        </div>
         <div className="hidden sm:grid sm:[grid-template-columns:var(--cols)] transition-[grid-template-columns] duration-300 gap-3 px-3 py-1.5 text-[1.02rem] border-b-[1.5px] border-ink items-center" style={grid}
           onPointerLeave={() => setHeld([])} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setHeld([]) }}>
           <span className="text-right text-muted">#</span>
@@ -253,12 +255,12 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
                 const hearInf = !r.asked.includes('inf') || !!checked[`${v.id}:inf`]
                 return (
                   <li key={v.id} className="border-t border-rule first:border-t-0 px-3 py-2 hover:bg-[color:color-mix(in_srgb,var(--sunk)_45%,transparent)]">
-                    <div className="grid grid-cols-2 sm:[grid-template-columns:var(--cols)] transition-[grid-template-columns] duration-300 gap-x-3 gap-y-1.5 items-center" style={grid}>
+                    <div className="grid grid-cols-4 sm:[grid-template-columns:var(--cols)] transition-[grid-template-columns] duration-300 gap-x-3 gap-y-1.5 items-center" style={grid}>
                       <span className="hidden sm:block text-right text-sm text-muted tabular-nums">{i + 1}</span>
                       {PARADIGM.map((f) => cell(v, f))}
                       {state('en') === 'hide'
                         ? covered()
-                        : <span className="max-sm:order-[-1] max-sm:col-span-2 text-[0.95rem] italic text-muted leading-tight min-w-0" lang="en">{v.en}</span>}
+                        : <span className="max-sm:col-span-4 text-[0.95rem] italic text-muted leading-tight min-w-0" lang="en">{v.en}</span>}
                       {state('group') === 'hide'
                         ? covered()
                         : <span className="hidden sm:block"><LineBadge group={v.group} label={groupLabel(v)} /></span>}
@@ -272,16 +274,21 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
         ))}
 
         {keys.length > 0 && (
-          <div className="sticky bottom-[4.5rem] sm:bottom-0 z-20 border-t-[1.5px] border-ink bg-surface px-3 py-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="sticky bottom-[calc(3.65rem+env(safe-area-inset-bottom))] sm:bottom-0 z-20 border-t-[1.5px] border-ink bg-surface px-3 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-x-2 sm:gap-x-3 gap-y-2">
             <SwedishKeys />
-            <span className="flex flex-wrap items-center gap-2">
+            <span className="flex items-center gap-1.5 sm:gap-2 max-sm:[&_.btn]:px-3">
               {answered.length > 0 && <strong className="mr-1 tabular-nums" aria-live="polite">{score} av {answered.length}</strong>}
-              <button type="button" className="btn btn-quiet" onClick={shuffle} title="Blanda ordningen och börja om">Blanda</button>
+              <button type="button" className="btn btn-quiet" onClick={shuffle} title="Blanda ordningen och börja om" aria-label="Blanda">
+                <svg viewBox="0 0 24 24" className="size-5 sm:hidden" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M3 7h3c4 0 6 10 10 10h5M3 17h3c1.6 0 2.8-1.6 4-3.6M14 10.6C15.2 8.6 16.4 7 18 7h3M18 4l3 3-3 3M18 14l3 3-3 3" />
+                </svg>
+                <span className="max-sm:hidden">Blanda</span>
+              </button>
               {done
                 ? <button type="button" className="btn btn-primary" onClick={restart}>Börja om</button>
                 : <>
                   <button type="button" className="btn btn-quiet" onClick={reveal}>Facit</button>
-                  <button type="submit" className="btn btn-primary" title="Enter">Rätta <kbd className="font-sans text-[0.8rem] opacity-70" aria-hidden>↵</kbd></button>
+                  <button type="submit" className="btn btn-primary" title="Enter">Rätta <kbd className="max-sm:hidden font-sans text-[0.8rem] opacity-70" aria-hidden>↵</kbd></button>
                 </>}
             </span>
           </div>

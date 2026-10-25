@@ -50,6 +50,12 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
   const variants = Object.entries(verb.alt ?? {})
     .map(([k, xs]) => [k, (xs ?? []).filter((x) => pron(x) !== pron(verb[k as 'inf'] ?? ''))] as const)
     .filter(([, xs]) => xs.length)
+  const sentence = (s: { before: string; answer: string; after: string }) => (
+    <span className="text-[0.98rem] font-normal text-muted" lang="sv">
+      {s.before}<strong className="text-ink">{s.answer}</strong>{s.after}{' '}
+      <Speak text={`${s.before}${s.answer}${s.after}`} className="size-7 align-middle" />
+    </span>
+  )
   // one line on what to learn: the vowel pattern, the vowel shift, or the group's rule
   const pattern = sub ? `${patternLabel(sub.family)}, som ${sub.typ}.`
     : verb.umlaut ? 'Omljud: vokalen byts, ändelserna är de vanliga.'
@@ -62,7 +68,7 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
       ref={ref}
       onClose={onClose}
       onClick={(e) => { if (e.target === ref.current) ref.current?.close() }}
-      className="m-0 ml-auto h-full max-h-none w-full sm:max-w-[40rem] bg-paper text-ink p-0 border-l border-ink backdrop:bg-black/50"
+      className="m-0 ml-auto h-full max-h-none w-full max-w-none sm:max-w-[40rem] bg-paper text-ink p-0 border-l border-ink backdrop:bg-black/50"
       aria-label={verb.inf}
     >
       <div className="p-5 sm:p-8 grid gap-6">
@@ -84,10 +90,11 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
               return (
                 <tr key={f} className="align-baseline">
                   <td className="sc text-[0.95rem] text-muted py-2 pr-4 whitespace-nowrap">{FORM_NAMES[f]}</td>
-                  <td className="vr py-2 px-4 text-xl font-medium whitespace-nowrap"><Say verb={verb} form={f} /></td>
-                  <td className="vr py-2 pl-4 text-[0.98rem] text-muted" lang="sv">
-                    {s && <span className="inline-flex items-baseline gap-1">{s.before}<strong className="text-ink">{s.answer}</strong>{s.after}<Speak text={`${s.before}${s.answer}${s.after}`} className="size-7 self-center" /></span>}
+                  <td className="vr py-2 pl-4 sm:pr-4 text-xl font-medium">
+                    <span className="whitespace-nowrap"><Say verb={verb} form={f} /></span>
+                    {s && <span className="sm:hidden block mt-0.5">{sentence(s)}</span>}
                   </td>
+                  <td className="max-sm:hidden vr py-2 pl-4">{s && sentence(s)}</td>
                 </tr>
               )
             })}

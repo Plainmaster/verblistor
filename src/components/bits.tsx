@@ -108,14 +108,14 @@ export function SwedishKeys() {
     el.setSelectionRange(start + 1, start + 1)
   }
   return (
-    <div className="flex gap-2" aria-label="Svenska bokstäver" title="Det går också att skriva aa, ae och oe">
+    <div className="flex gap-1.5 sm:gap-2" aria-label="Svenska bokstäver" title="Det går också att skriva aa, ae och oe">
       {['å', 'ä', 'ö'].map((c) => (
         <button
           key={c}
           type="button"
           tabIndex={-1}
           onMouseDown={(e) => { e.preventDefault(); insert(c) }}
-          className="h-11 min-w-11 px-3 rounded-[3px] bg-surface border border-rule-strong shadow-[0_2px_0_var(--rule-strong)] text-xl font-semibold hover:bg-sunk active:translate-y-0.5 active:shadow-none"
+          className="h-10 min-w-9 px-2.5 sm:h-11 sm:min-w-11 sm:px-3 rounded-[3px] bg-surface border border-rule-strong shadow-[0_2px_0_var(--rule-strong)] text-xl font-semibold hover:bg-sunk active:translate-y-0.5 active:shadow-none"
           lang="sv"
         >
           {c}

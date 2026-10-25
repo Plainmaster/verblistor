@@ -23,11 +23,12 @@ function GroupsPage({ first }: { first: string | null }) {
     return next
   })
   useEffect(() => {
-    if (first) document.getElementById(`grupp-${first}`)?.scrollIntoView({ block: 'start' })
+    // the table on wide screens, the list on phones: scroll to whichever is shown
+    if (first) [`grupp-${first}`, `grupp-m-${first}`].map((id) => document.getElementById(id)).find((el) => el?.offsetParent)?.scrollIntoView({ block: 'start' })
   }, [first])
 
   return (
-    <div className="grid gap-12">
+    <div className="grid gap-12 [&>*]:min-w-0">
       <header>
         <h1 className="page-title">Verbgrupper</h1>
         <p className="m-0 mt-3 max-w-[62ch] text-lg text-muted">
@@ -36,7 +37,32 @@ function GroupsPage({ first }: { first: string | null }) {
       </header>
 
       <section aria-label="Grupperna bredvid varandra">
-        <div className="overflow-x-auto -mx-4 px-4">
+        <ul className="sm:hidden m-0 p-0 list-none border-t-[1.5px] border-ink">
+          {GROUPS.map((g) => {
+            const v = VERB_BY_ID.get(g.examples[0])!
+            const isOpen = open.has(g.id)
+            return (
+              <li key={g.id} id={`grupp-m-${g.id}`} className="border-b border-rule scroll-mt-20">
+                <button type="button" aria-expanded={isOpen} onClick={() => toggle(g.id)}
+                  className={`w-full flex items-baseline gap-2 py-3 text-left ${isOpen ? 'font-bold' : ''}`}>
+                  <svg viewBox="0 0 24 24" className={`size-4 shrink-0 self-center transition-transform ${isOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="m9 6 6 6-6 6" />
+                  </svg>
+                  <span className="font-bold whitespace-nowrap">{g.name}</span>
+                  <span className="ml-auto text-[1.05rem] font-normal" lang="sv">
+                    <Word verb={v} form="pres" /> <Word verb={v} form="pret" /> <Word verb={v} form="sup" />
+                  </span>
+                </button>
+                {isOpen && (
+                  <div className="pb-6">
+                    {g.id === '4' ? <Strong g={g} /> : <Weak g={g} count={VERBS.filter((x) => x.group === g.id).length} />}
+                  </div>
+                )}
+              </li>
+            )
+          })}
+        </ul>
+        <div className="hidden sm:block overflow-x-auto -mx-4 px-4">
           <table className="ledger min-w-[640px]">
             <thead>
               <tr>
@@ -72,7 +98,7 @@ function GroupsPage({ first }: { first: string | null }) {
                     {isOpen && (
                       <tr className="section">
                         <td colSpan={PARADIGM.length + 2} className="p-0 border-b-[1.5px] border-b-ink">
-                          <div className="sticky left-0 w-[calc(100vw-2rem)] sm:w-auto py-5 pl-1 pr-2">
+                          <div className="py-5 pl-1 pr-2">
                             {g.id === '4' ? <Strong g={g} /> : <Weak g={g} count={count} />}
                           </div>
                         </td>
@@ -106,15 +132,11 @@ function Weak({ g, count }: { g: GroupInfo; count: number }) {
           {g.notes.map((n) => (
             <div key={n.text} className="panel px-4 py-3" data-group={g.id}>
               <h3 className="m-0 mb-1.5 sc text-[1rem] text-muted font-normal">{n.text}</h3>
-              <table className="text-[1.05rem]">
-                <tbody>
-                  {byId(n.verbs).map((v) => (
-                    <tr key={v.id}>
-                      {n.forms.map((f) => <td key={f} className="pr-6 py-0.5 whitespace-nowrap"><Fuse verb={v} form={f} end={g.endings[f as 'pres'].slice(1)} /></td>)}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className={`grid gap-y-0.5 gap-x-6 justify-start text-[1.05rem] ${n.forms.length > 1 ? 'sm:grid-cols-[auto_auto]' : ''}`}>
+                {byId(n.verbs).flatMap((v, i) => n.forms.map((f, j) => (
+                  <span key={v.id + f} className={`whitespace-nowrap ${i > 0 && j === 0 ? 'max-sm:mt-1.5' : ''}`}><Fuse verb={v} form={f} end={g.endings[f as 'pres'].slice(1)} /></span>
+                )))}
+              </div>
             </div>
           ))}
         </div>
@@ -158,13 +180,16 @@ function Strong({ g }: { g: GroupInfo }) {
           <span className="block text-xl font-bold whitespace-nowrap" lang="sv">{title}</span>
         </Link>
         <span className="block text-sm italic text-muted whitespace-nowrap" lang="sv">{sub}</span>
+        <Link to={to} className="sm:hidden text-sm text-muted underline underline-offset-2">{verbs.length} verb</Link>
       </td>
-      <td className="vr py-2.5 px-4 text-[1.02rem]" lang="sv" data-group="4">
+      <td className="vr py-2.5 pl-3 sm:px-4 text-[1.02rem]" lang="sv" data-group="4">
         {verbs.slice(0, 3).map((v, i) => (
-          <span key={v.id} className="whitespace-nowrap">{i > 0 && <span className="text-muted"> · </span>}<Word verb={v} form="pres" /> <Word verb={v} form="pret" /> <Word verb={v} form="sup" /></span>
+          <span key={v.id} className={`sm:whitespace-nowrap max-sm:block ${i === 2 ? 'max-sm:hidden' : ''}`}>
+            {i > 0 && <span className="text-muted max-sm:hidden"> · </span>}<Word verb={v} form="pres" /> <Word verb={v} form="pret" /> <Word verb={v} form="sup" />
+          </span>
         ))}
       </td>
-      <td className="vr py-2.5 pl-4 text-sm text-muted tabular-nums whitespace-nowrap">
+      <td className="max-sm:hidden vr py-2.5 pl-4 text-sm text-muted tabular-nums whitespace-nowrap">
         <Link to={to} className="text-muted underline underline-offset-2">{verbs.length} verb</Link>
       </td>
     </tr>
@@ -173,7 +198,7 @@ function Strong({ g }: { g: GroupInfo }) {
     <div className="grid gap-4">
       <p className="m-0 text-lg max-w-[62ch]">{g.rule} <span className="text-muted">{g.spot}</span></p>
       <div className="overflow-x-auto">
-        <table className="ledger w-auto">
+        <table className="ledger w-full sm:w-auto">
           <tbody>
             {named.map((f) => row(f.id, patternLabel(f.id), f.sub.typ, f.verbs,
               `/?typ=${encodeURIComponent(`starka:${f.id}`)}&topp=alla`))}
