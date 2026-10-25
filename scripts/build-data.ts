@@ -23,7 +23,7 @@ function readList(): Line[] {
     })
 }
 
-type Override = Partial<Forms> & { lem?: string; alt?: Verb['alt']; note?: string; modal?: boolean; part?: string | null }
+type Override = Partial<Forms> & { lem?: string; alt?: Verb['alt']; note?: string; modal?: boolean; part?: string | null; rare?: Verb['rare'] }
 
 const PRONOUNS = ['sig', 'mig', 'dig', 'oss', 'er']
 
@@ -152,10 +152,12 @@ function main() {
       if (fam) verb.family = fam
     }
     if (cls.sVerb) verb.sVerb = true
+    if (cls.umlaut) verb.umlaut = true
     if (particle) verb.particle = particle
     if (reflexive) verb.reflexive = true
     if (ov.modal) verb.modal = true
     if (ov.note) verb.note = ov.note
+    if (ov.rare) verb.rare = ov.rare
     if (line.rest !== '-') verb.ctx = { rest: line.rest ?? '', ...(line.subj ? { subj: line.subj } : {}) }
     if (!['A1', 'A2', 'B1', 'B2', 'C1'].includes(line.cefr)) problems.push(`bad level: ${line.inf} ${line.cefr}`)
     verbs.push(verb)

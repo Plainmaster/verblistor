@@ -63,8 +63,9 @@ describe('classify', () => {
     ['möta', 'möter', 'mötte', 'mött', 'möt', '2b'],
     ['bo', 'bor', 'bodde', 'bott', 'bo', '3'],
     ['skriva', 'skriver', 'skrev', 'skrivit', 'skriv', '4'],
-    ['göra', 'gör', 'gjorde', 'gjort', 'gör', '4'],
-    ['välja', 'väljer', 'valde', 'valt', 'välj', '4'],
+    ['göra', 'gör', 'gjorde', 'gjort', 'gör', '2a'],
+    ['välja', 'väljer', 'valde', 'valt', 'välj', '2a'],
+    ['fortsätta', 'fortsätter', 'fortsatte', 'fortsatt', 'fortsätt', '2b'],
     ['hoppas', 'hoppas', 'hoppades', 'hoppats', null, '1'],
     ['trivas', 'trivs', 'trivdes', 'trivts', null, '2a'],
   ]
@@ -78,6 +79,12 @@ describe('classify', () => {
     expect(classify({ inf: 'tala', pres: 'talar', pret: 'talade', sup: 'talat', imp: 'tala' }).irregular).toBe(false)
   })
 
+  it('counts umlaut verbs as regular group 2', () => {
+    expect(classify({ inf: 'välja', pres: 'väljer', pret: 'valde', sup: 'valt', imp: 'välj' })).toMatchObject({ irregular: false, umlaut: true })
+    expect(classify({ inf: 'säga', pres: 'säger', pret: 'sa', sup: 'sagt', imp: 'säg' })).toMatchObject({ group: '2a', umlaut: true })
+    expect(classify({ inf: 'skriva', pres: 'skriver', pret: 'skrev', sup: 'skrivit', imp: 'skriv' }).umlaut).toBeUndefined()
+  })
+
   it('ignores a missing imperative (modal verbs)', () => {
     expect(classify({ inf: 'kunna', pres: 'kan', pret: 'kunde', sup: 'kunnat', imp: null }).group).toBe('4')
   })
@@ -86,20 +93,34 @@ describe('classify', () => {
 describe('segments', () => {
   const text = (s: ReturnType<typeof segments>) => s.map((x) => (x.kind === 'stem' ? x.text : `[${x.kind}:${x.text}]`)).join('')
 
-  it('highlights regular endings', () => {
-    expect(text(segments('talade', 'tala', '1'))).toBe('tal[end:ade]')
+  // the stem is the imperative (Kjellin): tala, ring, bo, skriv
+  it('highlights what is added to the stem', () => {
+    expect(text(segments('talar', 'tala', '1'))).toBe('tala[end:r]')
+    expect(text(segments('talade', 'tala', '1'))).toBe('tala[end:de]')
+    expect(text(segments('ringer', 'ringa', '2a'))).toBe('ring[end:er]')
     expect(text(segments('köpte', 'köpa', '2b'))).toBe('köp[end:te]')
     expect(text(segments('glömde', 'glömma', '2a'))).toBe('glöm[end:de]')
     expect(text(segments('bodde', 'bo', '3'))).toBe('bo[end:dde]')
   })
 
-  it('marks the infinitive -a as ending', () => {
-    expect(text(segments('tala', 'tala', '1'))).toBe('tal[end:a]')
+  it('leaves the -s of s-verbs out of the stem', () => {
+    expect(text(segments('hoppades', 'hoppas', '1'))).toBe('hoppa[end:des]')
+    expect(text(segments('trivdes', 'trivas', '2a'))).toBe('triv[end:des]')
+  })
+
+  it('marks the infinitive -a only where it is added to the stem', () => {
+    expect(text(segments('tala', 'tala', '1'))).toBe('tala')
+    expect(text(segments('ringa', 'ringa', '2a'))).toBe('ring[end:a]')
   })
 
   it('marks vowel changes in strong verbs', () => {
     expect(text(segments('skrev', 'skriva', '4'))).toBe('skr[change:e]v')
     expect(text(segments('skrivit', 'skriva', '4'))).toBe('skriv[end:it]')
     expect(text(segments('drack', 'dricka', '4'))).toBe('dr[change:a]ck')
+  })
+
+  it('takes the imperative as the stem of strong verbs', () => {
+    expect(text(segments('ta', 'ta', '4', 'ta'))).toBe('ta')
+    expect(text(segments('tar', 'ta', '4', 'ta'))).toBe('ta[end:r]')
   })
 })

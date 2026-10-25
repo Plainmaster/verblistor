@@ -1,95 +1,94 @@
 @import "tailwindcss";
 
-/* Palette after the Sommarpratare site: deep navy, warm paper, a yellow accent. */
+/* After Olle Kjellin's Svenska verblistor: black serif on book paper, hairline rules,
+   small-caps column heads. Dark mode is the navy cloth the book was photographed on. */
 :root {
-  --paper: #f6f4ef;
-  --surface: #ffffff;
-  --sunk: #ece8df;
-  --ink: #14233a;
-  --muted: #5a6474;
-  --rule: #e0dbd0;
-  --accent: #f2c14e;
-  --on-accent: #14233a;
-  --focus: #2f6fd0;
-  --ok: #17794a;
-  --bad: #c2341f;
-  --warn: #9a6500;
+  --paper: #f6f2e8;
+  --surface: #fcfaf4;
+  --sunk: #ece6d8;
+  --ink: #1a1814;
+  --muted: #625c51;
+  --rule: #d6cebd;
+  --rule-strong: #8f8676;
+  --accent: #9e2b20;
+  --on-accent: #fcfaf4;
+  --focus: #9e2b20;
+  --ok: #2d6a3e;
+  --bad: #a3271b;
+  --warn: #8a5a00;
 
-  /* Conjugation groups as transit lines. 2a/2b share a hue and differ in lightness. */
-  --g1: #2563c9;
-  --g2a: #0f6e43;
-  --g2b: #58b47c;
-  --g3: #c48a00;
-  --g4: #c8327e;
-  --on-g1: #ffffff;
-  --on-g2a: #ffffff;
-  --on-g2b: #0d2a19;
-  --on-g3: #2a1d00;
-  --on-g4: #ffffff;
+  /* Conjugation groups as muted printing inks. 2a/2b share a hue and differ in lightness. */
+  --g1: #2c5384;
+  --g2a: #2f6640;
+  --g2b: #6f9361;
+  --g3: #a87518;
+  --g4: #9e2b20;
 
+  --body-weight: 400;
   --bg: var(--paper);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0e1c2f;
-    --surface: #152740;
-    --sunk: #0a1626;
-    --ink: #eef1f5;
-    --muted: #a3afbf;
-    --rule: #22385a;
-    --accent: #f5c84b;
-    --on-accent: #14233a;
-    --focus: #7ab0f5;
-    --ok: #47b980;
-    --bad: #f07563;
-    --warn: #e0b04a;
-    --g1: #4a86dd;
-    --g2a: #1a8352;
-    --g2b: #5cb07f;
-    --g3: #c99212;
-    --g4: #d0559f;
-    --on-g2b: #0d2a19;
-    --on-g3: #211600;
-    --bg: radial-gradient(120% 80% at 50% -10%, #1d3a5c 0%, #0e1c2f 60%) fixed, #0e1c2f;
+    --paper: #16181d;
+    --surface: #1d2027;
+    --sunk: #111317;
+    --ink: #f3eee3;
+    --muted: #c2bcb0;
+    --rule: #353943;
+    --rule-strong: #80848e;
+    --accent: #f0a090;
+    --on-accent: #16181d;
+    --focus: #f0c070;
+    --ok: #8fd4a0;
+    --bad: #f6a090;
+    --warn: #ecc060;
+    --g1: #9dbcf0;
+    --g2a: #88cf9c;
+    --g2b: #bfdcae;
+    --g3: #ecc56c;
+    --g4: #f0a090;
+    --body-weight: 430;
+    --bg: #16181d;
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: #0e1c2f;
-  --surface: #152740;
-  --sunk: #0a1626;
-  --ink: #eef1f5;
-  --muted: #a3afbf;
-  --rule: #22385a;
-  --accent: #f5c84b;
-  --on-accent: #14233a;
-  --focus: #7ab0f5;
-  --ok: #47b980;
-  --bad: #f07563;
-  --warn: #e0b04a;
-  --g1: #4a86dd;
-  --g2a: #1a8352;
-  --g2b: #5cb07f;
-  --g3: #c99212;
-  --g4: #d0559f;
-  --on-g2b: #0d2a19;
-  --on-g3: #211600;
-  --bg: radial-gradient(120% 80% at 50% -10%, #1d3a5c 0%, #0e1c2f 60%) fixed, #0e1c2f;
+  --paper: #16181d;
+  --surface: #1d2027;
+  --sunk: #111317;
+  --ink: #f3eee3;
+  --muted: #c2bcb0;
+  --rule: #353943;
+  --rule-strong: #80848e;
+  --accent: #f0a090;
+  --on-accent: #16181d;
+  --focus: #f0c070;
+  --ok: #8fd4a0;
+  --bad: #f6a090;
+  --warn: #ecc060;
+  --g1: #9dbcf0;
+  --g2a: #88cf9c;
+  --g2b: #bfdcae;
+  --g3: #ecc56c;
+  --g4: #f0a090;
+  --body-weight: 430;
+  --bg: #16181d;
   color-scheme: dark;
 }
 
 @theme inline {
-  --font-sans: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
-  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-sans: "Source Serif 4", "Times New Roman", Georgia, serif;
+  --font-display: "Source Serif 4", "Times New Roman", Georgia, serif;
   --color-paper: var(--paper);
   --color-surface: var(--surface);
   --color-sunk: var(--sunk);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
   --color-accent: var(--accent);
   --color-on-accent: var(--on-accent);
   --color-focus: var(--focus);
@@ -108,92 +107,163 @@ body {
   background-color: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 17px;
+  font-size: 18px;
+  font-weight: var(--body-weight);
   line-height: 1.5;
+  font-variant-numeric: lining-nums;
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, .display {
   font-family: var(--font-display);
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  font-optical-sizing: auto;
 }
 
-:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-  border-radius: 6px;
+/* Fewer weights than the old sans: the book only has regular and bold. */
+.font-extrabold { font-weight: 700; }
+.font-medium { font-weight: var(--body-weight); }
+
+em, i { font-style: italic; }
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 }
 
 /* Group colour is passed in as --g on any element with data-group. */
-[data-group="1"] { --g: var(--g1); --on-g: var(--on-g1); }
-[data-group="2a"] { --g: var(--g2a); --on-g: var(--on-g2a); }
-[data-group="2b"] { --g: var(--g2b); --on-g: var(--on-g2b); }
-[data-group="3"] { --g: var(--g3); --on-g: var(--on-g3); }
-[data-group="4"] { --g: var(--g4); --on-g: var(--on-g4); }
+[data-group="1"] { --g: var(--g1); }
+[data-group="2a"] { --g: var(--g2a); }
+[data-group="2b"] { --g: var(--g2b); }
+[data-group="3"] { --g: var(--g3); }
+[data-group="4"] { --g: var(--g4); }
 
-/* Ending highlight: a marker stroke under the ending, ink stays readable. */
+/* Ending highlight: the ending printed in the group's ink, with a fine underline. */
 .end {
-  background: linear-gradient(to top, color-mix(in srgb, var(--g) 30%, transparent) 0 42%, transparent 42%);
-  box-shadow: inset 0 -2px 0 var(--g);
-  border-radius: 1px;
+  color: var(--g);
+  box-shadow: inset 0 -1.5px 0 color-mix(in srgb, var(--g) 55%, transparent);
 }
 .change {
-  text-decoration: underline wavy var(--g4);
-  text-decoration-thickness: 2px;
+  color: var(--g4);
+  text-decoration: underline wavy color-mix(in srgb, var(--g4) 70%, transparent);
+  text-decoration-thickness: 1.5px;
   text-underline-offset: 5px;
-  background: color-mix(in srgb, var(--g4) 14%, transparent);
-  border-radius: 2px;
+}
+
+/* A form that exists but is hardly used (har bort): faded and in brackets, as in a dictionary. */
+.rare { color: color-mix(in srgb, var(--muted) 75%, var(--paper)); font-style: italic; }
+.rare::before { content: '('; }
+.rare::after { content: ')'; }
+.rare .end, .rare .change { color: inherit; box-shadow: none; text-decoration: none; }
+
+/* A letter that falls away where stem and ending meet: glömm + de → glömde. */
+.drop {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--bad);
 }
 
 @layer components {
+/* Small caps, as in the book's column heads (PRETERITUM, SUPINUM …). */
+.sc {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+/* A page head like "204  Svenska verblistor: Grupp 4a": bold serif over a double rule. */
+.page-title {
+  margin: 0;
+  padding-bottom: 0.35rem;
+  border-bottom: 3px double var(--ink);
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+.page-title .no {
+  margin-right: 0.45em;
+  font-variant-numeric: tabular-nums;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+}
+
+/* The book's rule box: a heavy rounded frame around the key fact. */
+.callout {
+  background: var(--surface);
+  border: 2.5px solid var(--ink);
+  border-radius: 10px;
+}
+
+/* Ruled tables: hairlines both ways, small-caps heads over a firm line. */
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.ledger th {
+  font-size: 1.1rem;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+  vertical-align: bottom;
+}
+.ledger td { border-top: 1px solid var(--rule); }
+.ledger tbody tr:first-child td { border-top: 0; }
+.ledger .vr { border-left: 1px solid var(--rule); }
+.ledger tbody tr:not(.section):hover { background: color-mix(in srgb, var(--sunk) 60%, transparent); }
+
+/* The group mark, as in the book's group column: plain small text, never studied for its own sake. */
 .line-badge {
-  display: inline-grid;
-  place-items: center;
-  min-width: 2.1em;
-  height: 2.1em;
-  padding: 0 0.35em;
-  border-radius: 999px;
-  background: var(--g);
-  color: var(--on-g);
-  font-weight: 800;
-  font-size: 0.8em;
-  line-height: 1;
-  letter-spacing: -0.01em;
+  display: inline-block;
+  color: color-mix(in srgb, var(--g) 75%, var(--muted));
+  font-size: 0.85em;
+  font-variant-numeric: lining-nums;
+  white-space: nowrap;
 }
 
 .answer-input {
   width: 100%;
   background: var(--surface);
-  border: 2px solid var(--rule);
-  border-radius: 12px;
-  padding: 0.55em 0.75em;
+  border: 1.5px solid var(--rule-strong);
+  border-radius: 2px;
+  padding: 0.5em 0.7em;
   font: inherit;
   font-size: 1.5rem;
-  font-weight: 500;
   color: var(--ink);
 }
+.answer-input::placeholder { color: var(--muted); font-style: italic; }
 .answer-input:focus {
   outline: none;
-  border-color: var(--focus);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 25%, transparent);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink) 12%, transparent);
 }
 .answer-input[data-state="ok"] { border-color: var(--ok); }
 .answer-input[data-state="bad"] { border-color: var(--bad); }
 
-/* Compact inputs for the practice table. */
+/* Compact inputs for the practice table: a line to write on. */
 .cell-input {
   width: 100%;
   min-width: 0;
   background: transparent;
   border: 0;
-  border-bottom: 2px solid var(--rule);
+  border-bottom: 1px solid var(--rule-strong);
   border-radius: 0;
   padding: 0.3em 0.1em;
   font: inherit;
   font-size: 1.1rem;
   color: var(--ink);
 }
-.cell-input:focus { outline: none; border-color: var(--focus); }
+.cell-input:focus { outline: none; border-bottom: 2px solid var(--ink); }
 .cell-input[data-state="ok"] { border-color: var(--ok); color: var(--ok); }
 .cell-input[data-state="bad"] { border-color: var(--bad); color: var(--bad); text-decoration: line-through; }
 
@@ -202,29 +272,28 @@ h1, h2, h3, .display {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  height: 2.75rem;
-  padding: 0 1.25rem;
-  border-radius: 999px;
-  font-weight: 700;
+  height: 2.6rem;
+  padding: 0 1.1rem;
+  border-radius: 2px;
+  font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
 }
-.btn-primary { background: var(--accent); color: var(--on-accent); }
-.btn-primary:hover { filter: brightness(1.05); }
-.btn-quiet { color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule); background: transparent; }
-.btn-quiet:hover { background: var(--sunk); }
+.btn-primary { background: var(--ink); color: var(--paper); box-shadow: inset 0 0 0 1px var(--ink); }
+.btn-primary:hover { background: color-mix(in srgb, var(--ink) 88%, var(--paper)); }
+.btn-quiet { color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule-strong); background: transparent; }
+.btn-quiet:hover { box-shadow: inset 0 0 0 1px var(--ink); background: var(--surface); }
 
 select.field {
-  height: 2.5rem;
-  padding: 0 2rem 0 0.9rem;
-  border-radius: 999px;
-  border: 1px solid var(--rule);
+  height: 2.4rem;
+  padding: 0 2rem 0 0.8rem;
+  border-radius: 2px;
+  border: 1px solid var(--rule-strong);
   background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='m6 8 4 4 4-4'/%3E%3C/svg%3E") no-repeat right 0.6rem center / 1rem;
   appearance: none;
   color: var(--ink);
   font: inherit;
   font-size: 0.95rem;
-  font-weight: 700;
 }
 }
 

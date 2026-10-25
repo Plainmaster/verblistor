@@ -12,6 +12,8 @@ const MERGE: Record<string, string> = {
 
 /** Vowel pattern of a strong verb across infinitive, preteritum and supinum, e.g. skriva skrev skrivit → i–e–i. */
 export function ablautFamily(f: Forms): string | null {
+  // compounds of ta and dra (delta, bidra) hide the root vowel behind the prefix
+  if (/(t|dr)og$/.test(f.pret) && /(t|dr)agit$/.test(f.sup)) return 'a–o–a'
   const inf = lastVowels(f.inf.replace(/a$/, '')) || lastVowels(f.inf)
   const pret = lastVowels(f.pret.replace(/(de|te)$/, ''))
   const sup = lastVowels(f.sup.replace(/(it|tt|t)$/, ''))

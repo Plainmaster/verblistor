@@ -18,12 +18,16 @@ export interface Verb extends Forms {
   group: Group
   irregular: boolean
   family?: string
+  /** Kjellin's omljud: front vowel in the present forms, back vowel after (välja – valde – valt), regular group 2 endings. */
+  umlaut?: boolean
   freq: number
   sVerb?: boolean
   particle?: string
   reflexive?: boolean
   modal?: boolean
   note?: string
+  /** Forms that exist but are hardly ever used (har bort); shown muted and never asked. */
+  rare?: FormKey[]
   ctx?: { subj?: string; rest: string }
 }
 

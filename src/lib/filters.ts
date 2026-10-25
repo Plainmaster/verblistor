@@ -1,7 +1,9 @@
+import { applyShortcuts } from './check'
 import type { FormKey, Group, Verb } from './types'
 
-/** 'strong' = group 4; 'strong:<pattern>' = one vowel pattern; 'strong:other' = irregular without a pattern. */
-export type Kind = 'all' | 'strong' | `strong:${string}` | 'sVerb' | 'particle' | 'reflexive'
+/** 'strong' = group 4 verbs in a named vowel pattern; 'irregular' = group 4 verbs outside them, except the helper verbs;
+ *  'strong:<pattern>' = one vowel pattern ('strong:other' is the old name for 'irregular'). */
+export type Kind = 'all' | 'strong' | 'irregular' | 'helper' | 'umlaut' | `strong:${string}` | 'sVerb' | 'particle' | 'reflexive'
 export type Top = 100 | 300 | 0
 export type Sort = 'freq' | 'group' | 'abc'
 
@@ -31,6 +33,9 @@ export const BASIC = new Set([
 ])
 export const isTop = (v: Verb) => v.freq <= TOP_N && !v.particle && !v.reflexive
 
+/** The auxiliaries Kjellin lists on their own: the modal verbs, ha and vara. */
+export const isHelper = (v: Verb) => !!v.modal || v.inf === 'ha' || v.inf === 'vara'
+
 const fold = (s: string) => s.toLowerCase().normalize('NFC')
 const GROUP_ORDER = Object.fromEntries(ALL_GROUPS.map((g, i) => [g, i]))
 
@@ -41,23 +46,28 @@ export function filterVerbs(verbs: Verb[], f: Filter, families: Set<string> = ne
     return verbs.filter((v) => set.has(v.id))
   }
   const q = f.search ? fold(f.search.trim()) : ''
+  const qs = [...new Set([q, fold(applyShortcuts(q))])]
   const byFreq = [...verbs].sort((a, b) => a.freq - b.freq)
   const allowed = f.top ? new Set(byFreq.slice(0, f.top).map((v) => v.id)) : null
   if (allowed && f.top === TOP_N) for (const id of BASIC) allowed.add(id)
   return verbs.filter((v) => {
     if (q) {
       const hay = [v.inf, v.pres, v.pret, v.sup, v.imp ?? '', v.en].map(fold)
-      return hay.some((h) => h.includes(q))
+      return hay.some((h) => qs.some((x) => h.includes(x)))
     }
     if (!f.groups.includes(v.group)) return false
     if (allowed && !allowed.has(v.id)) return false
+    const named = v.group === '4' && !!v.family && families.has(v.family)
     if (f.kind.startsWith('strong:')) {
       const fam = f.kind.slice(7)
       if (v.group !== '4') return false
-      return fam === 'other' ? !(v.family && families.has(v.family)) : v.family === fam
+      return fam === 'other' ? !named && !isHelper(v) : v.family === fam
     }
     switch (f.kind) {
-      case 'strong': return v.group === '4'
+      case 'strong': return v.group === '4' && (families.size ? named : true)
+      case 'irregular': return v.group === '4' && !named && !isHelper(v)
+      case 'helper': return isHelper(v)
+      case 'umlaut': return !!v.umlaut
       case 'particle': return !!v.particle
       case 'reflexive': return !!v.reflexive
       case 'sVerb': return !!v.sVerb
@@ -66,19 +76,39 @@ export function filterVerbs(verbs: Verb[], f: Filter, families: Set<string> = ne
   })
 }
 
-export function sortVerbs(verbs: Verb[], sort: Sort): Verb[] {
+/** The section a verb goes under when sorted by group: its group (umlaut verbs after the rest),
+ *  and in group 4 its vowel pattern, then the irregular verbs, then the helper verbs. */
+export function sectionOf(v: Verb, families: string[] = []): string {
+  if (v.group !== '4') return v.umlaut ? `${v.group}:umlaut` : v.group
+  if (isHelper(v)) return '4:helper'
+  return v.family && families.includes(v.family) ? `4:${v.family}` : '4:other'
+}
+
+/** 'group' is the book's order: group by group, group 4 split by vowel pattern, A–Ö within each. */
+export function sortVerbs(verbs: Verb[], sort: Sort, families: string[] = []): Verb[] {
   const r = [...verbs]
-  if (sort === 'abc') return r.sort((a, b) => a.inf.localeCompare(b.inf, 'sv'))
-  if (sort === 'group') return r.sort((a, b) => GROUP_ORDER[a.group] - GROUP_ORDER[b.group] || a.freq - b.freq)
+  const abc = (a: Verb, b: Verb) => a.inf.localeCompare(b.inf, 'sv')
+  if (sort === 'abc') return r.sort(abc)
+  if (sort === 'group') {
+    const sub = (v: Verb) => {
+      if (v.group !== '4') return v.umlaut ? 1 : 0
+      if (isHelper(v)) return families.length + 1
+      const i = v.family ? families.indexOf(v.family) : -1
+      return i < 0 ? families.length : i
+    }
+    return r.sort((a, b) => GROUP_ORDER[a.group] - GROUP_ORDER[b.group] || sub(a) - sub(b) || abc(a, b))
+  }
   return r.sort((a, b) => a.freq - b.freq)
 }
 
-/** Which of the requested forms this verb actually has. */
+/** Which of the requested forms this verb actually has in use; rare forms (har bort) are left out. */
 export function formsFor(v: Verb, forms: FormKey[]): FormKey[] {
-  return forms.filter((f) => (f === 'imp' ? !!v.imp : f === 'part' ? !!v.part : true))
+  return forms.filter((f) => (f === 'imp' ? !!v.imp : f === 'part' ? !!v.part : true) && !v.rare?.includes(f))
 }
 
-const KIND_PARAM: Record<string, string> = { sVerb: 's-verb', particle: 'partikel', reflexive: 'reflexiva', strong: 'starka' }
+const KIND_PARAM: Record<string, string> = {
+  sVerb: 's-verb', particle: 'partikel', reflexive: 'reflexiva', strong: 'starka', irregular: 'oregelbundna', helper: 'hjalpverb', umlaut: 'omljud',
+}
 const PARAM_KIND = Object.fromEntries(Object.entries(KIND_PARAM).map(([k, v]) => [v, k]))
 
 /** Filter and sort <-> URL query, so a selection can be shared as a link. Defaults are left out. */
@@ -97,7 +127,7 @@ export function fromParams(p: URLSearchParams): { filter: Filter; sort: Sort } {
   const groups = p.get('grupp')?.split(',').filter((g): g is Group => (ALL_GROUPS as string[]).includes(g))
   const topp = p.get('topp')
   const typ = p.get('typ') ?? ''
-  const kind: Kind = typ.startsWith('starka:') ? `strong:${typ.slice(7)}` : (PARAM_KIND[typ] as Kind) ?? 'all'
+  const kind: Kind = typ === 'starka:other' ? 'irregular' : typ.startsWith('starka:') ? `strong:${typ.slice(7)}` : (PARAM_KIND[typ] as Kind) ?? 'all'
   const sort = p.get('sort')
   return {
     filter: {

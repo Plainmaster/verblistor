@@ -1,194 +1,248 @@
-import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { LineBadge, Word } from '../components/bits'
-import { applyShortcuts, normalize } from '../lib/check'
-import { GROUPS, VERBS, VERB_BY_ID, families, route } from '../lib/groups'
-import type { Verb } from '../lib/types'
+import { Fragment, useEffect, useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { PARADIGM, Word } from '../components/bits'
+import { stemOf } from '../lib/conjugate'
+import { FORM_NAMES } from '../lib/diagnose'
+import { GROUPS, VERBS, VERB_BY_ID, families, patternLabel, type GroupInfo } from '../lib/groups'
+import type { FormKey, Verb } from '../lib/types'
+
+const byId = (ids: string[]) => ids.map((id) => VERB_BY_ID.get(id)).filter((v): v is Verb => !!v)
 
 export default function Groups() {
-  const { named, other } = useMemo(() => families(), [])
+  const [params] = useSearchParams()
+  const first = params.get('open')
+  // a link to another group (from a verb) starts the page over with that group open
+  return <GroupsPage key={first} first={first} />
+}
+
+function GroupsPage({ first }: { first: string | null }) {
+  const [open, setOpen] = useState<Set<string>>(() => new Set(first ? [first] : []))
+  const toggle = (id: string) => setOpen((s) => {
+    const next = new Set(s)
+    if (!next.delete(id)) next.add(id)
+    return next
+  })
+  useEffect(() => {
+    if (first) document.getElementById(`grupp-${first}`)?.scrollIntoView({ block: 'start' })
+  }, [first])
+
   return (
     <div className="grid gap-12">
       <header>
-        <h1 className="m-0 text-4xl sm:text-5xl font-extrabold">Verbgrupper</h1>
-        <p className="m-0 mt-2 max-w-[62ch] text-lg text-muted">
-          Svenska verb delas in i fem grupper. Gruppen avgör ändelserna i presens, preteritum och supinum.
-          Grupp 1–3 följer regler. Grupp 4 byter vokal och måste läras in, men de flesta följer några få mönster.
+        <h1 className="page-title">Verbgrupper</h1>
+        <p className="m-0 mt-3 max-w-[62ch] text-lg text-muted">
+          Ändelserna läggs till stammen, och stammen är imperativen: tala!, ring!, bo!, skriv!
         </p>
       </header>
 
-      <RouteFinder />
-
-      <section aria-labelledby="compare">
-        <h2 id="compare" className="m-0 mb-4 text-2xl font-extrabold">Grupperna bredvid varandra</h2>
+      <section aria-label="Grupperna bredvid varandra">
         <div className="overflow-x-auto -mx-4 px-4">
-          <table className="w-full min-w-[640px] border-collapse text-left">
+          <table className="ledger min-w-[640px]">
             <thead>
-              <tr className="text-sm text-muted">
-                <th className="py-2 pr-3 font-bold">Grupp</th>
-                <th className="py-2 pr-3 font-bold">infinitiv</th>
-                <th className="py-2 pr-3 font-bold">presens</th>
-                <th className="py-2 pr-3 font-bold">preteritum</th>
-                <th className="py-2 pr-3 font-bold">supinum</th>
-                <th className="py-2 font-bold">andel</th>
+              <tr>
+                <th className="py-2 pr-3">Grupp</th>
+                {PARADIGM.map((f) => <th key={f} className="vr py-2 px-3">{FORM_NAMES[f]}</th>)}
+                <th className="vr py-2 pl-3">andel</th>
               </tr>
             </thead>
             <tbody>
               {GROUPS.map((g) => {
                 const v = VERB_BY_ID.get(g.examples[0])!
                 const count = VERBS.filter((x) => x.group === g.id).length
+                const isOpen = open.has(g.id)
                 return (
-                  <tr key={g.id} className="border-t border-rule align-top">
-                    <td className="py-3 pr-3">
-                      <Link to={`/grupper/${g.id}`} className="inline-flex items-center gap-2 font-bold no-underline text-ink hover:underline">
-                        <LineBadge group={g.id} /> {g.short}
-                      </Link>
-                    </td>
-                    {(['inf', 'pres', 'pret', 'sup'] as const).map((k) => (
-                      <td key={k} className="py-3 pr-3 text-xl font-medium"><Word verb={v} form={k} /></td>
-                    ))}
-                    <td className="py-3">
-                      <ShareBar n={count} total={VERBS.length} group={g.id} />
-                    </td>
-                  </tr>
+                  <Fragment key={g.id}>
+                    <tr id={`grupp-${g.id}`} className={`align-top cursor-pointer scroll-mt-20 ${isOpen ? 'bg-sunk' : ''}`} onClick={() => toggle(g.id)}>
+                      <td className="py-3 pr-3">
+                        <button type="button" aria-expanded={isOpen} className="inline-flex items-center gap-2 font-bold whitespace-nowrap hover:underline underline-offset-4"
+                          onClick={(e) => { e.stopPropagation(); toggle(g.id) }}>
+                          <svg viewBox="0 0 24 24" className={`size-4 transition-transform ${isOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                            <path d="m9 6 6 6-6 6" />
+                          </svg>
+                          {g.name}
+                        </button>
+                      </td>
+                      {PARADIGM.map((k) => (
+                        <td key={k} className="vr py-3 px-3 text-xl"><Word verb={v} form={k} /></td>
+                      ))}
+                      <td className="vr py-3 pl-3">
+                        <ShareBar n={count} total={VERBS.length} group={g.id} />
+                      </td>
+                    </tr>
+                    {isOpen && (
+                      <tr className="section">
+                        <td colSpan={PARADIGM.length + 2} className="p-0 border-b-[1.5px] border-b-ink">
+                          <div className="sticky left-0 w-[calc(100vw-2rem)] sm:w-auto py-5 pl-1 pr-2">
+                            {g.id === '4' ? <Strong g={g} /> : <Weak g={g} count={count} />}
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
                 )
               })}
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-sm text-muted max-w-[62ch]">
-          Andel av de {VERBS.length} verben i Verblistor. Grupp 4 är mindre men har de flesta vardagsverben: {
+        <p className="mt-3 text-sm italic text-muted max-w-[62ch]">
+          Det markerade läggs till stammen. Grupp 4 är liten men har {
             VERBS.filter((v) => v.freq <= 20 && !v.particle && !v.reflexive && v.group === '4').length
-          } av de 20 vanligaste.
+          } av de 20 vanligaste verben.
         </p>
       </section>
 
-      <section aria-labelledby="families">
-        <h2 id="families" className="m-0 text-2xl font-extrabold">Grupp 4 efter vokalmönster</h2>
-        <p className="m-0 mt-1 mb-5 max-w-[62ch] text-muted">
-          Starka verb byter vokal: <em lang="sv">skriva – skrev – skrivit</em> följer i – e – i.
-          Lär dig dem i familjer, inte ett och ett.
-        </p>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {named.map((f) => (
-            <Link
-              key={f.id}
-              to={`/grupper/monster/${encodeURIComponent(f.id)}`}
-              className="block rounded-3xl bg-surface ring-1 ring-rule p-5 no-underline text-ink hover:ring-[color:var(--g4)]"
-            >
-              <div className="flex items-baseline justify-between">
-                <span className="text-xl font-extrabold" data-group="4"><span className="change no-underline">{f.id}</span></span>
-                <span className="text-sm text-muted">{f.verbs.length} verb</span>
-              </div>
-              <p className="m-0 mt-2 text-[0.95rem]" lang="sv">
-                {f.verbs.slice(0, 4).map((v, i) => (
-                  <span key={v.id}>{i > 0 && ', '}<Word verb={v} form="inf" /> <Word verb={v} form="pret" /> <Word verb={v} form="sup" /></span>
-                ))}
-              </p>
-            </Link>
-          ))}
-          <Link
-            to="/grupper/monster/other"
-            className="block rounded-3xl bg-surface ring-1 ring-rule p-5 no-underline text-ink hover:ring-[color:var(--g4)]"
-          >
-            <div className="flex items-baseline justify-between">
-              <span className="text-xl font-extrabold">Oregelbundna</span>
-              <span className="text-sm text-muted">{other.length} verb</span>
-            </div>
-            <p className="m-0 mt-2 text-[0.95rem]" lang="sv">
-              {other.slice(0, 5).map((v, i) => <span key={v.id}>{i > 0 && ', '}<Word verb={v} form="inf" /> <Word verb={v} form="pret" /></span>)}
-            </p>
-          </Link>
-        </div>
-      </section>
+      <Endings />
     </div>
+  )
+}
+
+/** Group 1–3 opened: the rule, then each pitfall worked out as stem + ending → form. */
+function Weak({ g, count }: { g: GroupInfo; count: number }) {
+  return (
+    <div className="grid gap-5">
+      <p className="m-0 text-lg max-w-[62ch]">{g.rule} <span className="text-muted">{g.spot}</span></p>
+      {g.notes.length > 0 && (
+        <div className="grid gap-3 md:grid-cols-2">
+          {g.notes.map((n) => (
+            <div key={n.text} className="panel px-4 py-3" data-group={g.id}>
+              <h3 className="m-0 mb-1.5 sc text-[1rem] text-muted font-normal">{n.text}</h3>
+              <table className="text-[1.05rem]">
+                <tbody>
+                  {byId(n.verbs).map((v) => (
+                    <tr key={v.id}>
+                      {n.forms.map((f) => <td key={f} className="pr-6 py-0.5 whitespace-nowrap"><Fuse verb={v} form={f} end={g.endings[f as 'pres'].slice(1)} /></td>)}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
+        </div>
+      )}
+      <Link to={`/?grupp=${g.id}&topp=alla&sort=grupp`} className="justify-self-start underline underline-offset-2 text-ink">Alla {count} verb i {g.name.toLowerCase()} i listan</Link>
+    </div>
+  )
+}
+
+/** stem + ending → form, with the letters that fall away struck out: glömm + de → glömde. */
+function Fuse({ verb, form, end }: { verb: Verb; form: FormKey; end: string }) {
+  const stem = stemOf(verb.inf, verb.group)
+  const a = stem + end
+  const b = verb[form as 'inf'] ?? ''
+  const dp = Array.from({ length: a.length + 1 }, () => new Array<number>(b.length + 1).fill(0))
+  for (let i = a.length - 1; i >= 0; i--) for (let j = b.length - 1; j >= 0; j--) {
+    dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1])
+  }
+  const drop = new Array<boolean>(a.length).fill(false)
+  for (let i = 0, j = 0; i < a.length;) {
+    if (j < b.length && a[i] === b[j]) { i++; j++ } else if (j >= b.length || dp[i + 1][j] >= dp[i][j + 1]) drop[i++] = true
+    else j++
+  }
+  const letters = (from: number, to: number, cls: string) =>
+    [...a.slice(from, to)].map((ch, k) => <span key={from + k} className={drop[from + k] ? 'drop' : cls}>{ch}</span>)
+  return (
+    <span lang="sv">
+      {letters(0, stem.length, '')}<span className="text-muted"> + </span>{letters(stem.length, a.length, 'end')}
+      <span className="text-muted"> → </span><strong><Word verb={verb} form={form} /></strong>
+    </span>
+  )
+}
+
+/** Group 4 opened: the eight vowel patterns, then the irregular verbs and the helper verbs. */
+function Strong({ g }: { g: GroupInfo }) {
+  const { named, other, helpers } = useMemo(() => families(), [])
+  const row = (key: string, title: string, sub: string, verbs: Verb[], to: string) => (
+    <tr key={key} className="align-top">
+      <td className="py-2.5 pr-4">
+        <Link to={to} className="no-underline text-ink hover:underline underline-offset-4">
+          <span className="block text-xl font-bold whitespace-nowrap" lang="sv">{title}</span>
+        </Link>
+        <span className="block text-sm italic text-muted whitespace-nowrap" lang="sv">{sub}</span>
+      </td>
+      <td className="vr py-2.5 px-4 text-[1.02rem]" lang="sv" data-group="4">
+        {verbs.slice(0, 3).map((v, i) => (
+          <span key={v.id} className="whitespace-nowrap">{i > 0 && <span className="text-muted"> · </span>}<Word verb={v} form="pres" /> <Word verb={v} form="pret" /> <Word verb={v} form="sup" /></span>
+        ))}
+      </td>
+      <td className="vr py-2.5 pl-4 text-sm text-muted tabular-nums whitespace-nowrap">
+        <Link to={to} className="text-muted underline underline-offset-2">{verbs.length} verb</Link>
+      </td>
+    </tr>
+  )
+  return (
+    <div className="grid gap-4">
+      <p className="m-0 text-lg max-w-[62ch]">{g.rule} <span className="text-muted">{g.spot}</span></p>
+      <div className="overflow-x-auto">
+        <table className="ledger w-auto">
+          <tbody>
+            {named.map((f) => row(f.id, patternLabel(f.id), f.sub.typ, f.verbs,
+              `/?typ=${encodeURIComponent(`starka:${f.id}`)}&topp=alla`))}
+            {row('other', 'oregelbundna', 'går – gick – gått', other, '/?typ=oregelbundna&topp=alla')}
+            {row('helper', 'hjälpverb', 'kan – kunde – kunnat', helpers, '/?typ=hjalpverb&topp=alla')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+/** The whole Swedish verb system in one table: what each form adds to the stem. */
+function Endings() {
+  return (
+    <section aria-labelledby="endings" className="callout p-5 sm:p-7">
+      <h2 id="endings" className="m-0 text-2xl font-bold">Så böjs svenska verb</h2>
+      <p className="m-0 mt-1 mb-4 max-w-[62ch] text-muted">
+        Ändelserna läggs till stammen. Presensgruppen är lika för alla verb. I preteritumgruppen skiljer sig svaga verb (grupp 1–3) från starka (grupp 4).
+      </p>
+      <div className="overflow-x-auto -mx-2 px-2">
+        <table className="ledger min-w-[560px]">
+          <thead>
+            <tr>
+              <th className="py-2 pr-3"><span className="sr-only">Formtyp</span></th>
+              <th className="vr py-2 px-3">presensgruppen</th>
+              <th className="vr py-2 px-3">preteritum, svaga</th>
+              <th className="vr py-2 px-3">preteritum, starka</th>
+            </tr>
+          </thead>
+          <tbody>
+            <EndingRow kind="Tempusform" note="anger tiden" cells={[['presens', '-r', 'nu, eller ingen bestämd tid'], ['preteritum', '-de', 'då, en bestämd tid'], ['preteritum', 'ingen ändelse', 'ny vokal']]} />
+            <EndingRow kind="Infinit form" note="möjlighet eller faktum" cells={[['infinitiv', '-a', 'att skriva'], ['supinum', '-t', 'har talat'], ['supinum', '-it', 'har skrivit']]} />
+            <EndingRow kind="Particip" note="fungerar som adjektiv" cells={[['presens particip', '-ande', 'pågående'], ['perfekt particip', '-d', 'en målad vägg'], ['perfekt particip', '-en', 'en skriven bok']]} />
+          </tbody>
+        </table>
+      </div>
+      <p className="m-0 mt-4 max-w-[62ch] text-[0.95rem]">
+        Allt annat är varianter som gör ord lättare att uttala: ringer får ett hjälpvokal-e, köpte får -te efter ett tonlöst ljud, bodde får dubbel konsonant efter lång vokal.
+      </p>
+    </section>
+  )
+}
+
+function EndingRow({ kind, note, cells }: { kind: string; note: string; cells: [string, string, string][] }) {
+  return (
+    <tr className="align-top">
+      <td className="py-2.5 pr-3">
+        <span className="font-semibold">{kind}</span>
+        <span className="block text-sm italic text-muted">{note}</span>
+      </td>
+      {cells.map(([form, end, ex]) => (
+        <td key={form + end} className="vr py-2.5 px-3">
+          <span className="sc text-[0.95rem] text-muted block">{form}</span>
+          <span className="text-xl font-bold" style={{ '--g': 'var(--ink)' } as React.CSSProperties}><span className={end.startsWith('-') ? 'end' : 'italic font-normal text-[1.05rem]'}>{end}</span></span>
+          <span className="block text-sm italic text-muted" lang="sv">{ex}</span>
+        </td>
+      ))}
+    </tr>
   )
 }
 
 function ShareBar({ n, total, group }: { n: number; total: number; group: Verb['group'] }) {
   return (
     <div className="flex items-center gap-2 min-w-[7rem]" data-group={group}>
-      <div className="h-2 flex-1 rounded-full bg-sunk overflow-hidden">
-        <div className="h-full rounded-full" style={{ width: `${(n / total) * 100}%`, background: 'var(--g)' }} />
+      <div className="h-2 flex-1 bg-sunk ring-1 ring-inset ring-rule overflow-hidden">
+        <div className="h-full" style={{ width: `${(n / total) * 100}%`, background: 'var(--g)' }} />
       </div>
       <span className="text-sm tabular-nums text-muted w-9 text-right">{Math.round((n / total) * 100)}%</span>
     </div>
-  )
-}
-
-const STOPS = [
-  { q: 'Är preteritum oregelbundet?', yes: '4' },
-  { q: 'Slutar infinitiven på -a?', no: '3' },
-  { q: 'Slutar presens på -ar?', yes: '1' },
-  { q: 'Slutar stammen på k, p, s, t eller x?', yes: '2b', no: '2a' },
-] as const
-
-/** The decision tree drawn as a transit line; type a verb to light up its route. */
-function RouteFinder() {
-  const [q, setQ] = useState('skriva')
-  const verb = useMemo(() => {
-    const n = normalize(q)
-    return VERB_BY_ID.get(n) ?? VERBS.find((v) => [v.pres, v.pret, v.sup].includes(n))
-  }, [q])
-  const steps = verb ? route(verb) : []
-
-  return (
-    <section aria-labelledby="route" className="rounded-3xl bg-surface ring-1 ring-rule p-5 sm:p-7">
-      <h2 id="route" className="m-0 text-2xl font-extrabold">Hitta gruppen</h2>
-      <p className="m-0 mt-1 text-muted">Skriv ett verb och följ vägen.</p>
-      <label className="block mt-4 max-w-sm">
-        <span className="sr-only">Verb</span>
-        <input
-          className="answer-input"
-          lang="sv"
-          value={q}
-          onChange={(e) => setQ(applyShortcuts(e.target.value))}
-          placeholder="t.ex. köpa"
-          autoComplete="off"
-          spellCheck={false}
-        />
-      </label>
-      {q && !verb && <p className="m-0 mt-2 text-muted">Verbet finns inte i listan. Prova ett annat, till exempel bo, köpa, ringa eller tala.</p>}
-
-      <ol className="relative m-0 mt-6 p-0 list-none">
-        {STOPS.map((s, i) => {
-          const step = steps[i]
-          const reached = !!step
-          const ended = step?.group
-          return (
-            <li key={s.q} className="relative pl-10 pb-6 last:pb-0">
-              <span
-                aria-hidden
-                className={`absolute left-[11px] top-3 bottom-0 w-[5px] ${i === STOPS.length - 1 ? 'hidden' : ''} ${reached && !ended ? 'bg-ink' : 'bg-rule'}`}
-              />
-              <span
-                aria-hidden
-                className={`absolute left-0 top-0.5 size-7 rounded-full border-[5px] bg-surface ${reached ? 'border-ink' : 'border-rule'}`}
-              />
-              <p className={`m-0 font-bold ${reached ? '' : 'text-muted'}`}>{s.q}</p>
-              {step && <p className="m-0 text-muted" lang="sv">{step.a}</p>}
-              <div className="mt-2 flex gap-2 flex-wrap">
-                {(['yes' in s ? s.yes : null, 'no' in s ? s.no : null] as const).map((g, j) => g && (
-                  <span
-                    key={g}
-                    className={`inline-flex items-center gap-2 rounded-full pr-3 text-sm ${ended === g ? 'bg-sunk font-bold' : 'opacity-60'}`}
-                  >
-                    <LineBadge group={g} />
-                    {j === 0 ? 'ja' : 'nej'}
-                  </span>
-                ))}
-              </div>
-            </li>
-          )
-        })}
-      </ol>
-      {verb && (
-        <p className="m-0 mt-5 text-lg" lang="sv">
-          <LineBadge group={verb.group} /> <strong><Word verb={verb} form="inf" /></strong>{' '}
-          <Word verb={verb} form="pres" />, <Word verb={verb} form="pret" />, <Word verb={verb} form="sup" />
-          <span className="text-muted"> – {verb.en}</span>
-        </p>
-      )}
-    </section>
   )
 }

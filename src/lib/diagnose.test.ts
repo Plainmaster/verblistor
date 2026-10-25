@@ -14,10 +14,20 @@ const bo = v('bo', 'bor', 'bodde', 'bott', 'bo', '3')
 const mota = v('möta', 'möter', 'mötte', 'mött', 'möt', '2b')
 const tala = v('tala', 'talar', 'talade', 'talat', 'tala', '1')
 const ga = v('gå', 'går', 'gick', 'gått', 'gå', '4')
+const lagga: Verb = { ...v('lägga', 'lägger', 'lade', 'lagt', 'lägg', '2a'), umlaut: true }
 
 describe('diagnose', () => {
   it('correct', () => {
     expect(diagnose('skrev', skriva, 'pret').type).toBe('correct')
+  })
+  it('umlaut verb with the stem vowel kept', () => {
+    const d = diagnose('läggde', lagga, 'pret')
+    expect(d.type).toBe('umlaut')
+    expect(d.message).toContain('lade')
+  })
+  it('reads aa, ae and oe as å, ä and ö', () => {
+    expect(diagnose('laeste', v('läsa', 'läser', 'läste', 'läst', 'läs', '2b'), 'pret').type).toBe('correct')
+    expect(diagnose('gaatt', ga, 'sup').type).toBe('correct')
   })
   it('empty', () => {
     expect(diagnose('  ', skriva, 'pret').type).toBe('empty')

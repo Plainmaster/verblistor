@@ -26,3 +26,6 @@ dist-ssr
 # Raw data sources (large, re-downloadable)
 data-raw/
 .impeccable/
+
+# inspiration material (Kjellin pages, photos), not part of the app
+inspo/

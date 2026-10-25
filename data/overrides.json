@@ -14,7 +14,11 @@
       ]
     },
     "modal": true,
-    "note": "The infinitive skola is rare; learn it as ska – skulle."
+    "note": "Infinitiven skola är ovanlig. Lär dig ska – skulle.",
+    "rare": [
+      "inf",
+      "sup"
+    ]
   },
   "vilja": {
     "imp": null,
@@ -23,12 +27,18 @@
   "måste": {
     "imp": null,
     "modal": true,
-    "note": "Same form in presens and preteritum.",
-    "inf": "måste"
+    "note": "Samma form i presens och preteritum.",
+    "inf": "måste",
+    "rare": [
+      "sup"
+    ]
   },
   "böra": {
     "imp": null,
-    "modal": true
+    "modal": true,
+    "rare": [
+      "sup"
+    ]
   },
   "må": {
     "imp": null
@@ -91,5 +101,14 @@
         "sade upp"
       ]
     }
+  },
+  "besluta": {
+    "pret": "beslutade",
+    "alt": {
+      "pret": [
+        "beslöt"
+      ]
+    },
+    "part": "beslutad"
   }
 }

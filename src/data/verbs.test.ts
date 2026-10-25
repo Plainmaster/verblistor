@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { classify, conjugate, sForm } from '../lib/conjugate'
+import { classify, conjugate, listedGroup2, sForm } from '../lib/conjugate'
 import type { Verb } from '../lib/types'
 import data from './verbs.json'
 
@@ -17,7 +17,10 @@ describe('verbs.json', () => {
     const base = { inf: first(v.inf), pres: first(v.pres), pret: first(v.pret), sup: first(v.sup), imp: v.imp ? first(v.imp) : null }
     expect(classify(base).group).toBe(v.group)
     expect(v.irregular).toBe(v.group === '4')
-    if (v.group !== '4') {
+    if (v.group !== '4' && listedGroup2(base.inf)) {
+      expect(base.pret).toMatch(/(de|te|sa)$/)
+      expect(base.sup).toMatch(/t$/)
+    } else if (v.group !== '4') {
       const gen = conjugate(v.sVerb ? base.inf.slice(0, -1) : base.inf, v.group)
       const want = v.sVerb ? sForm(gen) : gen
       expect([want.pres, want.pret, want.sup]).toEqual([base.pres, base.pret, base.sup])
@@ -39,5 +42,12 @@ describe('verbs.json', () => {
     expect(get('ge upp')).toMatchObject({ pret: 'gav upp', particle: 'upp' })
     expect(get('lära sig')).toMatchObject({ pres: 'lär sig', reflexive: true })
     expect(get('hoppas')).toMatchObject({ pret: 'hoppades', sVerb: true, group: '1' })
+    expect(get('välja')).toMatchObject({ pret: 'valde', group: '2a', umlaut: true })
+    expect(get('sätta')).toMatchObject({ pret: 'satte', group: '2b', umlaut: true })
+    expect(get('göra')).toMatchObject({ pret: 'gjorde', group: '2a', umlaut: true })
+    expect(get('skilja')).toMatchObject({ pret: 'skilde', group: '2a' })
+    expect(get('skilja').umlaut).toBeUndefined()
+    expect(get('besluta')).toMatchObject({ pret: 'beslutade', group: '1' })
+    expect(get('delta')).toMatchObject({ pret: 'deltog', group: '4', family: 'a–o–a' })
   })
 })

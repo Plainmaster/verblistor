@@ -60,8 +60,18 @@ function matches(gen: Forms, f: Forms): boolean {
   return gen.pres === f.pres && gen.pret === f.pret && gen.sup === f.sup && (f.imp === null || gen.imp === f.imp)
 }
 
-/** Decide the conjugation group from the actual forms. Anything not produced by a regular rule is group 4. */
-export function classify(f: Forms): { group: Group; irregular: boolean; sVerb: boolean } {
+/** Group 2 verbs the rules do not produce: umlaut verbs, and skilja and stödja, which only drop the j.
+ *  Compounds count too: fortsätta, tillägga, avgöra. */
+const LISTED: [string, '2a' | '2b', boolean][] = [
+  ['säga', '2a', true], ['lägga', '2a', true], ['välja', '2a', true], ['svälja', '2a', true], ['sälja', '2a', true],
+  ['dölja', '2a', true], ['vänja', '2a', true], ['göra', '2a', true], ['sätta', '2b', true],
+  ['skilja', '2a', false], ['stödja', '2a', false],
+]
+export const listedGroup2 = (inf: string) => LISTED.find(([w]) => inf.endsWith(w))
+
+/** Decide the conjugation group from the actual forms. Anything not produced by a regular rule is group 4,
+ *  except umlaut verbs, which Kjellin counts as regular group 2 with a vowel shift. */
+export function classify(f: Forms): { group: Group; irregular: boolean; sVerb: boolean; umlaut?: boolean } {
   const sVerb = f.inf.endsWith('s') && f.pret.endsWith('s') && f.sup.endsWith('s')
   for (const g of REGULAR) {
     if (g !== '3' && !f.inf.endsWith(sVerb ? 'as' : 'a')) continue
@@ -69,15 +79,20 @@ export function classify(f: Forms): { group: Group; irregular: boolean; sVerb: b
     const gen = sVerb ? sForm(conjugate(f.inf.slice(0, -1), g)) : conjugate(f.inf, g)
     if (matches(gen, f)) return { group: g, irregular: false, sVerb }
   }
+  const um = listedGroup2(f.inf)
+  if (um && /(de|te|sa)$/.test(f.pret) && f.sup.endsWith('t')) return { group: um[1], irregular: false, sVerb, ...(um[2] ? { umlaut: true } : {}) }
   return { group: '4', irregular: true, sVerb }
 }
 
 export type Segment = { text: string; kind: 'stem' | 'end' | 'change' }
 
-/** The part of the infinitive that endings attach to: tala → tal, bo → bo. */
-export function stemOf(inf: string, group: Group): string {
-  const word = inf.split(' ')[0]
-  if (group === '3') return word
+/** The stem the endings attach to, which is the imperative (Kjellin): tala → tala, ringa → ring, bo → bo.
+ *  Strong verbs take the imperative itself when there is one, so ta stays ta rather than t + a. */
+export function stemOf(inf: string, group: Group, imp?: string | null): string {
+  if (group === '4' && imp) return imp.split(' ')[0]
+  let word = inf.split(' ')[0]
+  if (word.endsWith('as')) word = word.slice(0, -1) // s-verbs: hoppas → hoppa, trivas → triva
+  if (group === '1' || group === '3') return word
   return word.endsWith('a') ? word.slice(0, -1) : word
 }
 
@@ -85,9 +100,9 @@ export function stemOf(inf: string, group: Group): string {
  * Split a form into stem / ending / changed-vowel segments relative to the verb stem,
  * via a character LCS: extra characters inside the stem span are vowel changes, extra characters after it are endings.
  */
-export function segments(form: string, inf: string, group: Group): Segment[] {
+export function segments(form: string, inf: string, group: Group, imp?: string | null): Segment[] {
   const [word, ...restWords] = form.split(' ')
-  const stem = stemOf(inf, group)
+  const stem = stemOf(inf, group, imp)
   const n = word.length
   const m = stem.length
   const dp: number[][] = Array.from({ length: n + 1 }, () => new Array<number>(m + 1).fill(0))

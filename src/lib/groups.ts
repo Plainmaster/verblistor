@@ -1,5 +1,6 @@
-import type { Group } from './types'
+import type { FormKey, Group } from './types'
 import data from '../data/verbs.json'
+import { isHelper } from './filters'
 import type { Verb } from './types'
 
 export const VERBS = data as Verb[]
@@ -8,111 +9,127 @@ export const VERB_BY_ID = new Map(VERBS.map((v) => [v.id, v]))
 export interface GroupInfo {
   id: Group
   name: string
+  /** Kjellin's model verb in presens – preteritum – supinum. */
   short: string
+  /** What each form adds to the stem; the stem is the imperative. */
   endings: { inf: string; pres: string; pret: string; sup: string; imp: string }
   examples: string[]
   rule: string
   spot: string
-  notes: { text: string; verbs: string[] }[]
+  /** Where stem and ending meet in an unexpected way, shown as stem + ending → form. */
+  notes: { text: string; forms: FormKey[]; verbs: string[] }[]
 }
 
 export const GROUPS: GroupInfo[] = [
   {
-    id: '1', name: 'Grupp 1', short: '-ar · -ade · -at',
-    endings: { inf: '-a', pres: '-ar', pret: '-ade', sup: '-at', imp: '-a' },
+    id: '1', name: 'Grupp 1', short: 'talar – talade – talat',
+    endings: { inf: '(stam)', pres: '-r', pret: '-de', sup: '-t', imp: '(stam)' },
     examples: ['tala', 'prata', 'jobba', 'arbeta', 'titta', 'städa'],
-    rule: 'Presens slutar på -ar. Behåll hela infinitiven och lägg till -r, -de, -t.',
-    spot: 'Slutar presens på -ar är det grupp 1. Det är den största gruppen, och nya verb hamnar här: googla, mejla, swisha.',
+    rule: 'Stammen slutar på -a. Lägg till -r, -de och -t.',
+    spot: 'Den största gruppen. Nya verb hamnar här: googla, mejla, swisha.',
     notes: [],
   },
   {
-    id: '2a', name: 'Grupp 2a', short: '-er · -de · -t',
-    endings: { inf: '-a', pres: '-er', pret: '-de', sup: '-t', imp: '–' },
+    id: '2a', name: 'Grupp 2a', short: 'ringer – ringde – ringt',
+    endings: { inf: '-a', pres: '-er', pret: '-de', sup: '-t', imp: '(stam)' },
     examples: ['leva', 'stänga', 'ringa', 'höra', 'glömma', 'använda'],
-    rule: 'Presens slutar på -er. Stammen slutar på ett tonande ljud, så preteritum får -de.',
-    spot: 'Ta bort -a så får du stammen (lev-). Slutar stammen på b, d, g, j, l, m, n, r eller v → 2a.',
+    rule: 'Stammen slutar på en konsonant. Lägg till -er, -de och -t. E:et i -er är en hjälpvokal.',
+    spot: 'Stammen slutar på ett tonande ljud: ring!, lev!, glöm!',
     notes: [
-      { text: 'Stammen slutar på -r: inget -er i presens.', verbs: ['köra', 'höra', 'lära'] },
-      { text: 'Dubbelt m eller n blir enkelt före -de och -t.', verbs: ['glömma', 'känna', 'bränna'] },
-      { text: 'Konsonant + d: d smälter ihop med ändelsen.', verbs: ['använda', 'vända', 'sända'] },
-      { text: 'Vokal + d: -dde i preteritum, -tt i supinum.', verbs: ['betyda', 'leda', 'föda'] },
+      { text: 'Stammen slutar på r', forms: ['pres'], verbs: ['köra', 'höra', 'lära'] },
+      { text: 'mm och nn', forms: ['pret', 'sup'], verbs: ['glömma', 'känna', 'bränna'] },
+      { text: 'Konsonant + d', forms: ['pret', 'sup'], verbs: ['använda', 'vända', 'sända'] },
+      { text: 'Vokal + d', forms: ['pret', 'sup'], verbs: ['betyda', 'leda', 'föda'] },
+      { text: 'Omljud', forms: ['pret', 'sup'], verbs: ['välja', 'lägga', 'göra'] },
     ],
   },
   {
-    id: '2b', name: 'Grupp 2b', short: '-er · -te · -t',
-    endings: { inf: '-a', pres: '-er', pret: '-te', sup: '-t', imp: '–' },
+    id: '2b', name: 'Grupp 2b', short: 'köper – köpte – köpt',
+    endings: { inf: '-a', pres: '-er', pret: '-te', sup: '-t', imp: '(stam)' },
     examples: ['köpa', 'läsa', 'tänka', 'hjälpa', 'åka', 'resa'],
-    rule: 'Presens slutar på -er. Stammen slutar på ett tonlöst ljud (k, p, s, t, x), så preteritum får -te.',
-    spot: 'Säg stammen högt: köp-, läs-, tänk-. Ett hårt, tonlöst slutljud → -te.',
+    rule: 'Som 2a, men stammen slutar på ett tonlöst ljud (k, p, s, t, x), och då blir -de till -te.',
+    spot: 'Säg stammen högt: köp!, läs!, tänk!',
     notes: [
-      { text: 'Vokal + t: -tte i preteritum, -tt i supinum.', verbs: ['möta', 'byta', 'sköta'] },
-      { text: 'Konsonant + t: t smälter ihop med ändelsen.', verbs: ['lyfta', 'smälta'] },
+      { text: 'Vokal + t', forms: ['pret', 'sup'], verbs: ['möta', 'byta', 'sköta'] },
+      { text: 'Konsonant + t', forms: ['pret', 'sup'], verbs: ['lyfta', 'smälta'] },
+      { text: 'Omljud', forms: ['pret', 'sup'], verbs: ['sätta', 'fortsätta'] },
     ],
   },
   {
-    id: '3', name: 'Grupp 3', short: '-r · -dde · -tt',
-    endings: { inf: '(vokal)', pres: '-r', pret: '-dde', sup: '-tt', imp: '–' },
+    id: '3', name: 'Grupp 3', short: 'bor – bodde – bott',
+    endings: { inf: '(stam)', pres: '-r', pret: '-dde', sup: '-tt', imp: '(stam)' },
     examples: ['bo', 'tro', 'må', 'sy', 'nå', 'bero'],
-    rule: 'Korta verb vars infinitiv inte slutar på -a. Lägg till -r, -dde, -tt.',
-    spot: 'En stavelse som slutar på lång vokal: bo, tro, sy. (Korta oregelbundna verb som gå, se och stå är grupp 4.)',
+    rule: 'Korta verb som slutar på en lång vokal. Lägg till -r, -dde och -tt.',
+    spot: 'Gå, se och stå ser likadana ut men är oregelbundna.',
     notes: [],
   },
   {
-    id: '4', name: 'Grupp 4', short: 'vokalbyte · -it',
-    endings: { inf: '-a', pres: '-er', pret: 'vokalbyte', sup: '-it', imp: '–' },
-    examples: ['skriva', 'dricka', 'flyga', 'komma', 'gå', 'göra'],
-    rule: 'Starka och oregelbundna verb. Vokalen byts i preteritum och ändelsen saknas. Supinum slutar oftast på -it.',
-    spot: 'Det finns ingen regel för att känna igen dem, men de är de vanligaste verben, och de flesta följer några få vokalmönster.',
+    id: '4', name: 'Grupp 4', short: 'skriver – skrev – skrivit',
+    endings: { inf: '-a', pres: '-er', pret: '(ny vokal)', sup: '-it', imp: '(stam)' },
+    examples: ['skriva', 'dricka', 'bryta', 'bära', 'ta', 'komma'],
+    rule: 'Ny vokal i preteritum och supinum. Preteritum får ingen ändelse, supinum får -it.',
+    spot: 'Vokalerna följer åtta mönster.',
     notes: [],
   },
 ]
 
 export const GROUP_BY_ID = new Map(GROUPS.map((g) => [g.id, g]))
 
+/** Kjellin's subgroups of group 4, by the vowels of infinitive – preteritum – supinum. */
+export const SUBGROUPS = [
+  { id: '4a', family: 'i–a–u', typ: 'finner – fann – funnit' },
+  { id: '4b', family: 'y/u–ö–u', typ: 'bryter – bröt – brutit' },
+  { id: '4c', family: 'i–e–i', typ: 'skriver – skrev – skrivit' },
+  { id: '4d', family: 'ä–a–u', typ: 'bär – bar – burit' },
+  { id: '4e', family: 'a–o–a', typ: 'tar – tog – tagit' },
+  { id: '4f', family: 'å–ä–å', typ: 'låter – lät – låtit' },
+  { id: '4g', family: 'a/å–ö–a/å', typ: 'håller – höll – hållit' },
+  { id: '4h', family: 'o–o–o', typ: 'kommer – kom – kommit' },
+] as const
+export type Subgroup = (typeof SUBGROUPS)[number]
+
+const SUBGROUP_BY_FAMILY = new Map<string, Subgroup>(SUBGROUPS.map((s) => [s.family, s]))
+export const subgroupOf = (v: Verb): Subgroup | undefined => (v.group === '4' && v.family ? SUBGROUP_BY_FAMILY.get(v.family) : undefined)
+export const subgroupByFamily = (family: string) => SUBGROUP_BY_FAMILY.get(family)
+/** A vowel pattern for reading: i–a–u → i – a – u. */
+export const patternLabel = (family: string) => family.replace(/–/g, ' – ')
+
+/** The discreet group mark on each row, with Kjellin's "omlj" for the umlaut verbs (lägger – lade – lagt).
+ *  Strong verbs show their pattern elsewhere, so the 4a–4h codes stay out of it. */
+export const groupLabel = (v: Verb): string => (v.umlaut ? `${v.group} omlj` : v.group)
+
+/** s-verbs where two or more do something to each other; the other s-verbs in the list are deponents. */
+export const RECIPROCAL = new Set(['träffas', 'ses', 'slåss', 'umgås', 'mötas', 'kramas', 'pussas', 'brottas', 'enas'])
+export const sKind = (v: Verb): 'reciprokt' | 'deponens' | null =>
+  v.sVerb ? (RECIPROCAL.has(v.inf.split(' ')[0]) ? 'reciprokt' : 'deponens') : null
+
 export interface Family {
+  /** The vowel pattern, e.g. i–e–i. */
   id: string
+  sub: Subgroup
   verbs: Verb[]
 }
 
-/** Vowel families among group 4 verbs, largest first. Families with fewer than three members go into "other". */
-export function families(): { named: Family[]; other: Verb[] } {
-  const map = new Map<string, Verb[]>()
+/** Group 4 split into Kjellin's 4a–4h; outside them are the helper verbs and the irregular ones. */
+export function families(): { named: Family[]; other: Verb[]; helpers: Verb[] } {
+  const named: Family[] = SUBGROUPS.map((sub) => ({ id: sub.family, sub, verbs: [] }))
   const other: Verb[] = []
+  const helpers: Verb[] = []
   for (const v of VERBS) {
     if (v.group !== '4' || v.particle || v.reflexive) continue
-    if (!v.family) { other.push(v); continue }
-    map.set(v.family, [...(map.get(v.family) ?? []), v])
+    const sub = subgroupOf(v)
+    if (sub) named.find((f) => f.sub === sub)!.verbs.push(v)
+    else if (isHelper(v)) helpers.push(v)
+    else other.push(v)
   }
-  const named: Family[] = []
-  for (const [id, verbs] of map) {
-    if (verbs.length >= 3) named.push({ id, verbs })
-    else other.push(...verbs)
-  }
-  named.sort((a, b) => b.verbs.length - a.verbs.length)
   other.sort((a, b) => a.freq - b.freq)
-  return { named, other }
-}
-
-/** Steps of the route from a verb to its group. */
-export function route(v: Verb): { q: string; a: string; group?: Group }[] {
-  const word = v.inf.split(' ')[0]
-  const pres = v.pres.split(' ')[0]
-  const pret = v.pret.split(' ')[0]
-  const stem = word.replace(/a$/, '')
-  const steps: { q: string; a: string; group?: Group }[] = []
-  const irregular = v.group === '4'
-  steps.push({ q: 'Är preteritum oregelbundet?', a: irregular ? `Ja: ${word} → ${pret}` : `Nej: ${pret}`, group: irregular ? '4' : undefined })
-  if (irregular) return steps
-  const noA = !word.endsWith('a')
-  steps.push({ q: 'Slutar infinitiven på -a?', a: noA ? `Nej: ${word}` : `Ja: ${word}`, group: noA ? '3' : undefined })
-  if (noA) return steps
-  const ar = v.group === '1'
-  steps.push({ q: 'Slutar presens på -ar?', a: ar ? `Ja: ${pres}` : `Nej: ${pres}`, group: ar ? '1' : undefined })
-  if (ar) return steps
-  const voiceless = v.group === '2b'
-  steps.push({ q: 'Slutar stammen på k, p, s, t eller x?', a: `${voiceless ? 'Ja' : 'Nej'}: ${stem}-`, group: voiceless ? '2b' : '2a' })
-  return steps
+  helpers.sort((a, b) => a.freq - b.freq)
+  return { named: named.filter((f) => f.verbs.length), other, helpers }
 }
 
 export const NAMED_FAMILIES = families().named
-export const FAMILY_IDS = new Set(NAMED_FAMILIES.map((f) => f.id))
+export const FAMILY_IDS = new Set<string>(SUBGROUPS.map((s) => s.family))
+export const FAMILY_ORDER: string[] = SUBGROUPS.map((s) => s.family)
+
+/** Where to read about a verb's group: that group opened on the group page. */
+export const learnPath = (v: Verb): string => `/grupper?open=${v.group}`

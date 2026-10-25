@@ -2,16 +2,16 @@ import type { Card } from './srs'
 import type { DiagnosisType } from './diagnose'
 import type { FormKey } from './types'
 
-export type Mode = 'table' | 'single' | 'sentence'
-export type Hints = 'inf' | 'random' | 'en'
+/** A column of the verb list: a verb form, the English meaning, or the group. */
+export type Col = FormKey | 'en' | 'group'
+/** A column is shown unless it is set to be written or hidden. Only forms can be written. */
+export type ColState = 'show' | 'write' | 'hide'
 export type Theme = 'system' | 'light' | 'dark'
 
 export interface Settings {
-  forms: FormKey[]
-  mode: Mode
-  hints: Hints
-  showGroup: boolean
-  shortcuts: boolean
+  cols: Partial<Record<Col, 'write' | 'hide'>>
+  /** Each row shows one random column as the cue and asks for the other forms. */
+  random: boolean
   speech: boolean
   theme: Theme
 }
@@ -36,11 +36,8 @@ export interface Saved {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  forms: ['pres', 'pret', 'sup'],
-  mode: 'table',
-  hints: 'inf',
-  showGroup: true,
-  shortcuts: true,
+  cols: {},
+  random: false,
   speech: true,
   theme: 'system',
 }
@@ -71,9 +68,10 @@ export function save(s: Saved): void {
 export function parse(raw: string): Saved {
   const data = JSON.parse(raw) as Partial<Saved>
   if (!data || typeof data !== 'object' || !data.progress) throw new Error('Filen är ingen säkerhetskopia från Verblistor.')
-  const settings = { ...DEFAULT_SETTINGS, ...data.settings }
-  if (!['table', 'single', 'sentence'].includes(settings.mode)) settings.mode = DEFAULT_SETTINGS.mode
-  if (!['inf', 'random', 'en'].includes(settings.hints)) settings.hints = DEFAULT_SETTINGS.hints
+  // older versions had a separate practice page with its own column settings; the list starts fully shown
+  const settings = { ...DEFAULT_SETTINGS, ...data.settings } as Settings & Record<string, unknown>
+  if (settings.showGroup === false) settings.cols = { ...settings.cols, group: 'hide' }
+  for (const k of ['mode', 'hints', 'show', 'forms', 'showGroup', 'fold']) delete settings[k]
   return {
     version: 1,
     settings,
