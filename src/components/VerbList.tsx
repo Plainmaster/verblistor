@@ -66,9 +66,10 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
   const rows = useMemo(() => new Map(list.map((v) => {
     // forms the verb lacks (no imperative for kunna) or hardly uses (har bort) are shown, never asked
     const have = formsFor(v, PARADIGM)
-    let cue: Col | null = null
+    let cue: FormKey | null = null
     if (random) {
-      const pool: Col[] = [...have.filter((f) => (cols[f] ?? 'show') !== 'hide'), ...((cols.en ?? 'show') !== 'hide' ? ['en' as Col] : [])]
+      // the cue is always one of the visible Swedish forms; the English, if shown, stays as support
+      const pool = have.filter((f) => (cols[f] ?? 'show') !== 'hide')
       cue = pool.length ? pool[pick(v.id, roll, pool.length)] : null
     }
     const asked = have.filter((f) => cols[f] === 'write' && f !== cue)
@@ -213,7 +214,7 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
         <div className="inline-flex" role="group" aria-label="Läge">
           {modeBtn('read', 'Läs', 'Alla former visas')}
           {modeBtn('practice', 'Öva', 'Infinitiven visas, du skriver de andra formerna')}
-          {modeBtn('random', <><Dice /> Slumpa</>, 'Varje rad visar en slumpad form eller översättningen. Klicka igen för nya luckor.')}
+          {modeBtn('random', <><Dice /> Slumpa</>, 'Varje rad visar en slumpad form av de synliga. Klicka igen för nya luckor.')}
         </div>
         <span className="flex items-center gap-3 text-sm text-muted">
           <span className="inline-flex items-center gap-1" aria-hidden><Eye state="show" /> visas</span>
