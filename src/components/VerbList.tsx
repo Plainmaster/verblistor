@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { applyShortcuts } from '../lib/check'
 import { diagnose, FORM_NAMES, isCareless, type Diagnosis } from '../lib/diagnose'
-import { formsFor, isTop, type Sort } from '../lib/filters'
+import { formsFor, isTop, type Kind, type Sort } from '../lib/filters'
 import { groupLabel, sKind } from '../lib/groups'
 import { sections, sectionTitle } from '../lib/sections'
 import type { Col, ColState, Settings } from '../lib/storage'
@@ -45,7 +45,7 @@ const pick = (id: string, roll: number, n: number) => {
 
 /** The verb list, which is also the exercise: every column has an eye that shows it, asks for it or hides it,
  *  as when you cover a column of the book with a sheet of paper. Enter checks only what has been written. */
-export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort: Sort; onOpen: (id: string) => void }) {
+export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[]; sort: Sort; kind?: Kind; onOpen: (id: string) => void }) {
   const { settings, update, record } = useStore()
   const { cols, random } = settings
   const [roll, setRoll] = useState(1)
@@ -145,7 +145,7 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
   const width = (c: Col) => state(c) === 'hide' && !held.includes(c) ? 'minmax(2.25rem, 0fr)'
     : c === 'group' ? 'minmax(4.25rem, 0fr)' : c === 'en' ? 'minmax(6rem, 1fr)' : c === 'imp' ? 'minmax(0rem, 0.85fr)' : 'minmax(0rem, 1fr)'
   const grid = { '--cols': `2.25rem ${COLS.map(width).join(' ')} 2.25rem` } as React.CSSProperties
-  const blocks = sections(list, sort)
+  const blocks = sections(list, sort, kind)
 
   const SHORT: Partial<Record<Col, string>> = { imp: 'imp.', pres: 'pres.', pret: 'pret.', sup: 'sup.' }
   const eye = (c: Col, wide: boolean, short = false) => {

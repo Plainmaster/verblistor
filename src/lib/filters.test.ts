@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { BASIC, DEFAULT_FILTER, filterVerbs, formsFor, fromParams, isTop, sortVerbs, toParams, type Filter } from './filters'
+import { BASIC, DEFAULT_FILTER, filterVerbs, isAuxiliary, formsFor, fromParams, isTop, sortVerbs, toParams, type Filter } from './filters'
 import type { Verb } from './types'
 import data from '../data/verbs.json'
 
@@ -34,15 +34,18 @@ describe('filterVerbs', () => {
     const irregular = filterVerbs(verbs, { ...all, kind: 'irregular' }, fams)
     expect(strong.every((v) => v.group === '4' && fams.has(v.family!))).toBe(true)
     expect(irregular.every((v) => v.group === '4' && !fams.has(v.family ?? ''))).toBe(true)
-    const helpers = filterVerbs(verbs, { ...all, kind: 'helper' }, fams)
+    const helpers = filterVerbs(verbs, { ...all, kind: 'helper' }, fams).filter(isAuxiliary)
     expect(strong.length + irregular.length + helpers.length).toBe(verbs.filter((v) => v.group === '4').length)
   })
 
-  it('kind=helper keeps the modal verbs, ha and vara, out of the irregular ones', () => {
+  it('kind=helper keeps the modal verbs, få and ha out of the irregular ones, and vara out of the helpers', () => {
     const fams = new Set(['i–e–i', 'i–a–u'])
     const ids = filterVerbs(verbs, { ...all, kind: 'helper' }, fams).map((v) => v.id)
-    for (const id of ['kunna', 'skola', 'vilja', 'måste', 'böra', 'ha', 'vara']) expect(ids).toContain(id)
-    expect(filterVerbs(verbs, { ...all, kind: 'irregular' }, fams).map((v) => v.id)).not.toContain('kunna')
+    for (const id of ['kunna', 'skola', 'vilja', 'måste', 'böra', 'ha', 'få', 'bruka', 'behöva']) expect(ids).toContain(id)
+    expect(ids).not.toContain('vara')
+    const irregular = filterVerbs(verbs, { ...all, kind: 'irregular' }, fams).map((v) => v.id)
+    expect(irregular).not.toContain('kunna')
+    expect(irregular).toContain('vara')
   })
 
   it('kind=umlaut keeps the umlaut verbs in group 2', () => {
@@ -117,5 +120,16 @@ describe('isTop', () => {
   it('flags frequent single-word verbs only', () => {
     expect(isTop(verbs.find((v) => v.id === 'vara')!)).toBe(true)
     expect(isTop(verbs.find((v) => v.id === 'ge upp')!)).toBe(false)
+  })
+})
+
+describe('helper sections', () => {
+  it('splits the helper verbs into modal, tense and the others without att', async () => {
+    const { sections } = await import('./sections')
+    const helpers = filterVerbs(verbs, { ...all, kind: 'helper' })
+    const s = sections(helpers, 'freq', 'helper')
+    expect(s.map((x) => x.key)).toEqual(['helper:modal', 'helper:tense', 'helper:more'])
+    expect(s[1].verbs.map((v) => v.id)).toEqual(['ha', 'skola'])
+    expect(s[2].verbs.map((v) => v.id)).toContain('bruka')
   })
 })

@@ -38,8 +38,9 @@ export function makeSentence(v: Verb, form: FormKey, rng: () => number = Math.ra
   if (!v.ctx || v.modal) return null
   const fixedSubj = v.ctx.subj
   const subj = fixedSubj ?? pick(SUBJECTS, rng)
-  const refl = v.reflexive ? (form === 'imp' ? 'dig' : REFLEXIVE[subj] ?? 'sig') : ''
-  const tail = [refl, v.particle ?? '', v.ctx.rest].filter(Boolean).join(' ')
+  const refl = form === 'imp' ? 'dig' : REFLEXIVE[subj] ?? 'sig'
+  // particle and pronoun keep the order of the infinitive: tar av sig, känner igen sig
+  const tail = [...v.inf.split(' ').slice(1).map((w) => (w === 'sig' ? refl : w)), v.ctx.rest].filter(Boolean).join(' ')
   const end = (mark: string) => (tail ? ` ${tail}${mark}` : mark)
   const h = headVerb(v)
 

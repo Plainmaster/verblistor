@@ -4,7 +4,7 @@ import type { FormKey, RegularGroup, Verb } from './types'
 
 export type DiagnosisType =
   | 'correct' | 'empty' | 'accent' | 'wrongForm' | 'participle' | 'regularized'
-  | 'voicing' | 'wrongGroup' | 'group3' | 'doubling' | 'vowel' | 'umlaut' | 'typo' | 'unknown'
+  | 'voicing' | 'wrongGroup' | 'group3' | 'doubling' | 'vowel' | 'umlaut' | 'reflexive' | 'typo' | 'unknown'
 
 export interface Diagnosis {
   type: DiagnosisType
@@ -19,7 +19,7 @@ export const ERROR_LABELS: Record<DiagnosisType, string> = {
   correct: 'Rätt', empty: 'Inget svar', accent: 'Å, ä eller ö saknas', wrongForm: 'Fel tempus',
   participle: 'Particip i stället för supinum', regularized: 'Starkt verb med regelbunden ändelse', voicing: '2a eller 2b',
   wrongGroup: 'Fel grupp', group3: 'Grupp 3: -dde/-tt', doubling: 'Dubbelteckning',
-  vowel: 'Fel vokal', umlaut: 'Omljud', typo: 'Slarvfel', unknown: 'Övrigt',
+  vowel: 'Fel vokal', umlaut: 'Omljud', reflexive: 'Reflexivt pronomen', typo: 'Slarvfel', unknown: 'Övrigt',
 }
 
 /** Careless slips: the grammar is right, the spelling is not. Shown as feedback but kept out of "Mina fel". */
@@ -41,12 +41,39 @@ function distance(a: string, b: string): number {
 }
 
 function regularForm(verb: Verb, g: RegularGroup, form: FormKey): string | null {
-  const word = verb.inf.split(' ')[0]
+  const [word, ...rest] = verb.inf.split(' ')
   if (form === 'part' || form === 'inf') return null
   if (g !== '3' && !word.endsWith('a')) return null
   const f = conjugate(word, g)[form]
   if (!f) return null
-  return verb.particle ? `${f} ${verb.particle}` : f
+  // the particle and the pronoun follow the verb: hör av sig, imperative lägg dig
+  const tail = rest.join(' ').replace(/\bsig\b/, form === 'imp' ? 'dig' : 'sig')
+  return tail ? `${f} ${tail}` : f
+}
+
+const PRONOUNS = ['mig', 'dig', 'sig', 'oss', 'er']
+const SPOKEN: Record<string, string> = { mej: 'mig', dej: 'dig', sej: 'sig' }
+
+/** A reflexive answer with its pronoun set to the one in the list, so the verb itself can be judged.
+ *  Without a subject any pronoun fits (jag lägger mig, vi lägger oss); the imperative speaks to du or ni. */
+function reflexivePronoun(a: string, verb: Verb, form: FormKey, target: string) {
+  const want = target.split(' ')
+  const at = want.findIndex((w) => w === 'sig' || w === 'dig')
+  if (!verb.reflexive || at < 0) return null
+  const ok = form === 'imp' ? ['dig', 'er'] : PRONOUNS
+  const words = a.split(' ')
+  const i = words.findIndex((w) => PRONOUNS.includes(w) || w in SPOKEN)
+  if (i < 0) {
+    // the pronoun is missing: lägger instead of lägger sig
+    if (words.length !== want.length - 1) return null
+    words.splice(at, 0, want[at])
+    return { answer: words.join(' '), problem: 'missing' as const }
+  }
+  const said = words[i]
+  words[i] = want[at]
+  const problem = said in SPOKEN ? (ok.includes(SPOKEN[said]) ? 'spoken' as const : 'imp' as const)
+    : ok.includes(said) ? null : 'imp' as const
+  return { answer: words.join(' '), problem, said }
 }
 
 const GROUP_RULE: Record<RegularGroup, string> = {
@@ -66,7 +93,18 @@ export function diagnose(answer: string, verb: Verb, form: FormKey): Diagnosis {
   // aa, ae and oe stand for å, ä and ö when the keyboard has no Swedish letters
   const typed = normalize(applyShortcuts(raw))
   if (targets.includes(raw) || targets.includes(typed)) return { type: 'correct', message: 'Rätt!' }
-  const a = /[åäö]/.test(raw) ? raw : typed
+  let a = /[åäö]/.test(raw) ? raw : typed
+
+  const refl = reflexivePronoun(a, verb, form, target)
+  if (refl) {
+    a = refl.answer
+    if (targets.includes(a)) {
+      if (!refl.problem) return { type: 'correct', message: 'Rätt!' }
+      if (refl.problem === 'spoken') return { type: 'typo', message: `Nästan! Det uttalas ${refl.said} men skrivs ${SPOKEN[refl.said!]}.` }
+      if (refl.problem === 'missing') return { type: 'reflexive', message: `${verb.inf} är reflexivt och behöver ett pronomen: ${target}.` }
+      return { type: 'reflexive', message: `I imperativ talar du till någon: ${target}! (till flera: ${target.replace(/\bdig\b/, 'er')}!)` }
+    }
+  }
 
   if (targets.some((t) => fold(t) === fold(a))) {
     return { type: 'accent', message: `Nästan! Kolla å, ä och ö: ${target}.` }

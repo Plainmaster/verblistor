@@ -110,5 +110,28 @@
       ]
     },
     "part": "beslutad"
+  },
+  "växa": {
+    "imp": "väx"
+  },
+  "ringa in": {
+    "pres": "ringar in",
+    "pret": "ringade in",
+    "sup": "ringat in",
+    "imp": "ringa in",
+    "alt": {
+      "pres": [
+        "ringer in"
+      ],
+      "pret": [
+        "ringde in"
+      ],
+      "sup": [
+        "ringt in"
+      ],
+      "imp": [
+        "ring in"
+      ]
+    }
   }
 }

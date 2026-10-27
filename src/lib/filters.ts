@@ -30,11 +30,31 @@ export const BASIC = new Set([
   'vänta', 'fråga', 'svara', 'glömma', 'läsa', 'skriva', 'tala', 'spela', 'vila', 'leka', 'hyra', 'promenera', 'bära',
   'visa', 'använda', 'stava', 'upprepa', 'måla', 'rita', 'lära sig', 'sätta sig', 'lägga sig', 'tvätta sig',
   'klä på sig', 'klä av sig', 'skynda sig', 'vila sig',
+  // s-verbs come early in SFI but rank low or not at all in Kelly (finnas, ses and träffas are missing)
+  'finnas', 'hoppas', 'trivas', 'andas', 'ses', 'träffas', 'kännas', 'minnas', 'umgås',
 ])
 export const isTop = (v: Verb) => v.freq <= TOP_N && !v.particle && !v.reflexive
 
-/** The auxiliaries Kjellin lists on their own: the modal verbs, ha and vara. */
-export const isHelper = (v: Verb) => !!v.modal || v.inf === 'ha' || v.inf === 'vara'
+/** The helper verbs in the order SFI teaches them: the modal verbs add a meaning, har and ska carry the tense (har ätit, ska äta),
+ *  and brukar, behöver, hinner and orkar also take a bare infinitive (jag brukar cykla). Vara is left out: at SFI level
+ *  är is a verb of its own (jag är trött), and the passive (han är född) comes later. */
+export const HELPER_TYPES = ['modal', 'tense', 'more'] as const
+export type HelperType = (typeof HELPER_TYPES)[number]
+const HELPERS: Record<string, HelperType> = {
+  ha: 'tense', skola: 'tense',
+  kunna: 'modal', vilja: 'modal', måste: 'modal', få: 'modal', böra: 'modal',
+  bruka: 'more', behöva: 'more', hinna: 'more', orka: 'more',
+}
+export const helperType = (v: Verb): HelperType | undefined => HELPERS[v.id] ?? (v.modal ? 'modal' : undefined)
+export const isHelper = (v: Verb) => !!helperType(v)
+/** The helper verbs with a section of their own in group 4; brukar and hinner stay in their groups. */
+export const isAuxiliary = (v: Verb) => helperType(v) === 'tense' || helperType(v) === 'modal'
+
+/** Auxiliaries that are just as often verbs of their own: as auxiliary, then on their own. */
+export const ALSO_MAIN: Record<string, [string, string]> = {
+  kunna: ['Jag kan simma.', 'Jag kan svenska.'],
+  få: ['Får jag gå nu?', 'Jag fick ett brev.'],
+}
 
 const fold = (s: string) => s.toLowerCase().normalize('NFC')
 const GROUP_ORDER = Object.fromEntries(ALL_GROUPS.map((g, i) => [g, i]))
@@ -49,7 +69,8 @@ export function filterVerbs(verbs: Verb[], f: Filter, families: Set<string> = ne
   const qs = [...new Set([q, fold(applyShortcuts(q))])]
   const byFreq = [...verbs].sort((a, b) => a.freq - b.freq)
   const allowed = f.top ? new Set(byFreq.slice(0, f.top).map((v) => v.id)) : null
-  if (allowed && f.top === TOP_N) for (const id of BASIC) allowed.add(id)
+  // the everyday verbs belong to every band, so 300 vanligaste always includes Grundverb
+  if (allowed) for (const id of BASIC) allowed.add(id)
   return verbs.filter((v) => {
     if (q) {
       const hay = [v.inf, v.pres, v.pret, v.sup, v.imp ?? '', v.en].map(fold)
@@ -61,11 +82,11 @@ export function filterVerbs(verbs: Verb[], f: Filter, families: Set<string> = ne
     if (f.kind.startsWith('strong:')) {
       const fam = f.kind.slice(7)
       if (v.group !== '4') return false
-      return fam === 'other' ? !named && !isHelper(v) : v.family === fam
+      return fam === 'other' ? !named && !isAuxiliary(v) : v.family === fam
     }
     switch (f.kind) {
       case 'strong': return v.group === '4' && (families.size ? named : true)
-      case 'irregular': return v.group === '4' && !named && !isHelper(v)
+      case 'irregular': return v.group === '4' && !named && !isAuxiliary(v)
       case 'helper': return isHelper(v)
       case 'umlaut': return !!v.umlaut
       case 'particle': return !!v.particle
@@ -80,7 +101,7 @@ export function filterVerbs(verbs: Verb[], f: Filter, families: Set<string> = ne
  *  and in group 4 its vowel pattern, then the irregular verbs, then the helper verbs. */
 export function sectionOf(v: Verb, families: string[] = []): string {
   if (v.group !== '4') return v.umlaut ? `${v.group}:umlaut` : v.group
-  if (isHelper(v)) return '4:helper'
+  if (isAuxiliary(v)) return '4:helper'
   return v.family && families.includes(v.family) ? `4:${v.family}` : '4:other'
 }
 
@@ -101,7 +122,7 @@ export function sortVerbs(verbs: Verb[], sort: Sort, families: string[] = [], se
   if (sort === 'group') {
     const sub = (v: Verb) => {
       if (v.group !== '4') return v.umlaut ? 1 : 0
-      if (isHelper(v)) return families.length + 1
+      if (isAuxiliary(v)) return families.length + 1
       const i = v.family ? families.indexOf(v.family) : -1
       return i < 0 ? families.length : i
     }

@@ -5,12 +5,26 @@
 //   data-raw/saldo-verbs.json  extracted from SALDO morphology, CC BY 4.0 (inflected forms)
 import { readFileSync, writeFileSync } from 'node:fs'
 import { classify } from '../src/lib/conjugate'
-import type { Cefr, Forms, Verb } from '../src/lib/types'
+import type { Cefr, Forms, SenseKind, Verb } from '../src/lib/types'
 import type { SaldoVerb } from './extract-saldo'
 import { indexSaldo, loadKelly, loadSaldo } from './sources'
 import { ablautFamily } from './family'
 
-interface Line { inf: string; cefr: Cefr; en: string; rest?: string; subj?: string }
+interface Line { inf: string; cefr: Cefr; en: string; rest?: string; subj?: string; extra?: boolean }
+interface Sense { kind: SenseKind; text: string; note?: string }
+
+/** data/partikelverb.txt: the teachers' particle verbs with the meaning they gave them. */
+function readParticleVerbs(): { lines: Line[]; senses: Map<string, Sense> } {
+  const lines: Line[] = []
+  const senses = new Map<string, Sense>()
+  for (const l of readFileSync('data/partikelverb.txt', 'utf8').split('\n').map((x) => x.trim())) {
+    if (!l || l.startsWith('#')) continue
+    const [inf, cefr, en, rest, kind, text, note] = l.split('|').map((x) => x.trim())
+    lines.push({ inf, cefr: cefr as Cefr, en, rest: rest || undefined, extra: true })
+    senses.set(inf, { kind: kind as SenseKind, text, ...(note ? { note } : {}) })
+  }
+  return { lines, senses }
+}
 
 function readList(): Line[] {
   return readFileSync('data/verbs.txt', 'utf8')
@@ -71,7 +85,11 @@ function derive(inf: string, byGf: Map<string, SaldoVerb[]>, usable: (e: SaldoVe
 const firstWord = (s: string) => s.split(' ')[0]
 
 function main() {
-  const list = readList()
+  const particleVerbs = readParticleVerbs()
+  const curated = readList()
+  // the teachers' verbs not in the main list are added at the end, with no frequency rank of their own
+  const known = new Set(curated.map((l) => l.inf))
+  const list = [...curated, ...particleVerbs.lines.filter((l) => !known.has(l.inf))]
   const overrides: Record<string, Override> = JSON.parse(readFileSync('data/overrides.json', 'utf8'))
   const kelly = loadKelly()
   const { byGf } = indexSaldo(loadSaldo())
@@ -114,6 +132,8 @@ function main() {
       sup: ov.sup ?? f?.sup.main ?? '',
       imp: ov.imp !== undefined ? ov.imp : f?.imp.main ?? null,
     }
+    // the imperative speaks to du, so it is always lägg dig!, never lägg sig! (SALDO has a few with sig)
+    if (reflexive && forms.imp) forms.imp = forms.imp.replace(/\bsig\b/, 'dig')
     for (const k of ['pres', 'pret', 'sup'] as const) if (!forms[k]) problems.push(`missing ${k}: ${line.inf}`)
 
     const alt: NonNullable<Verb['alt']> = {}
@@ -143,7 +163,7 @@ function main() {
       group: cls.group,
       irregular: cls.irregular,
       cefr: line.cefr,
-      freq: rank.get(line.inf) ?? rank.get(words[0]) ?? 9999,
+      freq: line.extra ? 9999 : rank.get(line.inf) ?? rank.get(words[0]) ?? 9999,
     }
     if (ov.modal) { delete verb.alt; if (ov.alt) verb.alt = ov.alt }
     if (cls.group === '4' && !ov.modal) {
@@ -157,6 +177,11 @@ function main() {
     if (reflexive) verb.reflexive = true
     if (ov.modal) verb.modal = true
     if (ov.note) verb.note = ov.note
+    const sense = particleVerbs.senses.get(line.inf)
+    if (sense) {
+      verb.sense = { kind: sense.kind, text: sense.text }
+      if (sense.note) verb.note = sense.note
+    }
     if (ov.rare) verb.rare = ov.rare
     if (line.rest !== '-') verb.ctx = { rest: line.rest ?? '', ...(line.subj ? { subj: line.subj } : {}) }
     if (!['A1', 'A2', 'B1', 'B2', 'C1'].includes(line.cefr)) problems.push(`bad level: ${line.inf} ${line.cefr}`)

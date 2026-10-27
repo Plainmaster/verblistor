@@ -1,6 +1,6 @@
 import type { FormKey, Group } from './types'
 import data from '../data/verbs.json'
-import { isHelper } from './filters'
+import { isAuxiliary } from './filters'
 import type { Verb } from './types'
 
 export const VERBS = data as Verb[]
@@ -119,7 +119,7 @@ export function families(): { named: Family[]; other: Verb[]; helpers: Verb[] } 
     if (v.group !== '4' || v.particle || v.reflexive) continue
     const sub = subgroupOf(v)
     if (sub) named.find((f) => f.sub === sub)!.verbs.push(v)
-    else if (isHelper(v)) helpers.push(v)
+    else if (isAuxiliary(v)) helpers.push(v)
     else other.push(v)
   }
   other.sort((a, b) => a.freq - b.freq)

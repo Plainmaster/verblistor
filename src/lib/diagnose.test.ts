@@ -77,4 +77,29 @@ describe('diagnose', () => {
       expect(diagnose(a, skriva, 'sup').message.length).toBeGreaterThan(0)
     }
   })
+
+  describe('reflexive verbs', () => {
+    const vila: Verb = { ...v('vila sig', 'vilar sig', 'vilade sig', 'vilat sig', 'vila dig', '1'), reflexive: true }
+    const hora: Verb = { ...v('höra av sig', 'hör av sig', 'hörde av sig', 'hört av sig', 'hör av dig', '2a'), reflexive: true, particle: 'av' }
+    it('any pronoun is right without a subject', () => {
+      for (const a of ['vilar mig', 'vilar dig', 'vilar sig', 'vilar oss', 'vilar er']) expect(diagnose(a, vila, 'pres').type).toBe('correct')
+      expect(diagnose('hörde av mig', hora, 'pret').type).toBe('correct')
+    })
+    it('the imperative takes dig or er', () => {
+      expect(diagnose('vila dig', vila, 'imp').type).toBe('correct')
+      expect(diagnose('vila er', vila, 'imp').type).toBe('correct')
+      expect(diagnose('vila sig', vila, 'imp')).toMatchObject({ type: 'reflexive', message: expect.stringContaining('vila dig!') })
+      expect(diagnose('hör av sig', hora, 'imp').type).toBe('reflexive')
+    })
+    it('a missing pronoun is pointed out', () => {
+      expect(diagnose('vilar', vila, 'pres').type).toBe('reflexive')
+    })
+    it('the spoken spelling sej is a careless slip', () => {
+      expect(diagnose('vilar sej', vila, 'pres').type).toBe('typo')
+    })
+    it('the verb is judged with the pronoun set aside', () => {
+      expect(diagnose('vilde mig', vila, 'pret').type).not.toBe('correct')
+      expect(diagnose('hörte av mig', hora, 'pret').type).toBe('voicing')
+    })
+  })
 })

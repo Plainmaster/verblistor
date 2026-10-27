@@ -29,6 +29,11 @@ export interface Verb extends Forms {
   /** Forms that exist but are hardly ever used (har bort); shown muted and never asked. */
   rare?: FormKey[]
   ctx?: { subj?: string; rest: string }
+  /** For particle verbs: does the particle give the verb a new meaning (ge upp) or extend it (frysa in),
+   *  or is the verb not used without it (slappna av)? With a short Swedish explanation. */
+  sense?: { kind: SenseKind; text: string }
 }
+
+export type SenseKind = 'ny' | 'utvidgad' | 'båda' | 'bara'
 
 export const FORM_KEYS: FormKey[] = ['inf', 'imp', 'pres', 'pret', 'sup', 'part']

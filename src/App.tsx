@@ -125,7 +125,7 @@ export default function App() {
           <Route path="/stats" element={<Navigate to="/fel" replace />} />
           <Route path="*" element={<p>Sidan finns inte. <Link to="/">Till verblistan</Link>.</p>} />
         </Routes>
-        {pathname === '/' && <PrintSheet verbs={verbs} sort={sort} title={describe(filter)} notes={notes} />}
+        {pathname === '/' && <PrintSheet verbs={verbs} sort={sort} kind={filter.kind} title={describe(filter)} notes={notes} />}
       </main>
 
       <footer className="hidden sm:block print:hidden">

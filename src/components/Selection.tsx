@@ -7,7 +7,9 @@ const KIND_NOTE: Partial<Record<Kind, string>> = {
   strong: 'Ny vokal i preteritum och supinum, efter åtta mönster: skriver – skrev – skrivit. Sortera på Grupp för att se mönstren.',
   umlaut: 'Vokalen byts, men ändelserna är de vanliga: väljer – valde – valt.',
   irregular: 'Följer inget mönster och lärs in ett och ett: går – gick – gått.',
-  helper: 'Står före ett annat verb: kan, ska, vill, måste, bör, har, är.',
+  helper: 'Hjälpverb står före ett annat verb, som står i infinitiv utan att: Jag vill åka, inte vill att åka. Börja med kan, vill och måste, fortsätt med får och bör. Har och ska visar tiden: har + supinum är perfekt (Jag har ätit), ska + infinitiv är futurum (Jag ska äta). Halvhjälpverben brukar, behöver, hinner och orkar tar inte heller att: Jag brukar cykla.',
+  particle: 'Partikeln är betonad: ge upp, med betoning på upp. Verbet böjs som vanligt, men betydelsen kan vara ny (ge upp = sluta försöka) eller utvidgad (frysa in = lägga i frysen). Klicka på ett verb för att se vilket.',
+  reflexive: 'Verbet har ett pronomen som pekar tillbaka: jag lägger mig, du lägger dig, hon lägger sig. Listan visar sig. Imperativen har dig, eftersom man talar till någon: lägg dig! När du övar räknas alla pronomen som rätt: mig, dig, sig, oss och er.',
   sVerb: 'Slutar på -s men är inte passiva. Deponens finns bara med -s: hoppas, andas. Reciproka betyder att man gör något med varandra: träffas, ses.',
 }
 
@@ -78,7 +80,9 @@ export default function SelectionControls({ search = true }: { search?: boolean 
       )}
 
       {!filter.search && KIND_NOTE[filter.kind] && (
-        <p className="m-0 max-w-[68ch] text-[0.98rem] border-l-2 border-ink pl-3">{KIND_NOTE[filter.kind]}</p>
+        <p className="m-0 max-w-[68ch] text-[0.98rem] border-l-2 border-ink pl-3">
+          {KIND_NOTE[filter.kind]}{filter.kind === 'particle' && filter.top !== 0 && ' Välj Alla för att se alla partikelverb.'}
+        </p>
       )}
 
       <div className="flex flex-wrap items-end justify-between gap-3">

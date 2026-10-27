@@ -4,16 +4,16 @@ import { PARADIGM, Say, Speak, Tags } from '../components/bits'
 import SelectionControls from '../components/Selection'
 import VerbList from '../components/VerbList'
 import { FORM_NAMES } from '../lib/diagnose'
-import { isHelper, isTop } from '../lib/filters'
+import { ALSO_MAIN, helperType, isTop } from '../lib/filters'
 import { GROUP_BY_ID, learnPath, patternLabel, subgroupOf, VERBS, VERB_BY_ID } from '../lib/groups'
 import { makeSentence } from '../lib/sentences'
 import { useSelection } from '../lib/selection'
-import type { FormKey, Verb } from '../lib/types'
+import type { FormKey, SenseKind, Verb } from '../lib/types'
 
 const series = (v: Verb) => (['inf', 'pres', 'pret', 'sup'] as const).filter((f) => !v.rare?.includes(f)).map((f) => v[f]).join(', ')
 
 export default function Verbs() {
-  const { verbs, sort, openVerb, setOpenVerb } = useSelection()
+  const { filter, verbs, sort, openVerb, setOpenVerb } = useSelection()
   const open = openVerb ? VERB_BY_ID.get(openVerb) : undefined
 
   return (
@@ -28,7 +28,7 @@ export default function Verbs() {
 
         <SelectionControls />
 
-        <VerbList verbs={verbs} sort={sort} onOpen={setOpenVerb} />
+        <VerbList verbs={verbs} sort={sort} kind={filter.kind} onOpen={setOpenVerb} />
         {verbs.length === 0 && <p className="m-0 text-muted">Inga verb passar urvalet. Prova att välja fler grupper eller typer.</p>}
       </div>
 
@@ -59,7 +59,11 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
   // one line on what to learn: the vowel pattern, the vowel shift, or the group's rule
   const pattern = sub ? `${patternLabel(sub.family)}, som ${sub.typ}.`
     : verb.umlaut ? 'Omljud: vokalen byts, ändelserna är de vanliga.'
-      : isHelper(verb) ? 'Hjälpverb: står före ett annat verb. Lär in formerna som de är.'
+      : verb.id === 'ha' ? 'Hjälpverb för perfekt: har + supinum, Jag har ätit. Också ett vanligt verb: Jag har en bil.'
+        : verb.id === 'skola' ? 'Hjälpverb för futurum: ska + infinitiv, Jag ska äta. Lär dig ska – skulle.'
+        : ALSO_MAIN[verb.id] ? `Både hjälpverb och vanligt verb: ${ALSO_MAIN[verb.id].join(' ')}`
+        : helperType(verb) === 'modal' ? `Hjälpverb: står före ett annat verb, utan att: Jag ${verb.pres} åka. Lär in formerna som de är.`
+        : helperType(verb) === 'more' ? `${g.rule} Står före ett annat verb, utan att: Jag ${verb.pres} åka.`
         : verb.group === '4' ? 'Oregelbundet: lär in formerna som de är.'
           : g.rule
 
@@ -101,6 +105,8 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
           </tbody>
         </table>
 
+        {verb.sense && <Sense verb={verb} sense={verb.sense} />}
+
         <p className="m-0 text-[1.02rem]">
           <Link className="font-bold underline underline-offset-2 text-ink" to={learnPath(verb)}>{g.name}</Link> · {pattern}
         </p>
@@ -120,5 +126,28 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
         )}
       </div>
     </dialog>
+  )
+}
+
+const SENSE: Record<SenseKind, { label: string; hint: (verb: React.ReactNode, particle: React.ReactNode) => React.ReactNode }> = {
+  ny: { label: 'Ny betydelse', hint: (v, p) => <>Går inte att gissa från {v} och {p}.</> },
+  utvidgad: { label: 'Utvidgad betydelse', hint: (v, p) => <>Går att gissa från {v} och {p}.</> },
+  båda: { label: 'Två betydelser', hint: () => 'Den ena går att gissa, den andra inte.' },
+  bara: { label: 'Finns bara med partikeln', hint: (v) => <>{v} används inte ensamt.</> },
+}
+
+/** What the particle does to the meaning, as two teachers judged it. */
+function Sense({ verb, sense }: { verb: Verb; sense: NonNullable<Verb['sense']> }) {
+  const s = SENSE[sense.kind]
+  const word = (w: string) => <i lang="sv">{w}</i>
+  // "1) … 2) …" becomes one line per meaning
+  const meanings = sense.text.split(/\s*(?=\d\))/).filter(Boolean)
+  return (
+    <div className="grid gap-1 border-l-2 border-ink pl-3 text-[1.02rem]">
+      <p className="m-0"><strong>{s.label}.</strong> <span className="text-muted">{s.hint(word(verb.inf.split(' ')[0]), word(verb.particle ?? ''))}</span></p>
+      <p className="m-0" lang="sv">
+        Betyder:{meanings.length > 1 ? meanings.map((m) => <span key={m} className="block pl-3">{m}</span>) : ` ${sense.text}`}
+      </p>
+    </div>
   )
 }

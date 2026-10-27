@@ -1,0 +1,67 @@
+# Partikelverb chosen by two SFI teachers, with their judgement of the meaning (see extra/Partikelverb - Cirka 60 verb.csv).
+# inf | level | English gloss | sentence complement ("-" = no sentence drill) | meaning | explanation | note
+# meaning: ny = cannot be guessed from verb + particle, utvidgad = can be guessed, båda = one of each,
+#          bara = the verb is not used without the particle.
+# Verbs already in verbs.txt only take the meaning from here; the others are added with no frequency rank of their own,
+# so they never crowd the common verbs out of the first bands.
+
+checka in | B1 | to check in | på hotellet | ny | registrera sig på hotell eller flygplats | Vardagligt.
+frysa in | B1 | to freeze (food) | maten | utvidgad | lägga i frysen, spara genom att frysa |
+ge igen | B2 | to get back at someone | | ny | hämnas |
+ge upp | B1 | to give up | | ny | sluta försöka |
+göra av med | B1 | to spend, to use up | alla pengarna | ny | använda upp, spendera |
+hoppa över | A2 | to skip | frukosten | ny | låta bli att göra något |
+haka på | B2 | to tag along | | bara | följa med någon |
+hålla av | B2 | to be fond of | henne | ny | tycka mycket om, älska |
+hålla med | A2 | to agree | | ny | tycka likadant |
+hålla om | A2 | to hug, to hold | barnet | utvidgad | krama, lägga armarna runt någon |
+hålla på med | A2 | to be busy with | läxorna | ny | göra något just nu |
+höra av sig | B1 | to get in touch | | ny | kontakta |
+höra ihop | B1 | to belong together | - | ny | passa tillsammans, ha med varandra att göra |
+kasta upp | B1 | to throw up | | ny | kräkas | Vardagligt.
+komma av sig | B2 | to lose one's thread | | ny | tappa tråden, bli osäker mitt i |
+komma ihåg | A1 | to remember | | ny | minnas |
+komma på | A2 | to think of, to come up with | en idé | ny | få en idé, förstå plötsligt |
+komma överens | A2 | to agree; to get along | bra | ny | enas, bli överens |
+koppla av | A2 | to relax | i soffan | ny | vila, varva ner, ta det lugnt |
+krya på sig | B1 | to get well | | utvidgad | bli frisk efter en sjukdom | Vardagligt. Krya på dig! säger man till någon som är sjuk.
+känna igen | A2 | to recognize | | ny | något eller någon är bekant sedan tidigare |
+känna igen sig | B1 | to relate to, to recognize oneself | i berättelsen | ny | känna att man har varit med om samma sak |
+känna till | B1 | to know about | regeln | ny | veta om, ha hört talas om |
+köra över | B2 | to run over; to overrule | kollegan | ny | strunta i vad någon tycker och bestämma själv |
+ladda ner | A2 | to download | appen | ny | hämta filer från internet |
+lägga av | B1 | to stop, to quit | | ny | sluta med något. Lägg av! betyder Sluta! |
+lägga ner | B1 | to shut down | butiken | ny | avsluta en verksamhet eller en aktivitet |
+lägga på | A2 | to hang up | | utvidgad | avsluta ett telefonsamtal |
+para ihop | B1 | to match, to pair up | orden | utvidgad | föra samman två saker som hör ihop |
+passa in | B1 | to fit in | i gruppen | ny | höra hemma, bli accepterad i en grupp |
+pigga upp | B1 | to cheer up | mamma | utvidgad | göra någon gladare eller piggare |
+piggna till | B2 | to perk up | | utvidgad | bli piggare, vakna till |
+ringa in | B1 | to circle | rätt svar | utvidgad | rita en ring runt något | Ringa in till radion böjs som ringa: ringer in, ringde in.
+sakta in | B1 | to slow down | | utvidgad | sänka farten, gå eller köra långsammare |
+se till | B1 | to make sure | - | ny | ordna något, ansvara för att något blir gjort |
+skriva av | B1 | to copy (by hand) | texten | båda | 1) kopiera en text för hand 2) göra ett avdrag i bokföringen |
+skriva på | A2 | to sign | kontraktet | utvidgad | 1) fortsätta skriva 2) skriva sitt namn på ett papper |
+slappna av | A2 | to relax | | bara | släppa stress och spänning |
+slå upp | B1 | to look up | ordet | båda | 1) leta i en bok eller ordlista 2) öppna (slå upp dörren) |
+snappa upp | B2 | to pick up (quickly) | några ord | bara | lära sig eller höra något snabbt, i förbigående |
+snygga till sig | B1 | to tidy oneself up | | bara | göra sig fin, till exempel fixa håret |
+spela in | A2 | to record | en film | ny | spara ljud eller bild |
+stå emot | B2 | to resist | frestelsen | ny | motstå, inte ge efter |
+stå på sig | B2 | to stand one's ground | | ny | inte ge sig, hålla fast vid sin åsikt |
+stiga upp | A1 | to get up | tidigt | utvidgad | lämna sängen på morgonen, resa sig upp |
+ställa upp | A2 | to help out | | ny | hjälpa till |
+säga upp | B1 | to cancel; to quit (a job) | | ny | avsluta ett avtal, en prenumeration eller ett jobb |
+sätta igång | A2 | to get started | | utvidgad | börja med något |
+sätta ihop | A2 | to put together | hyllan | utvidgad | montera |
+sätta på | A2 | to turn on | | ny | starta (tv:n, datorn) |
+sätta på sig | A2 | to put on (clothes) | jackan | utvidgad | klä på sig ett plagg |
+ta av sig | A1 | to take off (clothes) | skorna | utvidgad | ta av kläder |
+ta emot | A2 | to receive | | båda | 1) ta emot något man får 2) acceptera |
+ta på sig | A2 | to put on; to take on | jackan | båda | 1) klä på sig 2) ta ansvar för något, åta sig en uppgift |
+tappa bort | A2 | to lose, to misplace | nycklarna | utvidgad | förlora något så att man inte hittar det |
+tråka ut | B2 | to bore | eleverna | bara | göra någon uttråkad |
+tycka om | A1 | to like | | ny | gilla |
+vara med | A1 | to take part | i kören | ny | delta |
+vara med om | B1 | to experience | en olycka | ny | uppleva |
+växa upp | A2 | to grow up | på landet | ny | gå från barn till vuxen |

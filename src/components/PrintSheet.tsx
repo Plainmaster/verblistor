@@ -1,12 +1,12 @@
 import { FORM_NAMES } from '../lib/diagnose'
-import type { Sort } from '../lib/filters'
+import type { Kind, Sort } from '../lib/filters'
 import { groupLabel } from '../lib/groups'
 import { sections, sectionTitle } from '../lib/sections'
 import type { Verb } from '../lib/types'
 import { PARADIGM } from './bits'
 
 /** Plain list, or the book's landscape spread with a wide empty column for your own notes. */
-export default function PrintSheet({ verbs, sort, title, notes }: { verbs: Verb[]; sort: Sort; title: string; notes: boolean }) {
+export default function PrintSheet({ verbs, sort, kind, title, notes }: { verbs: Verb[]; sort: Sort; kind?: Kind; title: string; notes: boolean }) {
   const cell = `border-b border-gray-300 pr-2 ${notes ? 'h-[9mm] align-bottom pb-1' : 'py-1.5'}`
   const cols = PARADIGM.length + (notes ? 4 : 3)
   return (
@@ -22,7 +22,7 @@ export default function PrintSheet({ verbs, sort, title, notes }: { verbs: Verb[
             {notes && <th className="border-b-[1.5px] border-black py-1 pl-2 w-[32%] sc">Anteckningar</th>}
           </tr>
         </thead>
-        {sections(verbs, sort).map(({ key, verbs: rows }) => (
+        {sections(verbs, sort, kind).map(({ key, verbs: rows }) => (
           <tbody key={key}>
             {key && (
               <tr className="break-after-avoid">

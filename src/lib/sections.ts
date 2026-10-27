@@ -1,9 +1,12 @@
-import { sectionOf, type Sort } from './filters'
+import { HELPER_TYPES, helperType, sectionOf, type Kind, type Sort } from './filters'
 import { FAMILY_ORDER, GROUP_BY_ID, patternLabel, subgroupByFamily } from './groups'
 import type { Group, Verb } from './types'
 
-/** Verbs split into the book's sections when sorted by group; one untitled section otherwise. */
-export function sections(verbs: Verb[], sort: Sort): { key: string; verbs: Verb[] }[] {
+/** Verbs split into the book's sections when sorted by group; the helper verbs by what they do; one untitled section otherwise. */
+export function sections(verbs: Verb[], sort: Sort, kind?: Kind): { key: string; verbs: Verb[] }[] {
+  if (kind === 'helper') {
+    return HELPER_TYPES.map((t) => ({ key: `helper:${t}`, verbs: verbs.filter((v) => helperType(v) === t) })).filter((s) => s.verbs.length)
+  }
   if (sort !== 'group') return [{ key: '', verbs }]
   const out: { key: string; verbs: Verb[] }[] = []
   for (const v of verbs) {
@@ -14,7 +17,14 @@ export function sections(verbs: Verb[], sort: Sort): { key: string; verbs: Verb[
   return out
 }
 
-export function sectionTitle(key: string): { group: Group; title: string; sub: string } {
+const HELPER_TITLES: Record<string, { title: string; sub: string }> = {
+  'helper:tense': { title: 'Tempus', sub: 'har + supinum: har ätit · ska + infinitiv: ska äta' },
+  'helper:modal': { title: 'Modala hjälpverb', sub: 'kan, vill, måste, får, bör + infinitiv' },
+  'helper:more': { title: 'Halvhjälpverb', sub: 'brukar, behöver, hinner, orkar + infinitiv utan att' },
+}
+
+export function sectionTitle(key: string): { group?: Group; title: string; sub: string } {
+  if (HELPER_TITLES[key]) return HELPER_TITLES[key]
   if (key === '4:other') return { group: '4', title: 'Grupp 4', sub: 'oregelbundna verb' }
   if (key === '4:helper') return { group: '4', title: 'Grupp 4', sub: 'hjälpverb' }
   if (key.startsWith('4:')) {
