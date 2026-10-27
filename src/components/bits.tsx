@@ -138,7 +138,7 @@ export function Segmented<T extends string | number>({ value, options, onChange,
           aria-checked={value === o.value}
           title={o.title}
           onClick={() => onChange(o.value)}
-          className={`px-3.5 h-9 text-[0.98rem] ${value === o.value ? 'bg-ink text-paper font-semibold' : 'text-muted hover:text-ink hover:bg-surface'}`}
+          className={`px-3.5 max-sm:px-3 h-9 text-[0.98rem] ${value === o.value ? 'bg-ink text-paper font-semibold' : 'text-muted hover:text-ink hover:bg-surface'}`}
         >
           {o.label}
         </button>

@@ -84,10 +84,10 @@ export default function SelectionControls({ search = true }: { search?: boolean 
       <div className="flex flex-wrap items-end justify-between gap-3">
         <p className="m-0 text-[0.95rem] italic text-muted" aria-live="polite">{verbs.length} verb · {describe(filter)}</p>
         <span className="flex items-center gap-2">
-          <span className="sc text-[0.95rem] text-muted">Ordning</span>
+          <span className="sc text-[0.95rem] text-muted max-sm:hidden">Ordning</span>
           <Segmented<Sort> label="Ordning" value={sort} onChange={setSort}
             options={[
-              { value: 'freq', label: 'Vanligast först' },
+              { value: 'freq', label: 'Vanligast', title: 'Vanligast först' },
               { value: 'abc', label: 'A–Ö' },
               { value: 'group', label: 'Grupp', title: 'Som i boken: grupp för grupp, de starka verben efter mönster, A–Ö inom varje' },
               { value: 'mix', label: 'Blandat', title: 'Verben i slumpvis ordning. Klicka igen för en ny ordning.' },
