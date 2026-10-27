@@ -90,6 +90,7 @@ export default function SelectionControls({ search = true }: { search?: boolean 
               { value: 'freq', label: 'Vanligast först' },
               { value: 'abc', label: 'A–Ö' },
               { value: 'group', label: 'Grupp', title: 'Som i boken: grupp för grupp, de starka verben efter mönster, A–Ö inom varje' },
+              { value: 'mix', label: 'Blandat', title: 'Verben i slumpvis ordning. Klicka igen för en ny ordning.' },
             ]} />
         </span>
       </div>

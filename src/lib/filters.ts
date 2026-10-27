@@ -5,7 +5,7 @@ import type { FormKey, Group, Verb } from './types'
  *  'strong:<pattern>' = one vowel pattern ('strong:other' is the old name for 'irregular'). */
 export type Kind = 'all' | 'strong' | 'irregular' | 'helper' | 'umlaut' | `strong:${string}` | 'sVerb' | 'particle' | 'reflexive'
 export type Top = 100 | 300 | 0
-export type Sort = 'freq' | 'group' | 'abc'
+export type Sort = 'freq' | 'group' | 'abc' | 'mix'
 
 export interface Filter {
   groups: Group[]
@@ -84,11 +84,20 @@ export function sectionOf(v: Verb, families: string[] = []): string {
   return v.family && families.includes(v.family) ? `4:${v.family}` : '4:other'
 }
 
-/** 'group' is the book's order: group by group, group 4 split by vowel pattern, A–Ö within each. */
-export function sortVerbs(verbs: Verb[], sort: Sort, families: string[] = []): Verb[] {
+/** 'group' is the book's order: group by group, group 4 split by vowel pattern, A–Ö within each.
+ *  'mix' is a shuffle that stays the same for the same seed, so the rows keep their place while you write. */
+export function sortVerbs(verbs: Verb[], sort: Sort, families: string[] = [], seed = 1): Verb[] {
   const r = [...verbs]
   const abc = (a: Verb, b: Verb) => a.inf.localeCompare(b.inf, 'sv')
   if (sort === 'abc') return r.sort(abc)
+  if (sort === 'mix') {
+    const hash = (id: string) => {
+      let h = seed * 2654435761
+      for (const ch of id) h = Math.imul(h ^ ch.charCodeAt(0), 16777619)
+      return h >>> 0
+    }
+    return r.map((v) => [hash(v.id), v] as const).sort((a, b) => a[0] - b[0]).map(([, v]) => v)
+  }
   if (sort === 'group') {
     const sub = (v: Verb) => {
       if (v.group !== '4') return v.umlaut ? 1 : 0
@@ -119,7 +128,7 @@ export function toParams(f: Filter, sort: Sort): Record<string, string> {
   if (f.top !== DEFAULT_FILTER.top) p.topp = f.top ? String(f.top) : 'alla'
   if (f.kind !== 'all') p.typ = f.kind.startsWith('strong:') ? `starka:${f.kind.slice(7)}` : KIND_PARAM[f.kind]
   if (f.search) p.sok = f.search
-  if (sort !== 'freq') p.sort = sort === 'abc' ? 'a-o' : 'grupp'
+  if (sort !== 'freq') p.sort = sort === 'abc' ? 'a-o' : sort === 'mix' ? 'blandat' : 'grupp'
   return p
 }
 
@@ -137,6 +146,6 @@ export function fromParams(p: URLSearchParams): { filter: Filter; sort: Sort } {
       search: p.get('sok') ?? undefined,
       ids: p.get('ord')?.split(',').filter(Boolean),
     },
-    sort: sort === 'a-o' ? 'abc' : sort === 'grupp' ? 'group' : 'freq',
+    sort: sort === 'a-o' ? 'abc' : sort === 'grupp' ? 'group' : sort === 'blandat' ? 'mix' : 'freq',
   }
 }

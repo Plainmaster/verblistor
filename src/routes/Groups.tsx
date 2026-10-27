@@ -217,7 +217,7 @@ function Endings() {
     <section aria-labelledby="endings" className="callout p-5 sm:p-7">
       <h2 id="endings" className="m-0 text-2xl font-bold">Så böjs svenska verb</h2>
       <p className="m-0 mt-1 mb-4 max-w-[62ch] text-muted">
-        Ändelserna läggs till stammen. Presensgruppen är lika för alla verb. I preteritumgruppen skiljer sig svaga verb (grupp 1–3) från starka (grupp 4).
+        Stammen är samma som imperativen: tala!, ring!, köp!, bo!, skriv! Ändelserna läggs till stammen. Presensgruppen är lika för alla verb. I preteritumgruppen skiljer sig svaga verb (grupp 1–3) från starka (grupp 4).
       </p>
       <div className="overflow-x-auto -mx-2 px-2">
         <table className="ledger min-w-[560px]">
@@ -231,14 +231,17 @@ function Endings() {
           </thead>
           <tbody>
             <EndingRow kind="Tempusform" note="anger tiden" cells={[['presens', '-r', 'nu, eller ingen bestämd tid'], ['preteritum', '-de', 'då, en bestämd tid'], ['preteritum', 'ingen ändelse', 'ny vokal']]} />
-            <EndingRow kind="Infinit form" note="möjlighet eller faktum" cells={[['infinitiv', '-a', 'att skriva'], ['supinum', '-t', 'har talat'], ['supinum', '-it', 'har skrivit']]} />
-            <EndingRow kind="Particip" note="fungerar som adjektiv" cells={[['presens particip', '-ande', 'pågående'], ['perfekt particip', '-d', 'en målad vägg'], ['perfekt particip', '-en', 'en skriven bok']]} />
+            <EndingRow kind="Infinit form" note="står efter ett annat verb" cells={[['infinitiv', '-a', 'att skriva'], ['supinum', '-t', 'har talat'], ['supinum', '-it', 'har skrivit']]} />
+            <EndingRow kind="Particip" note="används som adjektiv" cells={[['presens particip', '-ande', 'pågående'], ['perfekt particip', '-d', 'en målad vägg'], ['perfekt particip', '-en', 'en skriven bok']]} />
           </tbody>
         </table>
       </div>
-      <p className="m-0 mt-4 max-w-[62ch] text-[0.95rem]">
-        Allt annat är varianter som gör ord lättare att uttala: ringer får ett hjälpvokal-e, köpte får -te efter ett tonlöst ljud, bodde får dubbel konsonant efter lång vokal.
-      </p>
+      <p className="m-0 mt-4 mb-1.5 max-w-[62ch] text-[0.95rem]">Ibland ändras ändelsen lite, så att ordet blir lättare att säga:</p>
+      <ul className="m-0 pl-5 grid gap-1 max-w-[62ch] text-[0.95rem]" lang="sv">
+        <li>Grupp 2: imperativen slutar på en konsonant. Då blir -r till -er: ring! → ringer, köp! → köper.</li>
+        <li>Pakistanregeln: slutar imperativen på p, k, s, t eller x, blir -de till -te: köp! → köpte, tänk! → tänkte, läs! → läste.</li>
+        <li>Grupp 3: korta verb får dubbel konsonant: bo → bodde, har bott.</li>
+      </ul>
     </section>
   )
 }

@@ -49,7 +49,6 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
   const { settings, update, record } = useStore()
   const { cols, random } = settings
   const [roll, setRoll] = useState(1)
-  const [shuffled, setShuffled] = useState<Verb[] | null>(null)
   const [values, setValues] = useState<Record<string, string>>({})
   const [checked, setChecked] = useState<Record<string, Diagnosis>>({})
   // a column just hidden keeps its width until the pointer leaves the header, so the eyes stay under it
@@ -59,10 +58,9 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
   const state = (c: Col): ColState => cols[c] ?? 'show'
   const mode: Mode = random ? 'random' : Object.values(cols).includes('write') ? 'practice' : 'read'
 
-  useEffect(() => { setShuffled(null) }, [verbs])
   useEffect(() => { setValues({}); setChecked({}) }, [verbs, roll])
 
-  const list = shuffled ?? verbs
+  const list = verbs
   const rows = useMemo(() => new Map(list.map((v) => {
     // forms the verb lacks (no imperative for kunna) or hardly uses (har bort) are shown, never asked
     const have = formsFor(v, PARADIGM)
@@ -140,7 +138,6 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
     setChecked(res)
   }
   const restart = () => { from.current = -1; setRoll((r) => r + 1) }
-  const shuffle = () => { setShuffled([...verbs].sort(() => Math.random() - 0.5)); restart() }
 
   if (!verbs.length) return null
 
@@ -148,7 +145,7 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
   const width = (c: Col) => state(c) === 'hide' && !held.includes(c) ? 'minmax(2.25rem, 0fr)'
     : c === 'group' ? 'minmax(4.25rem, 0fr)' : c === 'en' ? 'minmax(6rem, 1fr)' : c === 'imp' ? 'minmax(0rem, 0.85fr)' : 'minmax(0rem, 1fr)'
   const grid = { '--cols': `2.25rem ${COLS.map(width).join(' ')} 2.25rem` } as React.CSSProperties
-  const blocks = sections(list, shuffled ? 'freq' : sort)
+  const blocks = sections(list, sort)
 
   const SHORT: Partial<Record<Col, string>> = { imp: 'imp.', pres: 'pres.', pret: 'pret.', sup: 'sup.' }
   const eye = (c: Col, wide: boolean, short = false) => {
@@ -216,7 +213,7 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
         <div className="inline-flex" role="group" aria-label="Läge">
           {modeBtn('read', 'Läs', 'Alla former visas')}
           {modeBtn('practice', 'Öva', 'Infinitiven visas, du skriver de andra formerna')}
-          {modeBtn('random', <><Dice /> Slumpa</>, 'Varje rad visar en slumpad form av de synliga. Klicka igen för nya luckor.')}
+          {modeBtn('random', <><Dice /> Slumpa</>, 'Varje rad visar en slumpad form, du skriver de andra. Klicka igen för nya luckor.')}
         </div>
         <span className="flex items-center gap-3 text-sm text-muted">
           <span className="inline-flex items-center gap-1" aria-hidden><Eye state="show" /> visas</span>
@@ -231,7 +228,7 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
           <div className="flex gap-5">{eye('inf', true)}{eye('en', true)}</div>
           <div className="grid grid-cols-4 gap-x-3">{(['imp', 'pres', 'pret', 'sup'] as Col[]).map((c) => eye(c, true, true))}</div>
         </div>
-        <div className="hidden sm:grid sm:[grid-template-columns:var(--cols)] transition-[grid-template-columns] duration-300 gap-3 px-3 py-1.5 text-[1.02rem] border-b-[1.5px] border-ink items-center" style={grid}
+        <div className="hidden sm:grid sm:[grid-template-columns:var(--cols)] sticky top-16 z-10 bg-surface transition-[grid-template-columns] duration-300 gap-3 px-3 py-1.5 text-[1.02rem] border-b-[1.5px] border-ink items-center" style={grid}
           onPointerLeave={() => setHeld([])} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setHeld([]) }}>
           <span className="text-right text-muted">#</span>
           {COLS.map((c) => eye(c, false))}
@@ -278,12 +275,6 @@ export default function VerbList({ verbs, sort, onOpen }: { verbs: Verb[]; sort:
             <SwedishKeys />
             <span className="flex items-center gap-1.5 sm:gap-2 max-sm:[&_.btn]:px-3">
               {answered.length > 0 && <strong className="mr-1 tabular-nums" aria-live="polite">{score} av {answered.length}</strong>}
-              <button type="button" className="btn btn-quiet" onClick={shuffle} title="Blanda ordningen och börja om" aria-label="Blanda">
-                <svg viewBox="0 0 24 24" className="size-5 sm:hidden" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <path d="M3 7h3c4 0 6 10 10 10h5M3 17h3c1.6 0 2.8-1.6 4-3.6M14 10.6C15.2 8.6 16.4 7 18 7h3M18 4l3 3-3 3M18 14l3 3-3 3" />
-                </svg>
-                <span className="max-sm:hidden">Blanda</span>
-              </button>
               {done
                 ? <button type="button" className="btn btn-primary" onClick={restart}>Börja om</button>
                 : <>

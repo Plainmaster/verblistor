@@ -50,10 +50,10 @@ function regularForm(verb: Verb, g: RegularGroup, form: FormKey): string | null 
 }
 
 const GROUP_RULE: Record<RegularGroup, string> = {
-  '1': 'Grupp 1: stammen slutar på -a och får -r, -de, -t',
-  '2a': 'Grupp 2a: stammen får -er, -de, -t',
-  '2b': 'Grupp 2b: stammen får -er, -te, -t (den slutar på k, p, s, t eller x)',
-  '3': 'Grupp 3: stammen får -r, -dde, -tt',
+  '1': 'Grupp 1: imperativen slutar på -a och får -r, -de, -t',
+  '2a': 'Grupp 2a: imperativen slutar på en konsonant och får -er, -de, -t',
+  '2b': 'Grupp 2b: imperativen slutar på p, k, s, t eller x och får -er, -te, -t',
+  '3': 'Grupp 3: korta verb som får -r, -dde, -tt',
 }
 
 export function diagnose(answer: string, verb: Verb, form: FormKey): Diagnosis {
@@ -105,10 +105,10 @@ export function diagnose(answer: string, verb: Verb, form: FormKey): Diagnosis {
   }
 
   if ((verb.group === '2a' && hit === '2b') || (verb.group === '2b' && hit === '2a')) {
-    const stem = verb.inf.replace(/a$/, '')
+    const imp = verb.imp ?? verb.inf.replace(/a$/, '')
     const why = verb.group === '2b'
-      ? `stammen ${stem}- slutar på ett tonlöst ljud (k, p, s, t, x) och får därför -te/-t`
-      : `stammen ${stem}- slutar på ett tonande ljud och får därför -de/-t`
+      ? `imperativen ${imp}! slutar på p, k, s, t eller x (Pakistanregeln) och får därför -te`
+      : `imperativen ${imp}! slutar inte på p, k, s, t eller x och får därför -de`
     return { type: 'voicing', message: `Grupp ${verb.group}: ${why}. → ${target}` }
   }
 

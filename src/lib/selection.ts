@@ -21,13 +21,17 @@ export function describe(f: Filter): string {
 export function useSelection() {
   const [params, setParams] = useSearchParams()
   const { filter, sort } = useMemo(() => fromParams(params), [params])
-  const verbs = useMemo(() => sortVerbs(filterVerbs(VERBS, filter, FAMILY_IDS), sort, FAMILY_ORDER), [filter, sort])
+  const seed = Number(params.get('blanda')) || 1
+  const verbs = useMemo(() => sortVerbs(filterVerbs(VERBS, filter, FAMILY_IDS), sort, FAMILY_ORDER, seed), [filter, sort, seed])
 
-  const set = useCallback((f: Filter, s: Sort) => {
+  // choosing Blandat again shuffles anew
+  const set = useCallback((f: Filter, s: Sort, reshuffle = false) => {
     setParams((prev) => {
       const next = new URLSearchParams(toParams(f, s))
       const keep = prev.get('verb')
       if (keep) next.set('verb', keep)
+      const old = prev.get('blanda')
+      if (s === 'mix') next.set('blanda', reshuffle || !old ? String(1 + Math.floor(Math.random() * 1e6)) : old)
       return next
     }, { replace: true })
   }, [setParams])
@@ -39,7 +43,7 @@ export function useSelection() {
     verbs,
     query: query ? `?${query}` : '',
     setFilter: (patch: Partial<Filter>) => set({ ...filter, ...patch }, sort),
-    setSort: (s: Sort) => set(filter, s),
+    setSort: (s: Sort) => set(filter, s, true),
     openVerb: params.get('verb'),
     setOpenVerb: (id: string | null) => setParams((prev) => {
       const next = new URLSearchParams(prev)
