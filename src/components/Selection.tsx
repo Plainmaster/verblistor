@@ -10,7 +10,7 @@ const KIND_NOTE: Partial<Record<Kind, string>> = {
   helper: 'Hjälpverb står före ett annat verb, som står i infinitiv utan att: Jag vill åka, inte vill att åka. Börja med kan, vill och måste, fortsätt med får och bör. Har och ska visar tiden: har + supinum är perfekt (Jag har ätit), ska + infinitiv är futurum (Jag ska äta). Halvhjälpverben brukar, behöver, hinner och orkar tar inte heller att: Jag brukar cykla.',
   particle: 'Partikeln är betonad: ge upp, med betoning på upp. Verbet böjs som vanligt, men betydelsen kan vara ny (ge upp = sluta försöka) eller utvidgad (frysa in = lägga i frysen). Klicka på ett verb för att se vilket.',
   reflexive: 'Verbet har ett pronomen som pekar tillbaka: jag lägger mig, du lägger dig, hon lägger sig. Listan visar sig. Imperativen har dig, eftersom man talar till någon: lägg dig! När du övar räknas alla pronomen som rätt: mig, dig, sig, oss och er.',
-  sVerb: 'Slutar på -s men är inte passiva. Deponens finns bara med -s: hoppas, andas. Reciproka betyder att man gör något med varandra: träffas, ses.',
+  sVerb: 'De här verben slutar alltid på -s, även i presens: jag hoppas, jag trivs, det finns. Några betyder att man gör något med varandra: Vi ses! Vi träffas på fredag.',
 }
 
 /** Which verbs, shared by the list and the practice page through the URL, so both always show the same selection. */

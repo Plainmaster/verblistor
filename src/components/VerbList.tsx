@@ -2,7 +2,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { applyShortcuts } from '../lib/check'
 import { diagnose, FORM_NAMES, isCareless, type Diagnosis } from '../lib/diagnose'
 import { formsFor, isTop, type Kind, type Sort } from '../lib/filters'
-import { groupLabel, sKind } from '../lib/groups'
+import { groupLabel } from '../lib/groups'
 import { sections, sectionTitle } from '../lib/sections'
 import type { Col, ColState, Settings } from '../lib/storage'
 import type { FormKey, Verb } from '../lib/types'
@@ -184,7 +184,6 @@ export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[];
           {f === 'inf' && s === 'show' ? (
             <span className="block">
               <button type="button" onClick={() => onOpen(v.id)} className={`text-left text-lg hover:underline underline-offset-4 ${v.rare?.includes('inf') ? 'rare' : isTop(v) || strong ? 'font-bold' : ''}`} lang="sv">{v.inf}</button>
-              {v.sVerb && <span className="ml-2 text-sm italic text-muted">{sKind(v)}</span>}
             </span>
           ) : (
             <span className={`block text-[0.98rem] sm:text-[1.05rem] break-words ${strong ? 'font-bold' : ''}`}>

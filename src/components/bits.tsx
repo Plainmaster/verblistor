@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { segments } from '../lib/conjugate'
 import { isTop } from '../lib/filters'
-import { sKind } from '../lib/groups'
 import { canSpeak, onVoicesReady, speak } from '../lib/speech'
 import type { FormKey, Group, Verb } from '../lib/types'
 import { useStore } from '../store'
@@ -79,7 +78,7 @@ export function Tags({ verb }: { verb: Verb }) {
   return (
     <span className="inline-flex flex-wrap gap-1.5 align-middle">
       {isTop(verb) && <Tag tone="ink" title="Bland de 100 vanligaste verben">Topp 100</Tag>}
-      {verb.sVerb && <Tag title={sKind(verb) === 'reciprokt' ? 'Man gör något med varandra' : 'Finns bara med -s men är inte passiv'}>s-verb · {sKind(verb)}</Tag>}
+      {verb.sVerb && <Tag title="Slutar alltid på -s">s-verb</Tag>}
       {verb.particle && <Tag title="Betonad partikel">partikelverb</Tag>}
       {verb.reflexive && <Tag>reflexivt</Tag>}
     </span>

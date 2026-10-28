@@ -102,4 +102,14 @@ describe('diagnose', () => {
       expect(diagnose('hörte av mig', hora, 'pret').type).toBe('voicing')
     })
   })
+
+  describe('s-verbs', () => {
+    const sv = (inf: string, pres: string, pret: string, sup: string, group: Verb['group']): Verb => ({ ...v(inf, pres, pret, sup, null, group), sVerb: true })
+    it('the -r of other verbs in the present is pointed out', () => {
+      expect(diagnose('trivers', sv('trivas', 'trivs', 'trivdes', 'trivts', '2a'), 'pres').type).toBe('sVerb')
+      expect(diagnose('finner', sv('finnas', 'finns', 'fanns', 'funnits', '4'), 'pres').type).toBe('sVerb')
+      expect(diagnose('hoppar', sv('hoppas', 'hoppas', 'hoppades', 'hoppats', '1'), 'pres').type).toBe('sVerb')
+      expect(diagnose('umgår', sv('umgås', 'umgås', 'umgicks', 'umgåtts', '4'), 'pres').type).toBe('sVerb')
+    })
+  })
 })

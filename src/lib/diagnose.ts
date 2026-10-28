@@ -4,7 +4,7 @@ import type { FormKey, RegularGroup, Verb } from './types'
 
 export type DiagnosisType =
   | 'correct' | 'empty' | 'accent' | 'wrongForm' | 'participle' | 'regularized'
-  | 'voicing' | 'wrongGroup' | 'group3' | 'doubling' | 'vowel' | 'umlaut' | 'reflexive' | 'typo' | 'unknown'
+  | 'voicing' | 'wrongGroup' | 'group3' | 'doubling' | 'vowel' | 'umlaut' | 'reflexive' | 'sVerb' | 'typo' | 'unknown'
 
 export interface Diagnosis {
   type: DiagnosisType
@@ -19,7 +19,7 @@ export const ERROR_LABELS: Record<DiagnosisType, string> = {
   correct: 'Rätt', empty: 'Inget svar', accent: 'Å, ä eller ö saknas', wrongForm: 'Fel tempus',
   participle: 'Particip i stället för supinum', regularized: 'Starkt verb med regelbunden ändelse', voicing: '2a eller 2b',
   wrongGroup: 'Fel grupp', group3: 'Grupp 3: -dde/-tt', doubling: 'Dubbelteckning',
-  vowel: 'Fel vokal', umlaut: 'Omljud', reflexive: 'Reflexivt pronomen', typo: 'Slarvfel', unknown: 'Övrigt',
+  vowel: 'Fel vokal', umlaut: 'Omljud', reflexive: 'Reflexivt pronomen', sVerb: 's-verb utan -s', typo: 'Slarvfel', unknown: 'Övrigt',
 }
 
 /** Careless slips: the grammar is right, the spelling is not. Shown as feedback but kept out of "Mina fel". */
@@ -108,6 +108,11 @@ export function diagnose(answer: string, verb: Verb, form: FormKey): Diagnosis {
 
   if (targets.some((t) => fold(t) === fold(a))) {
     return { type: 'accent', message: `Nästan! Kolla å, ä och ö: ${target}.` }
+  }
+
+  // trivers, finner, hoppar: the -r of other verbs instead of the -s
+  if (verb.sVerb && form === 'pres' && targets.includes(`${a.replace(/(e?r)s?$/, '')}s`) && /rs?$/.test(a)) {
+    return { type: 'sVerb', message: `S-verb slutar på -s även i presens: ${target}.` }
   }
 
   const other = (['inf', 'imp', 'pres', 'pret', 'sup', 'part'] as FormKey[]).find(

@@ -98,7 +98,8 @@ export const patternLabel = (family: string) => family.replace(/–/g, ' – ')
  *  Strong verbs show their pattern elsewhere, so the 4a–4h codes stay out of it. */
 export const groupLabel = (v: Verb): string => (v.umlaut ? `${v.group} omlj` : v.group)
 
-/** s-verbs where two or more do something to each other; the other s-verbs in the list are deponents. */
+/** s-verbs where two or more do something to each other; the other s-verbs in the list are deponents.
+ *  The terms stay in the code; students see plain words. */
 export const RECIPROCAL = new Set(['träffas', 'ses', 'slåss', 'umgås', 'mötas', 'kramas', 'pussas', 'brottas', 'enas'])
 export const sKind = (v: Verb): 'reciprokt' | 'deponens' | null =>
   v.sVerb ? (RECIPROCAL.has(v.inf.split(' ')[0]) ? 'reciprokt' : 'deponens') : null
@@ -133,3 +134,18 @@ export const FAMILY_ORDER: string[] = SUBGROUPS.map((s) => s.family)
 
 /** Where to read about a verb's group: that group opened on the group page. */
 export const learnPath = (v: Verb): string => `/grupper?open=${v.group}`
+
+const TOGETHER: Record<string, string> = {
+  ses: 'Vi ses imorgon!', träffas: 'Vi träffas på fredag.', umgås: 'Vi umgås på helgerna.', slåss: 'Barnen slåss på skolgården.',
+}
+
+/** What a student needs to know about an s-verb, in plain words. */
+export function sVerbNote(v: Verb): string | null {
+  if (!v.sVerb) return null
+  const forms = `Slutar alltid på -s, även i presens: ${v.pres} – ${v.pret} – ${v.sup}.`
+  if (sKind(v) === 'reciprokt') return `${forms} Två eller flera gör något med varandra: ${TOGETHER[v.id] ?? `Vi ${v.pres}.`}`
+  // hoppas is not hoppa, känns is not känner
+  const base = VERB_BY_ID.get(v.inf.replace(/s$/, ''))
+  const name = (w: string) => w[0].toUpperCase() + w.slice(1)
+  return base && !base.sVerb ? `${forms} ${name(v.inf)} betyder något annat än ${base.inf}.` : forms
+}

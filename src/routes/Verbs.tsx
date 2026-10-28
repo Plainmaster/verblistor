@@ -5,7 +5,7 @@ import SelectionControls from '../components/Selection'
 import VerbList from '../components/VerbList'
 import { FORM_NAMES } from '../lib/diagnose'
 import { ALSO_MAIN, helperType, isTop } from '../lib/filters'
-import { GROUP_BY_ID, learnPath, patternLabel, subgroupOf, VERBS, VERB_BY_ID } from '../lib/groups'
+import { GROUP_BY_ID, learnPath, patternLabel, subgroupOf, sVerbNote, VERBS, VERB_BY_ID } from '../lib/groups'
 import { makeSentence } from '../lib/sentences'
 import { useSelection } from '../lib/selection'
 import type { FormKey, SenseKind, Verb } from '../lib/types'
@@ -58,6 +58,7 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
   )
   // one line on what to learn: the vowel pattern, the vowel shift, or the group's rule
   const pattern = sub ? `${patternLabel(sub.family)}, som ${sub.typ}.`
+    : verb.sVerb && verb.group !== '4' ? `Som andra verb i ${g.name.toLowerCase()}, med -s på slutet: ${verb.pret}, ${verb.sup}.`
     : verb.umlaut ? 'Omljud: vokalen byts, ändelserna är de vanliga.'
       : verb.id === 'ha' ? 'Hjälpverb för perfekt: har + supinum, Jag har ätit. Också ett vanligt verb: Jag har en bil.'
         : verb.id === 'skola' ? 'Hjälpverb för futurum: ska + infinitiv, Jag ska äta. Lär dig ska – skulle.'
@@ -106,6 +107,7 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
         </table>
 
         {verb.sense && <Sense verb={verb} sense={verb.sense} />}
+        {verb.sVerb && <p className="m-0 border-l-2 border-ink pl-3 text-[1.02rem]" lang="sv">{sVerbNote(verb)}</p>}
 
         <p className="m-0 text-[1.02rem]">
           <Link className="font-bold underline underline-offset-2 text-ink" to={learnPath(verb)}>{g.name}</Link> · {pattern}
