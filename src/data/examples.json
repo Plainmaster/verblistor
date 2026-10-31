@@ -167,5 +167,211 @@
   "pres": "Mobiler {går} ofta {sönder}.",
   "pret": "Tvättmaskinen {gick} {sönder} i går.",
   "sup": "Hissen har {gått} {sönder}, så vi får ta trappan."
+ },
+ "gå upp": {
+  "imp": "{Gå} {upp} nu, annars kommer du för sent!",
+  "inf": "I morgon måste jag {gå} {upp} klockan sex.",
+  "pres": "Jag {går} {upp} tidigt varje morgon.",
+  "pret": "I morse {gick} jag {upp} klockan fem för att hinna med tåget.",
+  "sup": "Barnen har redan {gått} {upp} och ätit frukost."
+ },
+ "gå ut": {
+  "imp": "{Gå} {ut} och lek, det är så fint väder!",
+  "inf": "Ska vi {gå} {ut} och äta i kväll?",
+  "pres": "Jag {går} {ut} med hunden varje kväll.",
+  "pret": "I lördags {gick} vi {ut} och dansade.",
+  "sup": "Pappa har {gått} {ut} med soporna."
+ },
+ "säga": {
+  "imp": "{Säg} till om du behöver hjälp!",
+  "inf": "Hur ska man {säga} tack på arabiska?",
+  "pres": "Läraren {säger} att provet är på fredag.",
+  "pret": "Han {sa} att han var sjuk och inte kunde komma.",
+  "sup": "Har du {sagt} till chefen att du ska sluta?"
+ },
+ "säga upp": {
+  "imp": "{Säg} {upp} tidningen om du inte läser den!",
+  "inf": "Jag vill {säga} {upp} min lägenhet.",
+  "pres": "Hon {säger} {upp} sig, för hon har fått ett nytt jobb.",
+  "pret": "Förra året {sa} firman {upp} tio personer.",
+  "sup": "Jag har {sagt} {upp} mitt mobilabonnemang."
+ },
+ "äga": {
+  "inf": "Det är dyrt att {äga} en bil i stan.",
+  "pres": "Min bror {äger} en liten restaurang.",
+  "pret": "Mina föräldrar {ägde} en gård utanför staden.",
+  "sup": "Jag har aldrig {ägt} en bil."
+ },
+ "betyda": {
+  "inf": "Vad kan det här ordet {betyda}?",
+  "pres": "Vad {betyder} ordet fika?",
+  "pret": "Det röda ljuset {betydde} att vi måste stanna.",
+  "sup": "Familjen har alltid {betytt} mycket för mig."
+ },
+ "böra": {
+  "pres": "Du {bör} gå till doktorn om du har feber.",
+  "pret": "Jag {borde} ha tagit med paraply i dag."
+ },
+ "ge": {
+  "imp": "{Ge} mig saltet, tack!",
+  "inf": "Jag ska {ge} mamma blommor på hennes födelsedag.",
+  "pres": "Mormor {ger} barnen pengar varje jul.",
+  "pret": "I går {gav} jag min gamla soffa till en granne.",
+  "sup": "Har du {gett} katten mat?"
+ },
+ "ge upp": {
+  "imp": "{Ge} inte {upp}, du klarar det!",
+  "inf": "Jag vill inte {ge} {upp} svenskan, fast det är svårt.",
+  "pres": "Han {ger} aldrig {upp}, inte ens när det är svårt.",
+  "pret": "Hon letade efter nycklarna i en timme, men sedan {gav} hon {upp}.",
+  "sup": "Jag har {gett} {upp} tanken på att köpa hus."
+ },
+ "skriva": {
+  "imp": "{Skriv} ditt namn här!",
+  "inf": "Jag ska {skriva} ett mejl till läraren.",
+  "pres": "Min dotter {skriver} dagbok varje kväll.",
+  "pret": "I går {skrev} jag en ansökan till ett nytt jobb.",
+  "sup": "Har du {skrivit} din adress på blanketten?"
+ },
+ "skriva under": {
+  "imp": "Läs avtalet och {skriv} {under} längst ner!",
+  "inf": "Du måste {skriva} {under} hyreskontraktet.",
+  "pres": "Föräldrarna {skriver} {under} lappen om utflykten.",
+  "pret": "I går {skrev} jag {under} mitt nya anställningsavtal.",
+  "sup": "Har du {skrivit} {under} papperen från banken?"
+ },
+ "börja": {
+  "imp": "{Börja} läsa på sidan tio!",
+  "inf": "När ska du {börja} på ditt nya jobb?",
+  "pres": "Skolan {börjar} klockan åtta.",
+  "pret": "Det {började} regna när vi gick hem.",
+  "sup": "Min son har {börjat} i förskolan."
+ },
+ "tro": {
+  "imp": "{Tro} inte på allt du läser på nätet!",
+  "inf": "Det är svårt att {tro} att hon bara är tolv år.",
+  "pres": "Jag {tror} att det blir regn i morgon.",
+  "pret": "Jag {trodde} att affären var öppen, men den var stängd.",
+  "sup": "Jag har alltid {trott} att Sverige är ett kallt land."
+ },
+ "tycka": {
+  "inf": "Du får {tycka} vad du vill om filmen.",
+  "pres": "Jag {tycker} att svenska är svårt men roligt.",
+  "pret": "Vad {tyckte} du om filmen i går?",
+  "sup": "Jag har alltid {tyckt} att vintern är för lång."
+ },
+ "tycka om": {
+  "inf": "Det är lätt att {tycka} {om} henne. Hon är alltid glad.",
+  "pres": "Jag {tycker} {om} att laga mat.",
+  "pret": "Som barn {tyckte} jag inte {om} fisk.",
+  "sup": "Jag har alltid {tyckt} {om} att läsa."
+ },
+ "tycka till": {
+  "imp": "Vi vill veta vad du tycker. {Tyck} {till} i enkäten!",
+  "inf": "På mötet får alla {tycka} {till} om schemat.",
+  "pres": "Eleverna {tycker} {till} om kursen i slutet av terminen.",
+  "pret": "Många {tyckte} {till} om det nya torget.",
+  "sup": "Har du {tyckt} {till} om skolans nya regler?"
+ },
+ "veta": {
+  "inf": "Jag vill {veta} när bussen går.",
+  "pres": "{Vet} du var toaletten är?",
+  "pret": "Jag {visste} inte att du hade en syster.",
+  "sup": "Jag har alltid {vetat} att jag ville bli lärare."
+ },
+ "försöka": {
+  "imp": "{Försök} igen! Du var nästan rätt.",
+  "inf": "Jag ska {försöka} komma i tid i morgon.",
+  "pres": "Jag {försöker} prata svenska hemma med barnen.",
+  "pret": "Han {försökte} ringa, men ingen svarade.",
+  "sup": "Har du {försökt} att starta om datorn?"
+ },
+ "behöva": {
+  "inf": "Du kommer att {behöva} varma kläder i vinter.",
+  "pres": "Jag {behöver} hjälp med läxan.",
+  "pret": "I går {behövde} jag inte jobba.",
+  "sup": "Jag har inte {behövt} gå till doktorn i år."
+ },
+ "känna": {
+  "imp": "{Känn} hur varmt vattnet är!",
+  "inf": "Det är skönt att {känna} solen i ansiktet.",
+  "pres": "{Känner} du någon som hyr ut en lägenhet?",
+  "pret": "Jag {kände} ingen när jag kom till Sverige.",
+  "sup": "Vi har {känt} varandra sedan skolan."
+ },
+ "känna igen": {
+  "inf": "Jag kunde inte {känna} {igen} honom med skägg.",
+  "pres": "{Känner} du {igen} den här låten?",
+  "pret": "Hon {kände} {igen} mig direkt, fast det var tio år sedan.",
+  "sup": "Har du {känt} {igen} någon på det gamla klassfotot?"
+ },
+ "känna sig": {
+  "imp": "{Känn} dig som hemma!",
+  "inf": "Det är viktigt att {känna} sig trygg på jobbet.",
+  "pres": "Jag {känner} mig trött i dag.",
+  "pret": "Hon {kände} sig ensam den första vintern i Sverige.",
+  "sup": "Jag har aldrig {känt} mig så glad som när min dotter föddes."
+ },
+ "läsa": {
+  "imp": "{Läs} texten och svara på frågorna!",
+  "inf": "Jag vill {läsa} en bok på svenska.",
+  "pres": "Pappa {läser} tidningen till frukost.",
+  "pret": "I går {läste} jag en saga för barnen.",
+  "sup": "Har du {läst} brevet från Skatteverket?"
+ },
+ "låta": {
+  "imp": "{Låt} mig hjälpa dig!",
+  "inf": "Du ska inte {låta} barnen äta godis varje dag.",
+  "pres": "Ska vi gå på bio? Det {låter} kul!",
+  "pret": "Hon {lät} glad i telefonen.",
+  "sup": "Grannen har {låtit} hunden skälla hela natten."
+ },
+ "stå": {
+  "imp": "{Stå} still, så tar jag ett kort!",
+  "inf": "Bussen var full, så jag fick {stå} hela vägen.",
+  "pres": "Mjölken {står} i kylskåpet.",
+  "pret": "Vi {stod} i kö i en timme.",
+  "sup": "Bilen har {stått} på gatan i två veckor."
+ },
+ "visa": {
+  "imp": "{Visa} mig hur man gör!",
+  "inf": "Kan du {visa} mig vägen till stationen?",
+  "pres": "Kartan {visar} var skolan ligger.",
+  "pret": "Läraren {visade} en film om Sverige.",
+  "sup": "Har du {visat} dina betyg för Arbetsförmedlingen?"
+ },
+ "använda": {
+  "imp": "{Använd} hjälm när du cyklar!",
+  "inf": "Får jag {använda} din telefon?",
+  "pres": "Jag {använder} appen för att lära mig nya ord.",
+  "pret": "I går {använde} jag tvättstugan för första gången.",
+  "sup": "Har du {använt} din nya cykel?"
+ },
+ "vända": {
+  "imp": "{Vänd} på sidan!",
+  "inf": "Du måste {vända} bilen här.",
+  "pres": "Bussen {vänder} vid sjukhuset och kör tillbaka.",
+  "pret": "Han {vände} sig om och vinkade.",
+  "sup": "Har du {vänt} på pannkakan?"
+ },
+ "hålla": {
+  "imp": "{Håll} i dig, bussen svänger!",
+  "inf": "Kan du {hålla} min väska en stund?",
+  "pres": "Hon {håller} sin dotter i handen.",
+  "pret": "Läraren {höll} ett tal på skolavslutningen.",
+  "sup": "Mitt gamla kylskåp har {hållit} i tjugo år."
+ },
+ "hålla med": {
+  "inf": "Du säger att Lund är dyrt. Det kan jag {hålla} {med} om.",
+  "pres": "Jag {håller} {med} dig, filmen var för lång.",
+  "pret": "Alla {höll} {med} om att vi skulle äta pizza.",
+  "sup": "Chefen har {hållit} {med} om att vi behöver fler pauser."
+ },
+ "hålla på": {
+  "imp": "{Håll} inte {på} med mobilen vid maten!",
+  "inf": "Han brukar {hålla} {på} med fotboll på helgerna.",
+  "pres": "Vi {håller} {på} att måla om köket.",
+  "pret": "Jag {höll} {på} att missa bussen i morse.",
+  "sup": "Hur länge har du {hållit} {på} med yoga?"
  }
 }
