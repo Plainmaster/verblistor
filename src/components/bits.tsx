@@ -36,11 +36,13 @@ function useCanSpeak(): boolean {
 }
 
 /** A verb form you can click to hear just that form. */
-export function Say({ verb, form }: { verb: Verb; form: FormKey }) {
+export function Say({ verb, form, plain = false }: { verb: Verb; form: FormKey; plain?: boolean }) {
   const ok = useCanSpeak()
   const text = form === 'part' ? verb.part : verb[form]
+  // `plain` is the infinitive as the row's heading: no ending marked, the row's own styling for rare forms
+  const shown = plain ? <span lang="sv">{text}</span> : <Word verb={verb} form={form} />
   // rare forms are not read aloud: they are not meant to be used, and the voice may say another word (bort)
-  if (!ok || !text || verb.rare?.includes(form)) return <Word verb={verb} form={form} />
+  if (!ok || !text || verb.rare?.includes(form)) return shown
   return (
     <button
       type="button"
@@ -48,7 +50,7 @@ export function Say({ verb, form }: { verb: Verb; form: FormKey }) {
       title={`Lyssna: ${text}`}
       className="text-left rounded-[2px] -mx-1 px-1 hover:bg-sunk hover:underline hover:decoration-dotted hover:underline-offset-4 cursor-pointer"
     >
-      <Word verb={verb} form={form} />
+      {shown}
     </button>
   )
 }

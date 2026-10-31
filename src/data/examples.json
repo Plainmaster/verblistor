@@ -1,0 +1,171 @@
+{
+ "vara": {
+  "imp": "{Var} rädd om dig!",
+  "inf": "Du måste {vara} här klockan åtta.",
+  "pres": "Det {är} kallt i Sverige på vintern.",
+  "pret": "I går {var} jag sjuk.",
+  "sup": "Jag har {varit} i Sverige i två år."
+ },
+ "ha": {
+  "imp": "{Ha} det så roligt!",
+  "inf": "Jag vill {ha} en kopp kaffe.",
+  "pres": "Jag {har} två barn.",
+  "pret": "Han {hade} ont i en fot.",
+  "sup": "Vi har {haft} en bra dag."
+ },
+ "kunna": {
+  "inf": "Jag vill {kunna} prata svenska bra.",
+  "pres": "{Kan} du hjälpa mig?",
+  "pret": "Hon {kunde} inte sova i natt.",
+  "sup": "Jag har inte {kunnat} studera i dag."
+ },
+ "skola": {
+  "pres": "Jag {ska} handla efter jobbet.",
+  "pret": "Vi {skulle} åka, men bussen kom inte."
+ },
+ "få": {
+  "inf": "Kan jag {få} en kopp te?",
+  "pres": "Barnen {får} glass på lördagar.",
+  "pret": "I går {fick} jag ett nytt jobb.",
+  "sup": "Hon har {fått} en ny lägenhet."
+ },
+ "bli": {
+  "imp": "{Bli} inte ledsen!",
+  "inf": "Jag vill {bli} sjuksköterska.",
+  "pres": "Det {blir} kallt i kväll.",
+  "pret": "Han {blev} sjuk förra veckan.",
+  "sup": "Min son var sjuk i går, men nu har han {blivit} lite bättre."
+ },
+ "komma": {
+  "imp": "{Kom} nu!",
+  "inf": "Kan du {komma} på fredag?",
+  "pres": "Jag {kommer} från Syrien.",
+  "pret": "Bussen {kom} för sent i morse.",
+  "sup": "Nu har hösten {kommit}."
+ },
+ "komma fram": {
+  "imp": "{Kom} {fram} och hälsa!",
+  "inf": "Det är svårt att {komma} {fram} i snön.",
+  "pres": "Tåget {kommer} {fram} klockan tre.",
+  "pret": "Vi {kom} {fram} sent på kvällen.",
+  "sup": "Har ni {kommit} {fram}?"
+ },
+ "komma ihåg": {
+  "imp": "{Kom} {ihåg} att ta med boken!",
+  "inf": "Jag måste {komma} {ihåg} att köpa mjölk.",
+  "pres": "{Kommer} du {ihåg} mig? Vi gick i samma klass.",
+  "pret": "På bussen {kom} jag {ihåg} att spisen var på.",
+  "sup": "Har du {kommit} {ihåg} nycklarna?"
+ },
+ "komma tillbaka": {
+  "imp": "{Kom} {tillbaka} snart!",
+  "inf": "Lund är så fint. Jag vill {komma} {tillbaka} hit i sommar.",
+  "pres": "Hon {kommer} {tillbaka} i morgon.",
+  "pret": "Katten {kom} aldrig {tillbaka}.",
+  "sup": "Efter en lång vinter har solen {kommit} {tillbaka}."
+ },
+ "vilja": {
+  "inf": "Vilket land skulle du {vilja} resa till?",
+  "pres": "Jag {vill} lära mig svenska.",
+  "pret": "Barnen {ville} inte sova.",
+  "sup": "Jag har alltid {velat} bo vid havet."
+ },
+ "göra": {
+  "imp": "{Gör} som du vill!",
+  "inf": "Vad ska vi {göra} i kväll?",
+  "pres": "Vad {gör} du i helgen?",
+  "pret": "Vad {gjorde} du i går?",
+  "sup": "Jag har {gjort} mina läxor."
+ },
+ "finna": {
+  "inf": "Det är svårt att {finna} rätt ord.",
+  "pres": "Jag {finner} inga ord för hur glad jag är.",
+  "pret": "Under sängen {fann} jag en gammal låda.",
+  "sup": "Forskare har {funnit} vatten på Mars."
+ },
+ "ta": {
+  "imp": "{Ta} en kaka!",
+  "inf": "Du kan {ta} en kaka till.",
+  "pres": "Det {tar} tio minuter att gå dit.",
+  "pret": "Jag {tog} bussen till jobbet.",
+  "sup": "Har du {tagit} din medicin?"
+ },
+ "ta emot": {
+  "imp": "{Ta} {emot} bollen!",
+  "inf": "Förskolan är full. Vi kan inte {ta} {emot} fler barn.",
+  "pres": "Sverige {tar} {emot} många flyktingar.",
+  "pret": "Hon vann tävlingen och {tog} {emot} priset.",
+  "sup": "Har du {tagit} {emot} paketet?"
+ },
+ "ta med": {
+  "imp": "{Ta} {med} varma kläder!",
+  "inf": "Du måste {ta} {med} legitimation.",
+  "pres": "Jag {tar} {med} mig matlåda till jobbet.",
+  "pret": "{Tog} du {med} presenten till mormor?",
+  "sup": "Vi har {tagit} {med} oss badkläder."
+ },
+ "ta reda på": {
+  "imp": "{Ta} {reda} {på} vad du har för rättigheter!",
+  "inf": "Vi måste {ta} {reda} {på} när skolan börjar.",
+  "pres": "Jag {tar} {reda} {på} när bussen går.",
+  "pret": "Polisen {tog} {reda} {på} vad som hände.",
+  "sup": "Forskare har {tagit} {reda} {på} varför vi gäspar."
+ },
+ "ta upp": {
+  "imp": "{Ta} {upp} era böcker!",
+  "inf": "Kan du {ta} {upp} problemet med parkeringen på mötet?",
+  "pres": "Han {tar} {upp} telefonen.",
+  "pret": "Pappa {tog} {upp} boken från golvet.",
+  "sup": "Hon har {tagit} {upp} frågan om lönen på mötet."
+ },
+ "se": {
+  "imp": "{Se} dig för!",
+  "inf": "Vill du {se} mina bilder?",
+  "pres": "Jag {ser} inte tavlan.",
+  "pret": "Vi {såg} en film i går.",
+  "sup": "Har du {sett} min telefon?"
+ },
+ "se fram emot": {
+  "inf": "Snart är det sommarlov. Det är skönt att ha något att {se} {fram} {emot}.",
+  "pres": "Jag {ser} {fram} {emot} sommaren.",
+  "pret": "Barnen {såg} {fram} {emot} julen.",
+  "sup": "Jag har {sett} {fram} {emot} min examen länge."
+ },
+ "se ut": {
+  "imp": "{Se} inte så ledsen {ut}! Det ordnar sig.",
+  "inf": "Hur ska tårtan {se} {ut}?",
+  "pres": "Maten {ser} god {ut}!",
+  "pret": "Du {såg} trött {ut} i går.",
+  "sup": "Torget har {sett} {ut} så här i hundra år."
+ },
+ "måste": {
+  "pres": "Jag {måste} gå nu.",
+  "pret": "I går {måste} jag jobba sent."
+ },
+ "gå": {
+  "imp": "{Gå} försiktigt, det är halt!",
+  "inf": "Vill du {gå} en promenad?",
+  "pres": "Jag {går} till jobbet varje dag.",
+  "pret": "Vi {gick} på bio i lördags.",
+  "sup": "Intervjun har {gått} bra."
+ },
+ "gå av": {
+  "imp": "{Gå} {av} vid Centralen!",
+  "inf": "Nästa hållplats är Centralen. Där ska vi {gå} {av}.",
+  "pres": "Jag {går} {av} vid nästa hållplats.",
+  "pret": "Vi {gick} {av} tåget i Lund.",
+  "sup": "Alla har redan {gått} {av} bussen."
+ },
+ "gå med på": {
+  "inf": "Chefen vill att vi jobbar på julafton. Det kan vi aldrig {gå} {med} {på}.",
+  "pres": "Jag vill ha ledigt på fredag, men chefen {går} inte {med} {på} det.",
+  "pret": "Anna {gick} {med} {på} att byta pass med mig.",
+  "sup": "Hyresvärden har {gått} {med} {på} att måla om köket."
+ },
+ "gå sönder": {
+  "inf": "Glaset kan {gå} {sönder}.",
+  "pres": "Mobiler {går} ofta {sönder}.",
+  "pret": "Tvättmaskinen {gick} {sönder} i går.",
+  "sup": "Hissen har {gått} {sönder}, så vi får ta trappan."
+ }
+}

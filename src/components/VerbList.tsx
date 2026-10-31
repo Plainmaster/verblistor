@@ -7,7 +7,7 @@ import { sections, sectionTitle } from '../lib/sections'
 import type { Col, ColState, Settings } from '../lib/storage'
 import type { FormKey, Verb } from '../lib/types'
 import { useStore } from '../store'
-import { LineBadge, PARADIGM, Say, Speak, SwedishKeys } from './bits'
+import { LineBadge, PARADIGM, Say, SwedishKeys } from './bits'
 
 const COLS: Col[] = [...PARADIGM, 'en', 'group']
 const NAME = (c: Col) => (c === 'en' ? 'engelska' : c === 'group' ? 'grupp' : FORM_NAMES[c])
@@ -24,6 +24,18 @@ export function Eye({ state }: { state: ColState }) {
       <circle cx="12" cy="12" r="3" fill={state === 'show' ? 'currentColor' : 'none'} />
       {state === 'hide' && <path d="M4 4l16 16" />}
     </svg>
+  )
+}
+
+/** Opens the verb panel: forms in sentences, meaning and what is good to know. */
+function More({ verb, onOpen }: { verb: Verb; onOpen: (id: string) => void }) {
+  return (
+    <button type="button" onClick={(e) => { e.stopPropagation(); onOpen(verb.id) }} title="Öppna verbet" aria-label={`Öppna ${verb.inf}`}
+      className="inline-grid place-items-center size-9 shrink-0 rounded-[2px] text-muted group-hover/row:text-ink hover:bg-sunk print:hidden">
+      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d="m9 5 7 7-7 7" />
+      </svg>
+    </button>
   )
 }
 
@@ -182,8 +194,9 @@ export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[];
       return (
         <div key={f} className={`min-w-0 ${mobileFirst}`}>{label}
           {f === 'inf' && s === 'show' ? (
-            <span className="block">
-              <button type="button" onClick={() => onOpen(v.id)} className={`text-left text-lg hover:underline underline-offset-4 ${v.rare?.includes('inf') ? 'rare' : isTop(v) || strong ? 'font-bold' : ''}`} lang="sv">{v.inf}</button>
+            <span className="flex items-center justify-between gap-2">
+              <span className={`text-lg ${v.rare?.includes('inf') ? 'rare' : isTop(v) || strong ? 'font-bold' : ''}`}><Say verb={v} form="inf" plain /></span>
+              <span className="sm:hidden"><More verb={v} onOpen={onOpen} /></span>
             </span>
           ) : (
             <span className={`block text-[0.98rem] sm:text-[1.05rem] break-words ${strong ? 'font-bold' : ''}`}>
@@ -231,7 +244,7 @@ export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[];
           onPointerLeave={() => setHeld([])} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setHeld([]) }}>
           <span className="text-right text-muted">#</span>
           {COLS.map((c) => eye(c, false))}
-          <span><span className="sr-only">Lyssna</span></span>
+          <span><span className="sr-only">Öppna verbet</span></span>
         </div>
         {blocks.map(({ key, verbs: part }) => (
           <Fragment key={key || 'all'}>
@@ -250,7 +263,9 @@ export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[];
                 const r = rows.get(v.id)!
                 const hearInf = !r.asked.includes('inf') || !!checked[`${v.id}:inf`]
                 return (
-                  <li key={v.id} className="border-t border-rule first:border-t-0 px-3 py-2 hover:bg-[color:color-mix(in_srgb,var(--sunk)_45%,transparent)]">
+                  // reading, the whole row opens the verb; practising, only the arrow does, so a click in a cell stays there
+                  <li key={v.id} onClick={mode === 'read' ? () => onOpen(v.id) : undefined}
+                    className={`group/row border-t border-rule first:border-t-0 px-3 py-2 hover:bg-[color:color-mix(in_srgb,var(--sunk)_45%,transparent)] ${mode === 'read' ? 'cursor-pointer' : ''}`}>
                     <div className="grid grid-cols-4 sm:[grid-template-columns:var(--cols)] transition-[grid-template-columns] duration-300 gap-x-3 gap-y-1.5 items-center" style={grid}>
                       <span className="hidden sm:block text-right text-sm text-muted tabular-nums">{i + 1}</span>
                       {PARADIGM.map((f) => cell(v, f))}
@@ -260,7 +275,7 @@ export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[];
                       {state('group') === 'hide'
                         ? covered()
                         : <span className="hidden sm:block"><LineBadge group={v.group} label={groupLabel(v)} /></span>}
-                      <span className="hidden sm:block">{hearInf && <Speak text={v.inf} label={`Lyssna: ${v.inf}`} />}</span>
+                      <span className="hidden sm:block">{hearInf && <More verb={v} onOpen={onOpen} />}</span>
                     </div>
                   </li>
                 )

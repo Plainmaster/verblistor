@@ -32,6 +32,9 @@ export interface Verb extends Forms {
   /** For particle verbs: does the particle give the verb a new meaning (ge upp) or extend it (frysa in),
    *  or is the verb not used without it (slappna av)? With a short Swedish explanation. */
   sense?: { kind: SenseKind; text: string }
+  /** One example per form, chosen from easy-to-read Swedish (8 Sidor, LäSBarT) and reviewed by teachers.
+   *  The verb's words are in braces: Han {gav} aldrig {upp}. */
+  ex?: Partial<Record<FormKey, string>>
 }
 
 export type SenseKind = 'ny' | 'utvidgad' | 'båda' | 'bara'

@@ -1,9 +1,11 @@
 import type { FormKey, Group } from './types'
 import data from '../data/verbs.json'
+import examples from '../data/examples.json'
 import { isAuxiliary } from './filters'
 import type { Verb } from './types'
 
-export const VERBS = data as Verb[]
+const EXAMPLES = examples as Record<string, Verb['ex']>
+export const VERBS = (data as Verb[]).map((v) => (EXAMPLES[v.id] ? { ...v, ex: EXAMPLES[v.id] } : v))
 export const VERB_BY_ID = new Map(VERBS.map((v) => [v.id, v]))
 
 export interface GroupInfo {
@@ -142,7 +144,7 @@ const TOGETHER: Record<string, string> = {
 /** What a student needs to know about an s-verb, in plain words. */
 export function sVerbNote(v: Verb): string | null {
   if (!v.sVerb) return null
-  const forms = `Slutar alltid på -s, även i presens: ${v.pres} – ${v.pret} – ${v.sup}.`
+  const forms = `Slutar alltid på -s, även i presens: ${v.id === 'finnas' || v.id === 'kännas' ? 'det' : 'jag'} ${v.pres}.`
   if (sKind(v) === 'reciprokt') return `${forms} Två eller flera gör något med varandra: ${TOGETHER[v.id] ?? `Vi ${v.pres}.`}`
   // hoppas is not hoppa, känns is not känner
   const base = VERB_BY_ID.get(v.inf.replace(/s$/, ''))

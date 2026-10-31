@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { classify, conjugate, listedGroup2, sForm } from '../lib/conjugate'
-import type { Verb } from '../lib/types'
+import { audioKey } from '../lib/audioKey'
+import type { FormKey, Verb } from '../lib/types'
+import examples from './examples.json'
 import data from './verbs.json'
 
 const verbs = data as Verb[]
@@ -49,5 +51,22 @@ describe('verbs.json', () => {
     expect(get('skilja').umlaut).toBeUndefined()
     expect(get('besluta')).toMatchObject({ pret: 'beslutade', group: '1' })
     expect(get('delta')).toMatchObject({ pret: 'deltog', group: '4', family: 'a–o–a' })
+  })
+})
+
+describe('examples.json', () => {
+  const byId = new Map(verbs.map((v) => [v.id, v]))
+  const cases = Object.entries(examples as Record<string, Partial<Record<FormKey, string>>>)
+    .flatMap(([id, ex]) => Object.entries(ex).map(([f, s]) => [`${id} ${f}`, id, f as FormKey, s] as const))
+
+  it.each(cases)('%s marks exactly the form', (_, id, f, s) => {
+    const v = byId.get(id)
+    expect(v, `${id} is not in verbs.json`).toBeTruthy()
+    // the words in braces, read in order, are the form itself: {Kommer} du {ihåg} → kommer ihåg
+    const marked = [...s.matchAll(/\{([^}]+)\}/g)].map((m) => m[1]).join(' ').toLowerCase()
+    const form = v![f]!.replace(/ (mig|dig|sig|oss|er)\b/g, '')
+    expect(marked).toBe(form.toLowerCase())
+    // the audio bank shortens keys over 100 characters with a hash that audioKey() does not compute
+    expect(audioKey(s.replace(/[{}]/g, '')).length).toBeLessThanOrEqual(100)
   })
 })

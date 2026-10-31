@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { PARADIGM, Say, Speak, Tags } from '../components/bits'
+import { LineBadge, PARADIGM, Say, Speak, Tags } from '../components/bits'
 import SelectionControls from '../components/Selection'
 import VerbList from '../components/VerbList'
 import { FORM_NAMES } from '../lib/diagnose'
 import { ALSO_MAIN, helperType, isTop } from '../lib/filters'
-import { GROUP_BY_ID, learnPath, patternLabel, subgroupOf, sVerbNote, VERBS, VERB_BY_ID } from '../lib/groups'
-import { makeSentence } from '../lib/sentences'
+import { GROUP_BY_ID, groupLabel, learnPath, patternLabel, subgroupOf, sVerbNote, VERBS, VERB_BY_ID } from '../lib/groups'
+import { example, type Example } from '../lib/sentences'
 import { useSelection } from '../lib/selection'
-import type { FormKey, SenseKind, Verb } from '../lib/types'
+import type { SenseKind, Verb } from '../lib/types'
 
 const series = (v: Verb) => (['inf', 'pres', 'pret', 'sup'] as const).filter((f) => !v.rare?.includes(f)).map((f) => v[f]).join(', ')
 
@@ -22,7 +22,7 @@ export default function Verbs() {
         <header>
           <h1 className="page-title">Verblistor</h1>
           <p className="m-0 mt-3 max-w-[62ch] text-lg text-muted">
-            {VERBS.length} svenska verb. Klicka på en form för att höra den, på infinitiven för att läsa mer. Med ögonen döljer du en kolumn eller övar på den.
+            {VERBS.length} svenska verb. Klicka på en form för att höra den. Klicka på raden för att öppna verbet. Med ögonen döljer du en kolumn eller övar på den.
           </p>
         </header>
 
@@ -46,16 +46,10 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
 
   const g = GROUP_BY_ID.get(verb.group)!
   const sub = subgroupOf(verb)
-  const pron = (s: string) => s.replace(/ (mig|dig|sig|oss|er)/g, ' sig')
+  const pron = (s: string) => s.replace(/ (mig|dig|sig|oss|er)/g, ' sig')
   const variants = Object.entries(verb.alt ?? {})
     .map(([k, xs]) => [k, (xs ?? []).filter((x) => pron(x) !== pron(verb[k as 'inf'] ?? ''))] as const)
     .filter(([, xs]) => xs.length)
-  const sentence = (s: { before: string; answer: string; after: string }) => (
-    <span className="text-[0.98rem] font-normal text-muted" lang="sv">
-      {s.before}<strong className="text-ink">{s.answer}</strong>{s.after}{' '}
-      <Speak text={`${s.before}${s.answer}${s.after}`} className="size-7 align-middle" />
-    </span>
-  )
   // one line on what to learn: the vowel pattern, the vowel shift, or the group's rule
   const pattern = sub ? `${patternLabel(sub.family)}, som ${sub.typ}.`
     : verb.sVerb && verb.group !== '4' ? `Som andra verb i ${g.name.toLowerCase()}, med -s på slutet: ${verb.pret}, ${verb.sup}.`
@@ -67,6 +61,12 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
         : helperType(verb) === 'more' ? `${g.rule} Står före ett annat verb, utan att: Jag ${verb.pres} åka.`
         : verb.group === '4' ? 'Oregelbundet: lär in formerna som de är.'
           : g.rule
+  const tips = [
+    verb.sense && <SenseHint key="sense" verb={verb} kind={verb.sense.kind} />,
+    verb.sVerb && sVerbNote(verb),
+    verb.note,
+  ].filter(Boolean)
+  const meanings = verb.sense?.text.split(/\s*\d\)\s*/).filter(Boolean) ?? []
 
   return (
     <dialog
@@ -76,80 +76,100 @@ function VerbDetail({ verb, onClose }: { verb: Verb; onClose: () => void }) {
       className="m-0 ml-auto h-full max-h-none w-full max-w-none sm:max-w-[40rem] bg-paper text-ink p-0 border-l border-ink backdrop:bg-black/50"
       aria-label={verb.inf}
     >
-      <div className="p-5 sm:p-8 grid gap-6">
-        <div className="flex items-start justify-between gap-3">
-          <div>
+      <div className="p-5 sm:p-8 grid gap-8">
+        <header className="flex items-start justify-between gap-3">
+          {/* the heading takes the focus on opening, so no button lights up before it is used */}
+          <div tabIndex={-1} autoFocus className="outline-none min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <h2 className="m-0 text-4xl font-bold" lang="sv">{verb.inf}</h2>
               <Speak text={series(verb)} label="Lyssna på alla former" />
             </div>
             <p className="m-0 mt-1 text-lg italic text-muted" lang="en">{verb.en}</p>
+            {meanings.length > 0 && (
+              <ol className={`m-0 mt-3 p-0 list-none grid gap-0.5 text-xl ${meanings.length > 1 ? '[counter-reset:m]' : ''}`} lang="sv">
+                {meanings.map((m) => (
+                  <li key={m} className={meanings.length > 1 ? "before:[counter-increment:m] before:content-[counter(m)'.'] before:mr-2 before:text-muted" : ''}>{m}</li>
+                ))}
+              </ol>
+            )}
           </div>
-          <button type="button" onClick={() => ref.current?.close()} className="size-10 rounded-[2px] hover:bg-sunk text-2xl leading-none" aria-label="Stäng">×</button>
-        </div>
+          <button type="button" onClick={() => ref.current?.close()} className="size-10 shrink-0 rounded-[2px] hover:bg-sunk text-2xl leading-none" aria-label="Stäng">×</button>
+        </header>
 
-        <table className="ledger">
-          <tbody>
+        <section aria-label="Formerna i meningar">
+          <ol className="m-0 p-0 list-none border-t-[1.5px] border-ink">
             {PARADIGM.filter((f) => verb[f as 'inf']).map((f) => {
-              const s = f === 'pres' || f === 'pret' || f === 'sup' ? !verb.rare?.includes(f) && makeSentence(verb, f, () => 0.4) : null
+              const ex = example(verb, f)
               return (
-                <tr key={f} className="align-baseline">
-                  <td className="sc text-[0.95rem] text-muted py-2 pr-4 whitespace-nowrap">{FORM_NAMES[f]}</td>
-                  <td className="vr py-2 pl-4 sm:pr-4 text-xl font-medium">
-                    <span className="whitespace-nowrap"><Say verb={verb} form={f} /></span>
-                    {s && <span className="sm:hidden block mt-0.5">{sentence(s)}</span>}
-                  </td>
-                  <td className="max-sm:hidden vr py-2 pl-4">{s && sentence(s)}</td>
-                </tr>
+                <li key={f} className="grid sm:grid-cols-[7.5rem_1fr] gap-x-4 gap-y-0.5 py-3 border-b border-rule">
+                  <span className="sc text-[0.95rem] text-muted sm:pt-1.5">{FORM_NAMES[f]}</span>
+                  <div className="min-w-0">
+                    <span className="text-2xl font-medium"><Say verb={verb} form={f} /></span>
+                    {ex && <Sentence ex={ex} />}
+                  </div>
+                </li>
               )
             })}
-          </tbody>
-        </table>
+          </ol>
+        </section>
 
-        {verb.sense && <Sense verb={verb} sense={verb.sense} />}
-        {verb.sVerb && <p className="m-0 border-l-2 border-ink pl-3 text-[1.02rem]" lang="sv">{sVerbNote(verb)}</p>}
+        {tips.length > 0 && (
+          <section aria-label="Tänk på" className="grid gap-2 border-l-[3px] border-ink pl-4">
+            <h3 className="m-0 sc text-[0.95rem] text-muted font-normal">Tänk på</h3>
+            <ul className="m-0 p-0 list-none grid gap-2 text-[1.05rem]" lang="sv">
+              {tips.map((t, i) => <li key={i}>{t}</li>)}
+            </ul>
+          </section>
+        )}
 
-        <p className="m-0 text-[1.02rem]">
-          <Link className="font-bold underline underline-offset-2 text-ink" to={learnPath(verb)}>{g.name}</Link> · {pattern}
-        </p>
+        <section aria-label="Böjning" className="grid gap-1.5">
+          <h3 className="m-0 sc text-[0.95rem] text-muted font-normal">Böjning</h3>
+          <p className="m-0 flex items-center gap-2.5 flex-wrap">
+            <LineBadge group={verb.group} label={groupLabel(verb)} />
+            <Link className="font-semibold underline underline-offset-2 text-ink" to={learnPath(verb)}>{g.name}</Link>
+          </p>
+          <p className="m-0 text-[1.05rem]" lang="sv">{pattern}</p>
+          {verb.part && <p className="m-0 text-[1.05rem]"><span className="text-muted">Particip:</span> <span lang="sv">{verb.part}</span></p>}
+        </section>
 
-        {(verb.part || variants.length > 0 || verb.note || isTop(verb) || verb.sVerb || verb.particle || verb.reflexive) && (
-          <div className="grid gap-1.5 text-[0.95rem] text-muted border-t border-rule pt-4">
-            <div><Tags verb={verb} /></div>
-            {verb.part && <p className="m-0">{FORM_NAMES.part}: <span lang="sv" className="text-ink">{verb.part}</span></p>}
+        {(variants.length > 0 || isTop(verb) || verb.sVerb || verb.particle || verb.reflexive) && (
+          <footer className="grid gap-2 text-[0.95rem] text-muted border-t border-rule pt-4">
+            {(isTop(verb) || verb.sVerb || verb.particle || verb.reflexive) && <div><Tags verb={verb} /></div>}
             {variants.length > 0 && (
               <p className="m-0">
-                Går också:{' '}
-                {variants.map(([k, xs], i) => <span key={k}>{i > 0 && '; '}{FORM_NAMES[k as FormKey]} <span lang="sv" className="text-ink">{xs!.join(', ')}</span></span>)}
+                Äldre eller ovanliga former:{' '}
+                <span lang="sv">{variants.map(([, xs]) => xs!.join(', ')).join(', ')}</span>
               </p>
             )}
-            {verb.note && <p className="m-0 text-ink">{verb.note}</p>}
-          </div>
+          </footer>
         )}
       </div>
     </dialog>
   )
 }
 
+/** An example sentence with the verb's own words in bold, read aloud as a whole. */
+function Sentence({ ex }: { ex: Example }) {
+  return (
+    <p className="m-0 mt-1 flex items-start gap-1.5 text-[1.08rem] leading-snug" lang="sv">
+      <Speak text={ex.text} label={`Lyssna: ${ex.text}`} className="size-8 -ml-1.5 -mt-0.5" />
+      <span className="pt-0.5">
+        {ex.parts.map((p, i) => (p.mark ? <strong key={i}>{p.text}</strong> : <span key={i}>{p.text}</span>))}
+      </span>
+    </p>
+  )
+}
+
 const SENSE: Record<SenseKind, { label: string; hint: (verb: React.ReactNode, particle: React.ReactNode) => React.ReactNode }> = {
-  ny: { label: 'Ny betydelse', hint: (v, p) => <>Går inte att gissa från {v} och {p}.</> },
-  utvidgad: { label: 'Utvidgad betydelse', hint: (v, p) => <>Går att gissa från {v} och {p}.</> },
-  båda: { label: 'Två betydelser', hint: () => 'Den ena går att gissa, den andra inte.' },
-  bara: { label: 'Finns bara med partikeln', hint: (v) => <>{v} används inte ensamt.</> },
+  ny: { label: 'Ny betydelse', hint: (v, p) => <>går inte att gissa från {v} och {p}.</> },
+  utvidgad: { label: 'Utvidgad betydelse', hint: (v, p) => <>går att gissa från {v} och {p}.</> },
+  båda: { label: 'Två betydelser', hint: () => 'den ena går att gissa, den andra inte.' },
+  bara: { label: 'Bara med partikeln', hint: (v) => <>{v} används inte ensamt.</> },
 }
 
 /** What the particle does to the meaning, as two teachers judged it. */
-function Sense({ verb, sense }: { verb: Verb; sense: NonNullable<Verb['sense']> }) {
-  const s = SENSE[sense.kind]
+function SenseHint({ verb, kind }: { verb: Verb; kind: SenseKind }) {
+  const s = SENSE[kind]
   const word = (w: string) => <i lang="sv">{w}</i>
-  // "1) … 2) …" becomes one line per meaning
-  const meanings = sense.text.split(/\s*(?=\d\))/).filter(Boolean)
-  return (
-    <div className="grid gap-1 border-l-2 border-ink pl-3 text-[1.02rem]">
-      <p className="m-0"><strong>{s.label}.</strong> <span className="text-muted">{s.hint(word(verb.inf.split(' ')[0]), word(verb.particle ?? ''))}</span></p>
-      <p className="m-0" lang="sv">
-        Betyder:{meanings.length > 1 ? meanings.map((m) => <span key={m} className="block pl-3">{m}</span>) : ` ${sense.text}`}
-      </p>
-    </div>
-  )
+  return <><strong>{s.label}:</strong> {s.hint(word(verb.inf.split(' ')[0]), word(verb.particle ?? ''))}</>
 }
