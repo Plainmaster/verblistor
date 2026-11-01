@@ -2,7 +2,7 @@
 
 Mål: alla 726 verb har exempelmeningar, inlästa med Ales klonade röst.
 
-Läget 2026-11-01: 201 verb klara (omgång 1–5), 525 kvar. Omgång 1 är granskad och godkänd. Omgång 2–5 ligger på granskningssidan utan att vara markerade.
+Läget 2026-11-01: 251 verb klara (omgång 1–6), 475 kvar. Omgång 1–5 är granskade. Omgång 6 ligger på granskningssidan.
 
 ## Omgångar
 
@@ -11,7 +11,7 @@ Varje omgång har ungefär 50 verb. Lärarnas egna verb tas först, eftersom de 
 | Omgång | Verb | Antal |
 |---|---|---|
 | 5 | Lärarnas verb: bre, checka in, dammsuga … åldras (klar) | 63 |
-| 6 | diskutera – konstatera | 50 |
+| 6 | diskutera – konstatera (klar) | 50 |
 | 7 | styra – resa | 50 |
 | 8 | förbättra – uppfatta | 50 |
 | 9 | stänga – träna | 50 |

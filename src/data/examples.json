@@ -1332,5 +1332,319 @@
   "pres": "Befolkningen i Sverige {åldras}.",
   "pret": "Han {åldrades} mycket de år han var sjuk.",
   "sup": "Mina föräldrar har {åldrats} mycket de senaste åren."
+ },
+ "diskutera": {
+  "imp": "{Diskutera} frågan i grupper om tre!",
+  "inf": "Vi ska {diskutera} schemat på mötet i morgon.",
+  "pres": "Vi {diskuterar} ofta nyheterna på rasten.",
+  "pret": "Klassen {diskuterade} hur man sorterar sopor.",
+  "sup": "Har ni {diskuterat} resan med föräldrarna?"
+ },
+ "driva": {
+  "inf": "Hon vill {driva} en egen frisörsalong.",
+  "pres": "Min bror {driver} en pizzeria i Malmö.",
+  "pret": "Mina föräldrar {drev} en liten affär i många år.",
+  "sup": "Han har {drivit} sitt företag i tio år."
+ },
+ "sälja": {
+  "imp": "{Sälj} inte cykeln, du kan behöva den i vår!",
+  "inf": "Vi ska {sälja} soffan, den är för stor.",
+  "pres": "Affären på hörnet {säljer} frukt och grönsaker.",
+  "pret": "Hon {sålde} sina gamla kläder på nätet.",
+  "sup": "Har ni {sålt} lägenheten än?"
+ },
+ "sakna": {
+  "inf": "Jag kommer att {sakna} er när jag flyttar.",
+  "pres": "Jag {saknar} min familj i hemlandet.",
+  "pret": "Barnen {saknade} sin pappa när han jobbade i Norge.",
+  "sup": "Vi har {saknat} dig! Välkommen tillbaka!"
+ },
+ "tyda": {
+  "pres": "Mörka moln {tyder} på regn.",
+  "pret": "Allt {tydde} på att bussen var inställd.",
+  "sup": "Ingenting har {tytt} på att han var sjuk."
+ },
+ "genomföra": {
+  "inf": "Vi ska {genomföra} provet på fredag.",
+  "pres": "Skolan {genomför} en brandövning varje termin.",
+  "pret": "Kommunen {genomförde} en enkät bland föräldrarna.",
+  "sup": "Har du {genomfört} kursen i svenska?"
+ },
+ "räkna": {
+  "imp": "{Räkna} pengarna innan du lämnar kassan!",
+  "inf": "Kan du {räkna} till tio på svenska?",
+  "pres": "Min dotter {räknar} till hundra på svenska.",
+  "pret": "Läraren {räknade} eleverna innan bussen åkte.",
+  "sup": "Har du {räknat} hur mycket resan kostar?"
+ },
+ "beskriva": {
+  "imp": "{Beskriv} din lägenhet för en kompis!",
+  "inf": "Kan du {beskriva} mannen som tog din väska?",
+  "pres": "Texten {beskriver} en dag på en förskola.",
+  "pret": "Hon {beskrev} sin smärta för läkaren.",
+  "sup": "Jag har {beskrivit} problemet i mejlet."
+ },
+ "möta": {
+  "imp": "{Möt} mig vid stationen klockan sju!",
+  "inf": "Jag ska {möta} min syster på flygplatsen.",
+  "pres": "Pappa {möter} barnen vid skolan varje dag.",
+  "pret": "Vi {mötte} grannen i trappan.",
+  "sup": "Har du {mött} din nya chef än?"
+ },
+ "heta": {
+  "inf": "Vad ska er bebis {heta}?",
+  "pres": "Hej! Jag {heter} Amira. Vad heter du?",
+  "pret": "Min första lärare i Sverige {hette} Karin.",
+  "sup": "Gatan har {hetat} Storgatan i hundra år."
+ },
+ "äta": {
+  "imp": "{Ät} upp maten, annars blir du hungrig!",
+  "inf": "Vill du {äta} lunch med mig?",
+  "pres": "Vi {äter} middag klockan sex.",
+  "pret": "Jag {åt} inte frukost i dag.",
+  "sup": "Har du {ätit} kanelbulle någon gång?"
+ },
+ "flytta": {
+  "inf": "Vi vill {flytta} till en större lägenhet.",
+  "pres": "Min kompis {flyttar} till Göteborg i sommar.",
+  "pret": "Jag {flyttade} till Sverige för fem år sedan.",
+  "sup": "Har ni {flyttat} in i det nya huset än?"
+ },
+ "utgöra": {
+  "pres": "Hala vägar {utgör} en fara för cyklister på vintern.",
+  "pret": "Kvinnorna {utgjorde} hälften av gruppen.",
+  "sup": "Den gamla bron har {utgjort} en risk i flera år."
+ },
+ "röra": {
+  "imp": "{Rör} inte spisen, den är varm!",
+  "inf": "Man får inte {röra} tavlorna på museet.",
+  "pres": "Filmen {rör} mig till tårar varje gång.",
+  "pret": "Barnet {rörde} försiktigt vid hunden.",
+  "sup": "Vem har {rört} mina papper?"
+ },
+ "dö": {
+  "inf": "Blommorna kommer att {dö} om du inte vattnar dem.",
+  "pres": "Många träd {dör} när det är torrt länge.",
+  "pret": "Min mormor {dog} förra året. Jag saknar henne.",
+  "sup": "Batteriet i mobilen har {dött}. Kan jag låna din laddare?"
+ },
+ "växa": {
+  "inf": "Tomaterna behöver sol för att {växa}.",
+  "pres": "Barnen {växer} så snabbt! Byxorna är redan för korta.",
+  "pret": "Jag {växte} upp i en liten stad.",
+  "sup": "Vad du har {vuxit} sedan i somras!"
+ },
+ "våga": {
+  "imp": "{Våga} prata svenska, det gör inget om du säger fel!",
+  "inf": "Jag vill {våga} prata mer på lektionerna.",
+  "pres": "Min dotter {vågar} inte hoppa från tremeterssvikten.",
+  "pret": "Han {vågade} till slut fråga chefen om löneförhöjning.",
+  "sup": "Jag har aldrig {vågat} åka berg-och-dalbana."
+ },
+ "fatta": {
+  "inf": "Jag kan inte {fatta} att du redan är tjugo år!",
+  "pres": "Jag {fattar} inte uppgiften. Kan du förklara igen?",
+  "pret": "Först {fattade} jag inte skämtet.",
+  "sup": "Har du {fattat} hur appen fungerar?"
+ },
+ "nämna": {
+  "inf": "Glöm inte att {nämna} allergin när du beställer!",
+  "pres": "Han {nämner} aldrig sin gamla skola.",
+  "pret": "Läkaren {nämnde} att jag borde röra mig mer.",
+  "sup": "Har jag {nämnt} att vi får en ny kollega?"
+ },
+ "be": {
+  "imp": "{Be} om hjälp om du inte förstår!",
+  "inf": "Jag måste {be} om ursäkt för att jag kom sent.",
+  "pres": "Jag {ber} alltid grannen att vattna blommorna när vi reser.",
+  "pret": "Hon {bad} mig att stänga dörren.",
+  "sup": "Jag har {bett} chefen om ledigt på fredag."
+ },
+ "anta": {
+  "inf": "Det är farligt att {anta} att alla förstår.",
+  "pres": "Jag {antar} att du är trött efter resan.",
+  "pret": "Vi {antog} att affären var öppen, men den var stängd.",
+  "sup": "Hon har {antagit} att mötet är i morgon."
+ },
+ "föreslå": {
+  "inf": "Får jag {föreslå} en annan tid?",
+  "pres": "Jag {föreslår} att vi tar en paus nu.",
+  "pret": "Läkaren {föreslog} att jag skulle sova mer.",
+  "sup": "Vem har {föreslagit} att vi ska grilla?"
+ },
+ "undra": {
+  "inf": "Jag började {undra} var du var.",
+  "pres": "Jag {undrar} om du kan hjälpa mig med en sak.",
+  "pret": "Hon {undrade} varför ingen svarade i telefon.",
+  "sup": "Jag har länge {undrat} hur man gör surdeg."
+ },
+ "lyssna": {
+  "imp": "{Lyssna} på mig, det här är viktigt!",
+  "inf": "Jag gillar att {lyssna} på poddar när jag diskar.",
+  "pres": "Han {lyssnar} på radio i bilen.",
+  "pret": "Barnen {lyssnade} på sagan och somnade.",
+  "sup": "Har du {lyssnat} på den nya låten?"
+ },
+ "delta": {
+  "inf": "Alla föräldrar är välkomna att {delta} i mötet.",
+  "pres": "Jag {deltar} i en kurs i matlagning.",
+  "pret": "Hela klassen {deltog} i loppet.",
+  "sup": "Har du {deltagit} i ett utvecklingssamtal?"
+ },
+ "falla": {
+  "inf": "Var försiktig, det är lätt att {falla} på isen!",
+  "pres": "Löven {faller} från träden på hösten.",
+  "pret": "Han {föll} av cykeln och slog i knät.",
+  "sup": "Det har {fallit} mycket snö i natt."
+ },
+ "starta": {
+  "imp": "{Starta} om datorn, så fungerar den kanske!",
+  "inf": "Bilen vill inte {starta} när det är kallt.",
+  "pres": "Kursen {startar} i januari.",
+  "pret": "Hon {startade} ett eget städföretag.",
+  "sup": "Har filmen redan {startat}?"
+ },
+ "inse": {
+  "inf": "Det tog tid för mig att {inse} hur kallt det blir här.",
+  "pres": "Jag {inser} nu att jag har tagit fel buss.",
+  "pret": "Han {insåg} för sent att plånboken var kvar hemma.",
+  "sup": "Jag har {insett} att jag behöver sova mer."
+ },
+ "bidra": {
+  "inf": "Alla kan {bidra} med något till festen.",
+  "pres": "Motion {bidrar} till bättre sömn.",
+  "pret": "Grannarna {bidrog} med mat till fikat.",
+  "sup": "Hon har {bidragit} mycket till föreningen."
+ },
+ "luta": {
+  "imp": "{Luta} inte cykeln mot bilen!",
+  "inf": "Man ska inte {luta} sig ut genom fönstret.",
+  "pres": "Tavlan {lutar} lite åt höger.",
+  "pret": "Han {lutade} sig mot väggen och väntade.",
+  "sup": "Stegen har {lutat} mot huset hela dagen."
+ },
+ "bero": {
+  "inf": "Priset kan {bero} på hur mycket du köper.",
+  "pres": "Om vi åker till stranden? Det {beror} på vädret.",
+  "pret": "Förseningen {berodde} på ett fel på tåget.",
+  "sup": "Vad har det {berott} på att du har varit så trött?"
+ },
+ "minnas": {
+  "inf": "Jag kan inte {minnas} hennes namn.",
+  "pres": "Du {minns} väl när vi träffades första gången?",
+  "pret": "Hon {mindes} inte var hon hade parkerat bilen.",
+  "sup": "Jag har alltid {mints} min första dag i Sverige."
+ },
+ "rösta": {
+  "imp": "{Rösta} på din favoritlåt i appen!",
+  "inf": "Man måste vara arton år för att {rösta} i riksdagsvalet.",
+  "pres": "I vår förening {röstar} vi om alla stora beslut.",
+  "pret": "Klassen {röstade} om var de skulle åka på utflykt.",
+  "sup": "Har du {röstat} förut?"
+ },
+ "kommentera": {
+  "inf": "Jag vill inte {kommentera} det just nu.",
+  "pres": "Läraren {kommenterar} alltid våra texter.",
+  "pret": "Många {kommenterade} hennes bild på Instagram.",
+  "sup": "Har du {kommenterat} inlägget i gruppen?"
+ },
+ "gilla": {
+  "inf": "Jag tror att du kommer att {gilla} den här filmen.",
+  "pres": "Jag {gillar} att baka med mina barn.",
+  "pret": "Hon {gillade} inte sill första gången.",
+  "sup": "Jag har alltid {gillat} snö."
+ },
+ "bryta": {
+  "inf": "Det är svårt att {bryta} en vana.",
+  "pres": "Jag {bryter} chokladen i bitar.",
+  "pret": "Min son {bröt} armen när han spelade fotboll.",
+  "sup": "Hon har {brutit} benet och har gips."
+ },
+ "innehålla": {
+  "inf": "Kan maten {innehålla} nötter? Jag är allergisk.",
+  "pres": "Saften {innehåller} mycket socker.",
+  "pret": "Paketet {innehöll} en bok och ett brev.",
+  "sup": "Burken har {innehållit} färg, så använd den inte till mat."
+ },
+ "bjuda": {
+  "imp": "{Bjud} gästerna på kaffe!",
+  "inf": "Jag vill {bjuda} dig på lunch.",
+  "pres": "Det är jag som {bjuder} i dag!",
+  "pret": "Grannen {bjöd} på hemgjorda kakor.",
+  "sup": "Har du {bjudit} din kollega på fika någon gång?"
+ },
+ "bjuda in": {
+  "imp": "{Bjud} {in} hela klassen till kalaset!",
+  "inf": "Vi ska {bjuda} {in} grannarna på middag.",
+  "pres": "Skolan {bjuder} {in} till föräldramöte i april.",
+  "pret": "Hon {bjöd} {in} oss till sitt bröllop.",
+  "sup": "Hur många har du {bjudit} {in} till festen?"
+ },
+ "hävda": {
+  "inf": "Han brukar {hävda} att han aldrig är sen.",
+  "pres": "Min son {hävdar} att han har gjort läxan.",
+  "pret": "Hon {hävdade} att hon hade betalat räkningen.",
+  "sup": "Han har hela tiden {hävdat} att han inte såg skylten."
+ },
+ "hamna": {
+  "inf": "Det är lätt att {hamna} i fel kö på flygplatsen.",
+  "pres": "Strumporna {hamnar} alltid under sängen.",
+  "pret": "Vi tog fel buss och {hamnade} i Lund.",
+  "sup": "Hur har du {hamnat} här i Sverige?"
+ },
+ "hinna": {
+  "inf": "Vi måste springa för att {hinna} med bussen.",
+  "pres": "Jag {hinner} inte äta frukost på morgonen.",
+  "pret": "Hon {hann} precis till tåget.",
+  "sup": "Har du {hunnit} läsa mejlet?"
+ },
+ "må": {
+  "inf": "Man ska {må} bra på jobbet.",
+  "pres": "Hur {mår} du i dag?",
+  "pret": "Jag {mådde} illa på båten.",
+  "sup": "Jag har {mått} mycket bättre sedan jag började träna."
+ },
+ "släppa": {
+  "imp": "{Släpp} inte min hand när vi går över gatan!",
+  "inf": "Hunden vill inte {släppa} bollen.",
+  "pres": "Barnet {släpper} ballongen, och den flyger iväg.",
+  "pret": "Han {släppte} glaset, och det gick sönder.",
+  "sup": "Smärtan har {släppt}, nu mår jag bättre."
+ },
+ "passa": {
+  "imp": "{Passa} dig för cyklarna!",
+  "inf": "Kan du {passa} barnen i kväll?",
+  "pres": "Jackan {passar} bra. Jag tar den.",
+  "pret": "Tiden {passade} inte, så vi bytte dag.",
+  "sup": "Skorna har {passat} i två år, men nu är de för små."
+ },
+ "öppna": {
+  "imp": "{Öppna} fönstret, det är så varmt här!",
+  "inf": "Kan du hjälpa mig att {öppna} burken?",
+  "pres": "Affären {öppnar} klockan nio.",
+  "pret": "Hon {öppnade} paketet med en gång.",
+  "sup": "Har du {öppnat} brevet från Skatteverket?"
+ },
+ "erbjuda": {
+  "inf": "Vi kan {erbjuda} hjälp med läxor på biblioteket.",
+  "pres": "Kommunen {erbjuder} gratis simskola på sommaren.",
+  "pret": "Chefen {erbjöd} mig ett fast jobb.",
+  "sup": "Hon har {erbjudit} sig att skjutsa oss."
+ },
+ "ingå": {
+  "pres": "Frukost {ingår} i priset.",
+  "pret": "Lunch {ingick} inte, så vi köpte mat själva.",
+  "sup": "Frukosten har alltid {ingått} på det här hotellet."
+ },
+ "bestå": {
+  "pres": "Provet {består} av fyra delar.",
+  "pret": "Middagen {bestod} av fisk och potatis.",
+  "sup": "Problemet har {bestått} i flera veckor."
+ },
+ "konstatera": {
+  "inf": "Vi kan {konstatera} att alla har klarat provet.",
+  "pres": "Mekanikern {konstaterar} att bromsarna är slitna.",
+  "pret": "Polisen {konstaterade} att ingen var skadad.",
+  "sup": "Läkaren har {konstaterat} att det inte är farligt."
  }
 }
