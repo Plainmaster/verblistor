@@ -530,7 +530,7 @@
   "sup": "Har du {hittat} {på} sagan själv?"
  },
  "dra": {
-  "imp": "{Dra} i snöret, så stannar bussen!",
+  "imp": "Dörren är tung. {Dra} hårt i handtaget!",
   "inf": "Du måste {dra} i dörren, inte trycka.",
   "pres": "Hunden {drar} i kopplet när den ser en katt.",
   "pret": "Pappa {drog} barnen på pulkan i parken.",
