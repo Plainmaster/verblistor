@@ -180,11 +180,11 @@
   "inf": "Ska vi {gå} {ut} och äta i kväll?",
   "pres": "Jag {går} {ut} med hunden varje kväll.",
   "pret": "I lördags {gick} vi {ut} och dansade.",
-  "sup": "Pappa har {gått} {ut} med soporna."
+  "sup": "Var är pappa? Han har {gått} {ut} med soporna."
  },
  "säga": {
   "imp": "{Säg} till om du behöver hjälp!",
-  "inf": "Hur ska man {säga} tack på arabiska?",
+  "inf": "Det är artigt att {säga} tack.",
   "pres": "Läraren {säger} att provet är på fredag.",
   "pret": "Han {sa} att han var sjuk och inte kunde komma.",
   "sup": "Har du {sagt} till chefen att du ska sluta?"
@@ -564,9 +564,9 @@
  },
  "sätta": {
   "imp": "{Sätt} blommorna i vatten!",
-  "inf": "Var ska jag {sätta} den nya lampan?",
+  "inf": "Var kan jag {sätta} mig?",
   "pres": "Hon {sätter} mössan på barnet innan de går ut.",
-  "pret": "Han {satte} bilnyckeln i fickan.",
+  "pret": "Han {satte} sig i fåtöljen.",
   "sup": "Har du {satt} ett frimärke på brevet?"
  },
  "sätta på": {
@@ -600,7 +600,7 @@
  "kalla": {
   "imp": "{Kalla} mig Mo, det gör alla.",
   "inf": "Vad ska vi {kalla} den nya hunden?",
-  "pres": "Barnen {kallar} sin mormor för nana.",
+  "pres": "Barnen {kallar} sin morfar för \"moffa\".",
   "pret": "Chefen {kallade} alla till ett möte i morse.",
   "sup": "Mina kompisar har alltid {kallat} mig Lisa, fast jag heter Elisabeth."
  },
@@ -784,7 +784,7 @@
   "sup": "Har du {väntat} länge?"
  },
  "jobba": {
-  "imp": "{Jobba} lugnt, det är ingen brådska!",
+  "imp": "{Jobba} snabbare! Vi måste bli klara.",
   "inf": "Jag måste {jobba} i helgen.",
   "pres": "Min fru {jobbar} på ett äldreboende.",
   "pret": "Han {jobbade} som taxichaufför i två år.",
@@ -792,7 +792,7 @@
  },
  "klara": {
   "inf": "Jag hoppas att jag ska {klara} provet.",
-  "pres": "Min son {klarar} att knyta skorna själv nu.",
+  "pres": "Jag {klarar} inte allt själv.",
   "pret": "Jag {klarade} uppkörningen på första försöket!",
   "sup": "Har du {klarat} alla kurser?"
  },
@@ -905,12 +905,11 @@
  "ändra": {
   "imp": "{Ändra} lösenordet till ett säkrare!",
   "inf": "Kan jag {ändra} min tid hos tandläkaren?",
-  "pres": "Hon {ändrar} frisyr varje år.",
+  "pres": "Hon {ändrar} alltid planerna i sista minuten.",
   "pret": "Vi {ändrade} planerna på grund av regnet.",
   "sup": "Har du {ändrat} din adress hos banken?"
  },
  "träffa": {
-  "imp": "{Träffa} oss vid kiosken klockan sju!",
   "inf": "Jag ska {träffa} en kompis på stan.",
   "pres": "Jag {träffar} min handledare varje måndag.",
   "pret": "Jag {träffade} min man på en kurs.",
@@ -1247,7 +1246,7 @@
   "inf": "Det är viktigt att {stå} {på} sig när man har rätt.",
   "pres": "Hon {står} {på} sig och vägrar betala.",
   "pret": "Han {stod} {på} sig och fick till slut pengarna tillbaka.",
-  "sup": "Jag har {stått} {på} mig, och nu får jag ett fast jobb."
+  "sup": "Hon har {stått} {på} sig, och nu får hon ersättning från försäkringen."
  },
  "svettas": {
   "inf": "Jag vill inte {svettas} på bussen, så jag tar av mig jackan.",
