@@ -1,11 +1,13 @@
 import type { FormKey, Group } from './types'
 import data from '../data/verbs.json'
 import examples from '../data/examples.json'
+import notes from '../data/example-notes.json'
 import { isAuxiliary } from './filters'
 import type { Verb } from './types'
 
 const EXAMPLES = examples as Record<string, Verb['ex']>
-export const VERBS = (data as Verb[]).map((v) => (EXAMPLES[v.id] ? { ...v, ex: EXAMPLES[v.id] } : v))
+const NOTES = notes as Record<string, Verb['exNote']>
+export const VERBS = (data as Verb[]).map((v) => (EXAMPLES[v.id] ? { ...v, ex: EXAMPLES[v.id], exNote: NOTES[v.id] } : v))
 export const VERB_BY_ID = new Map(VERBS.map((v) => [v.id, v]))
 
 export interface GroupInfo {

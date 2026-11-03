@@ -1532,8 +1532,7 @@
  "minnas": {
   "inf": "Jag kan inte {minnas} hennes namn.",
   "pres": "Du {minns} väl när vi träffades första gången?",
-  "pret": "Hon {mindes} inte var hon hade parkerat bilen.",
-  "sup": "Jag har alltid {mints} min första dag i Sverige."
+  "pret": "Hon {mindes} inte var hon hade parkerat bilen."
  },
  "rösta": {
   "imp": "{Rösta} på din favoritlåt i appen!",
@@ -1638,8 +1637,7 @@
  },
  "bestå": {
   "pres": "Provet {består} av fyra delar.",
-  "pret": "Middagen {bestod} av fisk och potatis.",
-  "sup": "Problemet har {bestått} i flera veckor."
+  "pret": "Middagen {bestod} av fisk och potatis."
  },
  "konstatera": {
   "inf": "Vi kan {konstatera} att alla har klarat provet.",
@@ -1773,7 +1771,6 @@
  },
  "fara": {
   "inf": "Vi ska {fara} till landet i helgen.",
-  "pres": "Morfar {far} till stan varje lördag.",
   "pret": "Vi {for} till Norge på semestern.",
   "sup": "Pappa har {farit} till affären."
  },

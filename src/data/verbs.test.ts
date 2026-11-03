@@ -3,6 +3,7 @@ import { classify, conjugate, listedGroup2, sForm } from '../lib/conjugate'
 import { audioKey } from '../lib/audioKey'
 import type { FormKey, Verb } from '../lib/types'
 import examples from './examples.json'
+import notes from './example-notes.json'
 import data from './verbs.json'
 
 const verbs = data as Verb[]
@@ -68,5 +69,12 @@ describe('examples.json', () => {
     expect(marked).toBe(form.toLowerCase())
     // the audio bank shortens keys over 100 characters with a hash that audioKey() does not compute
     expect(audioKey(s.replace(/[{}]/g, '')).length).toBeLessThanOrEqual(100)
+  })
+
+  it('has a sentence for every note', () => {
+    const ex = examples as Record<string, Partial<Record<FormKey, string>>>
+    const orphans = Object.entries(notes as Record<string, Partial<Record<FormKey, string>>>)
+      .flatMap(([id, n]) => Object.keys(n).filter((f) => !ex[id]?.[f as FormKey]).map((f) => `${id} ${f}`))
+    expect(orphans).toEqual([])
   })
 })

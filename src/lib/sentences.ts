@@ -77,6 +77,8 @@ export interface Example {
   parts: { text: string; mark: boolean }[]
   /** Chosen by teachers, not built from a template. */
   curated: boolean
+  /** What the verb means in this sentence, when that is not its main meaning. */
+  note?: string
 }
 
 /** The example shown next to a form: the reviewed sentence if there is one, otherwise the drill template. */
@@ -85,7 +87,7 @@ export function example(v: Verb, form: FormKey): Example | null {
   if (ex) {
     const parts = ex.split(/(\{[^}]*\})/).filter(Boolean)
       .map((p) => (p.startsWith('{') ? { text: p.slice(1, -1), mark: true } : { text: p, mark: false }))
-    return { text: parts.map((p) => p.text).join(''), parts, curated: true }
+    return { text: parts.map((p) => p.text).join(''), parts, curated: true, note: v.exNote?.[form] }
   }
   if (form !== 'pres' && form !== 'pret' && form !== 'sup') return null
   if (v.rare?.includes(form)) return null

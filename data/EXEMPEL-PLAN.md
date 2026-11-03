@@ -2,7 +2,7 @@
 
 Mål: alla 726 verb har exempelmeningar, inlästa med Ales klonade röst.
 
-Läget 2026-11-03: 301 verb klara (omgång 1–7), 425 kvar. Allt är granskat utom åtta meningar som ligger som Osäkra på granskningssidan.
+Läget 2026-11-03: 301 verb klara (omgång 1–7), 425 kvar. Allt är granskat.
 
 ## Omgångar
 
@@ -32,6 +32,7 @@ Från omgång 10 är många verb på nivå B2 och C1. Där blir meningarna lite 
 - En form som låter konstig ensam hoppas över, oftast imperativ (anse, öka, gälla). För deponens som hoppas och lyckas finns ingen imperativ.
 - Avsked och önskningar ("Ha det så roligt!") läses in efter "Hej då!" och klipps ut, annars blir tonfallet fel.
 - Klamrarna markerar exakt verbformen, partikeln också: `Han {gav} aldrig {upp}.` Reflexivt pronomen markeras inte.
+- När verbet i en mening betyder något annat än huvudbetydelsen, eller är bildligt, får meningen en kort anteckning i `src/data/example-notes.json`: `"peka": { "sup": "Här: påpekat, sagt att något är fel." }`. Den visas i liten grå kursiv under meningen.
 
 ## Så görs en omgång
 

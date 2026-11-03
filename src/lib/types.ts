@@ -35,6 +35,8 @@ export interface Verb extends Forms {
   /** One example per form, chosen from easy-to-read Swedish (8 Sidor, LäSBarT) and reviewed by teachers.
    *  The verb's words are in braces: Han {gav} aldrig {upp}. */
   ex?: Partial<Record<FormKey, string>>
+  /** A short note under an example whose meaning is figurative or differs from the verb's main one. */
+  exNote?: Partial<Record<FormKey, string>>
 }
 
 export type SenseKind = 'ny' | 'utvidgad' | 'båda' | 'bara'

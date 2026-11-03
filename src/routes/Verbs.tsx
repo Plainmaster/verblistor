@@ -155,6 +155,7 @@ function Sentence({ ex }: { ex: Example }) {
       <Speak text={ex.text} label={`Lyssna: ${ex.text}`} className="size-8 -ml-1.5 -mt-0.5" />
       <span className="pt-0.5">
         {ex.parts.map((p, i) => (p.mark ? <strong key={i}>{p.text}</strong> : <span key={i}>{p.text}</span>))}
+        {ex.note && <span className="block mt-0.5 text-[0.95rem] italic text-muted">{ex.note}</span>}
       </span>
     </p>
   )
