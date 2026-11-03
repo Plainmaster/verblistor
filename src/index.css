@@ -299,6 +299,7 @@ select.field {
 
 @media (prefers-reduced-motion: no-preference) {
   .pop { animation: pop 220ms ease-out; }
+  .fold { transition: grid-template-rows 300ms ease, opacity 300ms ease; }
   @keyframes pop {
     from { transform: translateY(4px); opacity: 0; }
     to { transform: none; opacity: 1; }

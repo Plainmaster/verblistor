@@ -28,7 +28,7 @@ export function Word({ verb, form, text }: { verb: Verb; form?: FormKey; text?: 
   )
 }
 
-function useCanSpeak(): boolean {
+export function useCanSpeak(): boolean {
   const { settings } = useStore()
   const [ok, setOk] = useState(canSpeak)
   useEffect(() => onVoicesReady(() => setOk(canSpeak())), [])
@@ -165,5 +165,23 @@ export function Chip({ on, onClick, children, group, title }: {
       {group && <span className="size-2.5 rounded-[1px]" style={{ background: 'var(--g)' }} aria-hidden />}
       {children}
     </button>
+  )
+}
+
+export type Icon = 'bulb' | 'puzzle' | 'info' | 'book'
+const ICON_TITLE: Record<Icon, string> = { bulb: 'Tips', puzzle: 'Betydelsen', info: 'Bra att veta', book: 'Gruppen' }
+
+/** Line icons in the same hand as the eyes and the speaker: a bulb for remembering the forms,
+ *  a puzzle piece for what verb and particle mean together, an i for the rest. */
+export function TipIcon({ icon }: { icon: Icon }) {
+  return (
+    <svg viewBox="0 0 24 24" className="size-5 shrink-0 mt-0.5 text-muted" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"
+      role="img" aria-label={ICON_TITLE[icon]}>
+      <title>{ICON_TITLE[icon]}</title>
+      {icon === 'bulb' && <><path d="M9 18h6M10 21h4" /><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3Z" /></>}
+      {icon === 'puzzle' && <path d="M5 8h3.5a2 2 0 1 1 4 0H16v3.5a2 2 0 1 1 0 4V19h-3.5a2 2 0 1 0-4 0H5v-3.5a2 2 0 1 0 0-4Z" />}
+      {icon === 'book' && <><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5Z" /><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5Z" /></>}
+      {icon === 'info' && <><circle cx="12" cy="12" r="9" /><path d="M12 11v5" /><path d="M12 7.5v.01" strokeWidth="2.2" /></>}
+    </svg>
   )
 }

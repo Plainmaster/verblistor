@@ -8,6 +8,7 @@ import type { Col, ColState, Settings } from '../lib/storage'
 import type { FormKey, Verb } from '../lib/types'
 import { useStore } from '../store'
 import { LineBadge, PARADIGM, Say, SwedishKeys } from './bits'
+import VerbDetail from './VerbDetail'
 
 const COLS: Col[] = [...PARADIGM, 'en', 'group']
 const NAME = (c: Col) => (c === 'en' ? 'engelska' : c === 'group' ? 'grupp' : FORM_NAMES[c])
@@ -27,13 +28,14 @@ export function Eye({ state }: { state: ColState }) {
   )
 }
 
-/** Opens the verb panel: forms in sentences, meaning and what is good to know. */
-function More({ verb, onOpen }: { verb: Verb; onOpen: (id: string) => void }) {
+/** Folds the examples out under the row, and in again. */
+function More({ verb, open, onOpen }: { verb: Verb; open: boolean; onOpen: (id: string) => void }) {
   return (
-    <button type="button" onClick={(e) => { e.stopPropagation(); onOpen(verb.id) }} title="Öppna verbet" aria-label={`Öppna ${verb.inf}`}
-      className="inline-grid place-items-center size-9 shrink-0 rounded-[2px] text-muted group-hover/row:text-ink hover:bg-sunk print:hidden">
-      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-        <path d="m9 5 7 7-7 7" />
+    <button type="button" onClick={(e) => { e.stopPropagation(); onOpen(verb.id) }} aria-expanded={open}
+      title={open ? 'Fäll in' : 'Visa exempel'} aria-label={`${open ? 'Fäll in' : 'Visa exempel för'} ${verb.inf}`}
+      className={`inline-grid place-items-center size-9 shrink-0 rounded-[2px] hover:bg-sunk print:hidden ${open ? 'text-ink' : 'text-muted group-hover/row:text-ink'}`}>
+      <svg viewBox="0 0 24 24" className={`size-5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d="m5 9 7 7 7-7" />
       </svg>
     </button>
   )
@@ -57,7 +59,9 @@ const pick = (id: string, roll: number, n: number) => {
 
 /** The verb list, which is also the exercise: every column has an eye that shows it, asks for it or hides it,
  *  as when you cover a column of the book with a sheet of paper. Enter checks only what has been written. */
-export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[]; sort: Sort; kind?: Kind; onOpen: (id: string) => void }) {
+export default function VerbList({ verbs, sort, kind, openId, onOpen }: {
+  verbs: Verb[]; sort: Sort; kind?: Kind; openId: string | null; onOpen: (id: string | null) => void
+}) {
   const { settings, update, record } = useStore()
   const { cols, random } = settings
   const [roll, setRoll] = useState(1)
@@ -66,6 +70,32 @@ export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[];
   // a column just hidden keeps its width until the pointer leaves the header, so the eyes stay under it
   const [held, setHeld] = useState<Col[]>([])
   const formRef = useRef<HTMLFormElement>(null)
+  // one row is open at a time; the one closing folds away while the new one folds out
+  const [openRow, setOpenRow] = useState<string | null>(openId)
+  const [closing, setClosing] = useState<string | null>(null)
+  const rowEl = (id: string) => formRef.current?.querySelector<HTMLElement>(`[data-verb="${CSS.escape(id)}"]`)
+  const toggle = (id: string) => {
+    const next = openRow === id ? null : id
+    if (openRow) setClosing(openRow)
+    setOpenRow(next)
+    onOpen(next)
+    // the clicked row stays under the pointer while the row above it folds away
+    const el = rowEl(id)
+    if (!el || !next) return
+    const top = el.getBoundingClientRect().top
+    const until = performance.now() + 450
+    const hold = () => {
+      const d = el.getBoundingClientRect().top - top
+      if (Math.abs(d) >= 0.5) window.scrollBy(0, d)
+      if (performance.now() < until) requestAnimationFrame(hold)
+    }
+    requestAnimationFrame(hold)
+  }
+  // a link to a verb opens its row and brings it into view
+  useEffect(() => {
+    if (openId) rowEl(openId)?.scrollIntoView({ block: 'center' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const state = (c: Col): ColState => cols[c] ?? 'show'
   const mode: Mode = random ? 'random' : Object.values(cols).includes('write') ? 'practice' : 'read'
@@ -196,7 +226,7 @@ export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[];
           {f === 'inf' && s === 'show' ? (
             <span className="flex items-center justify-between gap-2">
               <span className={`text-lg ${v.rare?.includes('inf') ? 'rare' : isTop(v) || strong ? 'font-bold' : ''}`}><Say verb={v} form="inf" plain /></span>
-              <span className="sm:hidden"><More verb={v} onOpen={onOpen} /></span>
+              <span className="sm:hidden"><More verb={v} open={openRow === v.id} onOpen={toggle} /></span>
             </span>
           ) : (
             <span className={`block text-[0.98rem] sm:text-[1.05rem] break-words ${strong ? 'font-bold' : ''}`}>
@@ -227,15 +257,17 @@ export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[];
           {modeBtn('practice', 'Öva', 'Infinitiven visas, du skriver de andra formerna')}
           {modeBtn('random', <><Dice /> Slumpa</>, 'Varje rad visar en slumpad form, du skriver de andra. Klicka igen för nya luckor.')}
         </div>
-        <span className="flex items-center gap-3 text-sm text-muted">
-          <span className="inline-flex items-center gap-1" aria-hidden><Eye state="show" /> visas</span>
-          <span className="inline-flex items-center gap-1" aria-hidden><Eye state="write" /> skriv</span>
-          <span className="inline-flex items-center gap-1" aria-hidden><Eye state="hide" /> dold</span>
-        </span>
+        {mode !== 'read' && (
+          <span className="flex items-center gap-3 text-sm text-muted">
+            <span className="inline-flex items-center gap-1" aria-hidden><Eye state="show" /> visas</span>
+            <span className="inline-flex items-center gap-1" aria-hidden><Eye state="write" /> skriv</span>
+            <span className="inline-flex items-center gap-1" aria-hidden><Eye state="hide" /> dold</span>
+          </span>
+        )}
       </div>
 
       <form ref={formRef} onSubmit={(e) => { e.preventDefault(); check() }} autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false}
-        className="panel">
+        className="panel [overflow-anchor:none]">
         <div className="sm:hidden sticky top-16 z-10 bg-surface grid gap-0.5 px-3 py-1.5 text-[0.95rem] border-b-[1.5px] border-ink" aria-label="Kolumner">
           <div className="flex gap-5">{eye('inf', true)}{eye('en', true)}</div>
           <div className="grid grid-cols-4 gap-x-3">{(['imp', 'pres', 'pret', 'sup'] as Col[]).map((c) => eye(c, true, true))}</div>
@@ -261,11 +293,13 @@ export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[];
             <ol className="m-0 p-0 list-none">
               {part.map((v, i) => {
                 const r = rows.get(v.id)!
-                const hearInf = !r.asked.includes('inf') || !!checked[`${v.id}:inf`]
+                const open = openRow === v.id
+                // in the sentences, a form still to be written or covered by its eye is a gap
+                const gaps = PARADIGM.filter((f) => (r.asked.includes(f) && !checked[`${v.id}:${f}`]) || (state(f) === 'hide' && r.cue !== f))
                 return (
-                  // reading, the whole row opens the verb; practising, only the arrow does, so a click in a cell stays there
-                  <li key={v.id} onClick={mode === 'read' ? () => onOpen(v.id) : undefined}
-                    className={`group/row border-t border-rule first:border-t-0 px-3 py-2 hover:bg-[color:color-mix(in_srgb,var(--sunk)_45%,transparent)] ${mode === 'read' ? 'cursor-pointer' : ''}`}>
+                  // reading, the whole row folds out; practising, only the arrow does, so a click in a cell stays there
+                  <li key={v.id} data-verb={v.id} onClick={mode === 'read' ? () => toggle(v.id) : undefined}
+                    className={`group/row border-t border-rule first:border-t-0 px-3 py-2 ${open ? 'bg-[color:color-mix(in_srgb,var(--sunk)_45%,transparent)]' : 'hover:bg-[color:color-mix(in_srgb,var(--sunk)_45%,transparent)]'} ${mode === 'read' ? 'cursor-pointer' : ''}`}>
                     <div className="grid grid-cols-4 sm:[grid-template-columns:var(--cols)] transition-[grid-template-columns] duration-300 gap-x-3 gap-y-1.5 items-center" style={grid}>
                       <span className="hidden sm:block text-right text-sm text-muted tabular-nums">{i + 1}</span>
                       {PARADIGM.map((f) => cell(v, f))}
@@ -275,8 +309,9 @@ export default function VerbList({ verbs, sort, kind, onOpen }: { verbs: Verb[];
                       {state('group') === 'hide'
                         ? covered()
                         : <span className="hidden sm:block"><LineBadge group={v.group} label={groupLabel(v)} /></span>}
-                      <span className="hidden sm:block">{hearInf && <More verb={v} onOpen={onOpen} />}</span>
+                      <span className="hidden sm:block"><More verb={v} open={open} onOpen={toggle} /></span>
                     </div>
+                    {(open || closing === v.id) && <VerbDetail key={v.id} verb={v} covered={gaps} shown={open} onClosed={() => setClosing((c) => (c === v.id ? null : c))} />}
                   </li>
                 )
               })}
