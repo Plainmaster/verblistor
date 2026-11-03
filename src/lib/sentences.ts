@@ -75,24 +75,15 @@ export interface Example {
   text: string
   /** The sentence in pieces; `mark` pieces are the verb's own words. */
   parts: { text: string; mark: boolean }[]
-  /** Chosen by teachers, not built from a template. */
-  curated: boolean
   /** What the verb means in this sentence, when that is not its main meaning. */
   note?: string
 }
 
-/** The example shown next to a form: the reviewed sentence if there is one, otherwise the drill template. */
+/** The reviewed sentence shown next to a form. No drill template: a form without a good sentence shows none. */
 export function example(v: Verb, form: FormKey): Example | null {
   const ex = v.ex?.[form]
-  if (ex) {
-    const parts = ex.split(/(\{[^}]*\})/).filter(Boolean)
-      .map((p) => (p.startsWith('{') ? { text: p.slice(1, -1), mark: true } : { text: p, mark: false }))
-    return { text: parts.map((p) => p.text).join(''), parts, curated: true, note: v.exNote?.[form] }
-  }
-  if (form !== 'pres' && form !== 'pret' && form !== 'sup') return null
-  if (v.rare?.includes(form)) return null
-  const s = makeSentence(v, form, () => 0.4)
-  if (!s) return null
-  const parts = [{ text: s.before, mark: false }, { text: s.answer, mark: true }, { text: s.after, mark: false }]
-  return { text: `${s.before}${s.answer}${s.after}`, parts, curated: false }
+  if (!ex) return null
+  const parts = ex.split(/(\{[^}]*\})/).filter(Boolean)
+    .map((p) => (p.startsWith('{') ? { text: p.slice(1, -1), mark: true } : { text: p, mark: false }))
+  return { text: parts.map((p) => p.text).join(''), parts, note: v.exNote?.[form] }
 }

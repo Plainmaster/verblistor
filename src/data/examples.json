@@ -1637,7 +1637,8 @@
  },
  "bestå": {
   "pres": "Provet {består} av fyra delar.",
-  "pret": "Middagen {bestod} av fisk och potatis."
+  "pret": "Middagen {bestod} av fisk och potatis.",
+  "sup": "Laget har {bestått} av samma spelare i tre år."
  },
  "konstatera": {
   "inf": "Vi kan {konstatera} att alla har klarat provet.",
