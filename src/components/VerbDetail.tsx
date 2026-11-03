@@ -9,7 +9,7 @@ import { speak } from '../lib/speech'
 import { PARADIGM, TipIcon, useCanSpeak, type Icon } from './bits'
 
 /** What opens under a row: the meaning, the forms in sentences and what is good to know.
- *  Forms the learner is still to write, or has covered, are gaps in the sentences, so the sentence helps without giving the answer. */
+ *  Forms the learner is still to write, or has covered, have no sentence until they are shown, so the sentence never gives the answer. */
 export default function VerbDetail({ verb, covered = [], shown = true, onClosed }: {
   verb: Verb; covered?: FormKey[]; shown?: boolean; onClosed?: () => void
 }) {
@@ -51,7 +51,7 @@ export default function VerbDetail({ verb, covered = [], shown = true, onClosed 
     open && forms && { icon: 'bulb' as const, text: forms },
   ].filter((t) => !!t)
   const meanings = verb.sense?.text.split(/\s*\d\)\s*/).filter(Boolean) ?? []
-  const lines = PARADIGM.filter((f) => verb[f as 'inf']).map((f) => [f, example(verb, f)] as const).filter(([, ex]) => ex)
+  const lines = PARADIGM.filter((f) => verb[f as 'inf'] && !covered.includes(f)).map((f) => [f, example(verb, f)] as const).filter(([, ex]) => ex)
 
   return (
     <div className={`grid fold ${unfolded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
@@ -74,7 +74,7 @@ export default function VerbDetail({ verb, covered = [], shown = true, onClosed 
               {lines.map(([f, ex]) => (
                 <li key={f} className="grid sm:grid-cols-[7rem_1fr] gap-x-3 items-start">
                   <span className="text-[0.95rem] text-muted sm:pt-1">{FORM_NAMES[f]}</span>
-                  <Sentence ex={ex!} gap={covered.includes(f)} />
+                  <Sentence ex={ex!} />
                 </li>
               ))}
             </ul>
@@ -104,15 +104,13 @@ export default function VerbDetail({ verb, covered = [], shown = true, onClosed 
   )
 }
 
-/** An example sentence with the verb's own words in bold; a click anywhere on it reads it aloud. As a gap it is neither shown nor read. */
-function Sentence({ ex, gap }: { ex: Example; gap: boolean }) {
+/** An example sentence with the verb's own words in bold; a click anywhere on it reads it aloud. */
+function Sentence({ ex }: { ex: Example }) {
   const can = useCanSpeak()
-  const words = ex.parts.map((p, i) => (!p.mark ? <span key={i}>{p.text}</span>
-    : gap ? <span key={i} className="inline-block w-14 border-b-[1.5px] border-ink align-baseline" aria-label="lucka" />
-      : <strong key={i}>{p.text}</strong>))
+  const words = ex.parts.map((p, i) => (p.mark ? <strong key={i}>{p.text}</strong> : <span key={i}>{p.text}</span>))
   // what the verb means here, when that is not its main meaning
   const note = ex.note && <span className="block mt-0.5 text-[0.95rem] italic text-muted">{ex.note}</span>
-  if (gap || !can) {
+  if (!can) {
     return (
       <p className="m-0 flex items-start gap-1.5 text-[1.05rem] leading-snug" lang="sv">
         <span className="size-8 -ml-1 shrink-0" aria-hidden />
