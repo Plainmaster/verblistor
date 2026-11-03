@@ -1965,5 +1965,80 @@
   "pres": "Hon {reser} mycket i jobbet.",
   "pret": "Familjen {reste} till Thailand i julas.",
   "sup": "Har du {rest} med tåg till Norge?"
+ },
+ "akta sig": {
+  "imp": "{Akta} dig för bilen!"
+ },
+ "anpassa sig": {
+  "inf": "Hon måste {anpassa} sig till det nya jobbet."
+ },
+ "anstränga sig": {
+  "pres": "Jag {anstränger} mig för att förstå svenska."
+ },
+ "använda sig av": {
+  "pres": "Jag {använder} mig {av} Google Translate ibland."
+ },
+ "befinna sig": {
+  "pres": "Han {befinner} sig i klassrummet."
+ },
+ "bestämma sig": {
+  "sup": "Jag har {bestämt} mig för att studera mer."
+ },
+ "bry sig": {
+  "pres": "{Bryr} du dig om miljön?"
+ },
+ "flytta sig": {
+  "inf": "Kan du {flytta} dig lite?"
+ },
+ "förlova sig": {
+  "sup": "De har {förlovat} sig."
+ },
+ "försova sig": {
+  "pret": "Jag {försov} mig i morse."
+ },
+ "förälska sig": {
+  "pret": "Hon {förälskade} sig i en klasskamrat."
+ },
+ "gifta sig": {
+  "inf": "Vi ska {gifta} oss i sommar."
+ },
+ "gömma sig": {
+  "pres": "Katten {gömmer} sig under soffan."
+ },
+ "göra sig illa": {
+  "pret": "Jag {gjorde} mig {illa} på cykeln."
+ },
+ "hålla sig": {
+  "inf": "Du måste {hålla} dig vaken!"
+ },
+ "klä på sig": {
+  "pres": "Jag {klär} {på} mig innan jag går ut."
+ },
+ "klä av sig": {
+  "pres": "Hon {klär} {av} sig när hon kommer hem."
+ },
+ "koncentrera sig": {
+  "imp": "{Koncentrera} dig på uppgiften."
+ },
+ "lugna ner sig": {
+  "imp": "{Lugna} {ner} dig, det är inte så farligt."
+ },
+ "oroa sig": {
+  "imp": "{Oroa} dig inte!"
+ },
+ "raka sig": {
+  "pres": "Han {rakar} sig varje morgon."
+ },
+ "skynda sig": {
+  "imp": "{Skynda} dig till bussen!"
+ },
+ "tappa bort sig": {
+  "pret": "Jag {tappade} {bort} mig i stan."
+ },
+ "tänka sig": {
+  "inf": "Kan du {tänka} dig att flytta till en annan stad?"
+ },
+ "ångra sig": {
+  "pret": "Jag {ångrade} mig efteråt."
  }
 }

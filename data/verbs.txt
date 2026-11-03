@@ -645,6 +645,22 @@ skilja sig | B1 | to get divorced | efter tio år
 klä på sig | A2 | to get dressed | snabbt
 klä av sig | A2 | to undress | snabbt
 höra av sig | B1 | to get in touch | imorgon
+akta sig | A2 | to watch out, to be careful | för bilarna
+bestämma sig | A2 | to make up one's mind | för att plugga
+flytta sig | A2 | to move (over) | lite
+försova sig | A2 | to oversleep | i morse
+gömma sig | A2 | to hide | under sängen
+göra sig illa | A2 | to hurt oneself | på cykeln
+anpassa sig | B1 | to adapt | till det nya jobbet
+anstränga sig | B1 | to make an effort | mer
+använda sig av | B1 | to make use of | ordboken
+förlova sig | B1 | to get engaged | i somras
+förälska sig | B1 | to fall in love | i henne
+hålla sig | B1 | to keep (oneself), to stay | vaken
+lugna ner sig | B1 | to calm down | lite
+tappa bort sig | B1 | to get lost, to lose one's way | i stan
+tänka sig | B1 | to imagine; to consider | att flytta
+befinna sig | B2 | to be (somewhere) | i klassrummet
 
 # --- s-verbs (deponents and reciprocals) ---
 finnas | A1 | to exist, there is | på bordet | maten
