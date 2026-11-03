@@ -2,7 +2,7 @@
 
 Mål: alla 726 verb har exempelmeningar, inlästa med Ales klonade röst.
 
-Läget 2026-11-01: 251 verb klara (omgång 1–6), 475 kvar. Omgång 1–5 är granskade. Omgång 6 ligger på granskningssidan.
+Läget 2026-11-03: 301 verb klara (omgång 1–7), 425 kvar. Allt är granskat utom åtta meningar som ligger som Osäkra på granskningssidan.
 
 ## Omgångar
 
@@ -12,7 +12,7 @@ Varje omgång har ungefär 50 verb. Lärarnas egna verb tas först, eftersom de 
 |---|---|---|
 | 5 | Lärarnas verb: bre, checka in, dammsuga … åldras (klar) | 63 |
 | 6 | diskutera – konstatera (klar) | 50 |
-| 7 | styra – resa | 50 |
+| 7 | styra – resa (klar) | 50 |
 | 8 | förbättra – uppfatta | 50 |
 | 9 | stänga – träna | 50 |
 | 10 | vidta – njuta | 50 |
@@ -46,4 +46,4 @@ En omgång tar ungefär en halvtimme, varav ljudkontrollen är tio minuter.
 
 ## Granskning
 
-Ale granskar på [granskningssidan](https://claude.ai/artifact/LsZKPaW4JN9q1WNuHioMpF) eller i chatten. Ändrade meningar förs över till `examples.json`, och ljudet görs om för just dem. Strukna meningar tas bort ur `examples.json`.
+Ale granskar på [granskningssidan](https://claude.ai/artifact/LsZKPaW4JN9q1WNuHioMpF) eller i chatten. Ändrade meningar förs över till `examples.json`, och ljudet görs om för just dem. Strukna meningar tas bort ur `examples.json`. Claude godkänner det Claude är säkert på och lägger resten under Osäkra med en kommentar, så Ale bara behöver titta på dem.

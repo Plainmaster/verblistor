@@ -6,9 +6,9 @@
 #   scripts/voice-examples.sh            # generate + check + list
 #   scripts/voice-examples.sh publish    # publish uttala and push the voice bank
 set -euo pipefail
-TTS=~/Projects/elevenlabs-tts
+TTS="${TTS:-$(cd "$(dirname "$0")/../.." && pwd)/elevenlabs-tts}"
 cd "$TTS"
-source .venv/bin/activate
+[[ -f .venv/bin/activate ]] && source .venv/bin/activate
 
 if [[ "${1:-}" == publish ]]; then
   python -m voicebank.publish | tail -1
