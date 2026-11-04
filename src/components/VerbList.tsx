@@ -88,8 +88,19 @@ export default function VerbList({ verbs, sort, kind, openId, onOpen }: {
       const d = el.getBoundingClientRect().top - top
       if (Math.abs(d) >= 0.5) window.scrollBy(0, d)
       if (performance.now() < until) requestAnimationFrame(hold)
+      else bringIntoView(el)
     }
     requestAnimationFrame(hold)
+  }
+  // once unfolded, the page glides just far enough to show the whole row, without pushing its top under the headers
+  const bringIntoView = (el: HTMLElement) => {
+    const r = el.getBoundingClientRect()
+    const phone = window.innerWidth < 640
+    // the bottom menu on a phone and the bar with Rätta both cover the foot of the screen
+    const below = r.bottom - (window.innerHeight - (phone ? 72 : 16) - (keys.length ? 64 : 0))
+    const room = r.top - (phone ? 150 : 112)
+    const by = Math.min(below, room)
+    if (by > 0) window.scrollBy({ top: by, behavior: 'smooth' })
   }
   // a link to a verb opens its row and brings it into view
   useEffect(() => {
@@ -134,6 +145,8 @@ export default function VerbList({ verbs, sort, kind, openId, onOpen }: {
   // hidden columns stay hidden when switching mode
   const hidden = () => Object.fromEntries(Object.entries(cols).filter(([, s]) => s === 'hide')) as Settings['cols']
   const setMode = (m: Mode) => {
+    // a row opened for reading folds in, so the new mode starts from the closed list
+    if (m !== mode && openRow) { setClosing(openRow); setOpenRow(null); onOpen(null) }
     if (m === 'read') setCols(hidden())
     else {
       const next = hidden()
@@ -294,12 +307,13 @@ export default function VerbList({ verbs, sort, kind, openId, onOpen }: {
               {part.map((v, i) => {
                 const r = rows.get(v.id)!
                 const open = openRow === v.id
-                // in the sentences, a form still to be written or covered by its eye is a gap
+                // while a form is still to be written or covered by its eye, the notes that spell the forms out wait
                 const gaps = PARADIGM.filter((f) => (r.asked.includes(f) && !checked[`${v.id}:${f}`]) || (state(f) === 'hide' && r.cue !== f))
                 return (
-                  // reading, the whole row folds out; practising, only the arrow does, so a click in a cell stays there
-                  <li key={v.id} data-verb={v.id} onClick={mode === 'read' ? () => toggle(v.id) : undefined}
-                    className={`group/row border-t border-rule first:border-t-0 px-3 py-2 ${open ? 'bg-[color:color-mix(in_srgb,var(--sunk)_45%,transparent)]' : 'hover:bg-[color:color-mix(in_srgb,var(--sunk)_45%,transparent)]'} ${mode === 'read' ? 'cursor-pointer' : ''}`}>
+                  // a click on the row folds it out or in; practising, a click in a cell or on a form stays there
+                  <li key={v.id} data-verb={v.id}
+                    onClick={(e) => { if (mode === 'read' || !(e.target as HTMLElement).closest('input, label, button, a')) toggle(v.id) }}
+                    className={`group/row border-t border-rule first:border-t-0 px-3 py-2 cursor-pointer ${open ? 'bg-[color:color-mix(in_srgb,var(--sunk)_45%,transparent)]' : 'hover:bg-[color:color-mix(in_srgb,var(--sunk)_45%,transparent)]'}`}>
                     <div className="grid grid-cols-4 sm:[grid-template-columns:var(--cols)] transition-[grid-template-columns] duration-300 gap-x-3 gap-y-1.5 items-center" style={grid}>
                       <span className="hidden sm:block text-right text-sm text-muted tabular-nums">{i + 1}</span>
                       {PARADIGM.map((f) => cell(v, f))}

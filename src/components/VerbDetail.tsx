@@ -9,7 +9,7 @@ import { speak } from '../lib/speech'
 import { PARADIGM, TipIcon, useCanSpeak, type Icon } from './bits'
 
 /** What opens under a row: the meaning, the forms in sentences and what is good to know.
- *  Forms the learner is still to write, or has covered, have no sentence until they are shown, so the sentence never gives the answer. */
+ *  The sentences are always there; while forms are covered, the notes that spell the forms out wait. */
 export default function VerbDetail({ verb, covered = [], shown = true, onClosed }: {
   verb: Verb; covered?: FormKey[]; shown?: boolean; onClosed?: () => void
 }) {
@@ -51,7 +51,7 @@ export default function VerbDetail({ verb, covered = [], shown = true, onClosed 
     open && forms && { icon: 'bulb' as const, text: forms },
   ].filter((t) => !!t)
   const meanings = verb.sense?.text.split(/\s*\d\)\s*/).filter(Boolean) ?? []
-  const lines = PARADIGM.filter((f) => verb[f as 'inf'] && !covered.includes(f)).map((f) => [f, example(verb, f)] as const).filter(([, ex]) => ex)
+  const lines = PARADIGM.filter((f) => verb[f as 'inf']).map((f) => [f, example(verb, f)] as const).filter(([, ex]) => ex)
 
   return (
     <div className={`grid fold ${unfolded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
